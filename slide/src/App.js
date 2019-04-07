@@ -11,18 +11,17 @@ import ProfileScene from './profileComponent/ProfileScene';
 import './App.css';
 
 class App extends Component {
-  componentDidMount() {
-    
-  }
+  componentDidMount() {}
 
   render() {
     return (
       <div className="App">
         <Switch>
           <Route exact path="/profile" component={ProfileScene} />
+          <Route exact path="/chat" component={ChatScreenScene} />
         </Switch>
+        <ChatScreenScene />
       </div>
-
     );
   }
 }
