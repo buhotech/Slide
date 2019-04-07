@@ -1,14 +1,7 @@
-import React, {Component} from 'react'
-
+import React, { Component } from 'react';
 
 class ProfileView extends Component {
-
-
-    
-
-    render(){
-
-    }
+  render() {}
 }
 
-export default ProfileView
+export default ProfileView;
