@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase';
 class ChatScreenScence extends Component {
   constructor() {
     super();
     this.state = {
       messages: {}
     };
-    this.sendMessage = this.sendMessage.bind(this);
   }
 
-  sendMessage() {
+  componentDidMount() {
+    let c_screen = this;
+    firebase
+      .database()
+      .reference('lilchat/chats/21/messages/')
+      .once('value', function(snap) {
+        console.log(snap.val());
+      });
+    //fetch("https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/21/messages/").then(function(res){return res.json()}).then(function(res){c_screen.setState({"messages":res})});
+  }
+
+  sendMessage = () => {
     let content = document.getElementById('message_input').value;
     let username = 'myguy';
     fetch(
@@ -25,20 +34,10 @@ class ChatScreenScence extends Component {
     )
       .then(res => res.json())
       .then(res => console.log(res));
-  }
+  };
 
-  componentDidMount() {
-    let c_screen = this;
-    firebase
-      .database()
-      .reference('lilchat/chats/21/messages/')
-      .once('value', function(snap) {
-        console.log(snap.val());
-      });
-    //fetch("https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/21/messages/").then(function(res){return res.json()}).then(function(res){c_screen.setState({"messages":res})});
-  }
   render() {
-    let rendered_messages = [];
+    let renderedMessages = [];
     for (let message in this.state.messages) {
       let temp = (
         <div>
@@ -47,13 +46,15 @@ class ChatScreenScence extends Component {
           <br />
         </div>
       );
-      rendered_messages.push(temp);
+      renderedMessages.push(temp);
     }
     return (
       <div>
-        {rendered_messages}
+        {renderedMessages}
         <input id="message_input" />
-        <button onClick={this.sendMessage}>send</button>
+        <button onClick={this.sendMessage} type="submit">
+          send
+        </button>
       </div>
     );
   }
