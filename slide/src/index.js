@@ -4,6 +4,18 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import * as firebase from 'firebase';
+
+
+  var config = {
+
+  };
+  firebase.initializeApp(config);
+
+
+
+
+
 
 ReactDOM.render(
   <BrowserRouter>
