@@ -1,0 +1,4 @@
+
+https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/users/12345/user_info/
+
+https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/users/12345/friends/
