@@ -6,7 +6,14 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
 
-var config = {};
+const config = {
+  apiKey: `${process.env.REACT_APP_apiKey}`,
+  authDomain: 'project-bc489.firebaseapp.com',
+  databaseURL: 'https://project-bc489.firebaseio.com',
+  projectId: 'project-bc489',
+  storageBucket: 'project-bc489.appspot.com',
+  messagingSenderId: '376964361270'
+};
 firebase.initializeApp(config);
 
 ReactDOM.render(
