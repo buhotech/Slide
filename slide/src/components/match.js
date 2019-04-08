@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Image, Segment, Divider, Transition } from 'semantic-ui-react';
+import { Reveal, Header, Dimmer, Image, Segment, Divider, Transition } from 'semantic-ui-react';
 import axios from '../utlities/axios';
 
 class Match extends Component {
@@ -8,7 +8,8 @@ class Match extends Component {
     this.state = {
       me: {},
       otherUser: {},
-      visible: false
+      visible: false,
+      active: true
     };
   }
 
@@ -22,18 +23,25 @@ class Match extends Component {
     this.setState({ visible: true });
   }
 
+  handleOpen = () => this.setState({ active: true });
+
+  handleClose = () => this.setState({ active: false });
+
   render() {
     const { me, otherUser, visible } = this.state;
+    const { active } = this.state;
+
     return (
-      <Segment>
-        <Grid columns={2} relaxed="very">
-          <Grid.Column>
+      <div>
+        <Header as="h1">Other Activity on Slide</Header>
+        <Dimmer active={active} onClickOutside={this.handleClose} page>
+          <div style={{ display: 'inline-block', padding: '80px' }}>
             <Transition visible={visible} animation="fly right" duration={800}>
               <div>
                 <Image
                   className="leftMatch"
                   size="medium"
-                  rounded
+                  circular
                   centered
                   src={me.profile_pic}
                   alt="profile1"
@@ -41,14 +49,14 @@ class Match extends Component {
                 {me.username}
               </div>
             </Transition>
-          </Grid.Column>
-          <Grid.Column>
+          </div>
+          <div style={{ display: 'inline-block', padding: '80px' }}>
             <Transition visible={visible} animation="fly left" duration={800}>
               <div>
                 <Image
                   className="rightMatch"
                   size="medium"
-                  rounded
+                  circular
                   centered
                   src={otherUser.profile_pic}
                   alt="profile2"
@@ -56,10 +64,16 @@ class Match extends Component {
                 {otherUser.username}
               </div>
             </Transition>
-          </Grid.Column>
-        </Grid>
-        <Divider vertical>It's a match</Divider>
-      </Segment>
+          </div>
+          <Divider hidden vertical>
+            <Transition visible={visible} animation="fade" duration={1100}>
+              <Header as="h4" color="yellow">
+                It's a Match!
+              </Header>
+            </Transition>
+          </Divider>
+        </Dimmer>
+      </div>
     );
   }
 }
