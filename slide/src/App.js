@@ -7,8 +7,8 @@ import './App.css';
 import ProfileScene from './profileComponent/ProfileScene';
 import LoginUserForm from './userComponent/form/LoginUser';
 import RegisterUserForm from './userComponent/form/RegisterUser';
-// import Match from './components/Match';
 import ChatScreenScene from './chatComponent/ChatScreenScene';
+// import Match from './components/Match';
 
 //privaterouter
 import { PrivateRoute } from './utilities/PrivateRoute';
