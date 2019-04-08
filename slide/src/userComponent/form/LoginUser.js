@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react';
 
+//react router
+import { Redirect } from 'react-router-dom';
+
 //sign in function
-import { loginUser } from '../functions/index';
+import { loginUser, storeUserInfo, LogOutUser } from '../functions/index';
 
 class LoginUserForm extends Component {
   constructor() {
@@ -16,6 +19,12 @@ class LoginUserForm extends Component {
     };
   }
 
+  logOut = e => {
+    e.preventDefault();
+    LogOutUser();
+    console.log('log out user');
+  };
+
   onChange = e => {
     e.preventDefault();
     const field = e.target.name;
@@ -28,9 +37,16 @@ class LoginUserForm extends Component {
     const { email, password } = this.state;
     loginUser(email, password)
       .then(user => {
-        console.log(user);
+        this.setState({
+          cbResponce: true
+        });
+        storeUserInfo();
       })
       .catch(err => {
+        this.setState({
+          cbResponce: false,
+          error: 'Error in Login Form'
+        });
         console.log(err);
       });
   };
@@ -40,6 +56,9 @@ class LoginUserForm extends Component {
   };
 
   render() {
+    const { cbResponce, error } = this.state;
+    if (cbResponce) return <Redirect to="/profile" />;
+
     return (
       <Segment placeholder>
         <Grid columns={2} relaxed="very" stackable>
@@ -51,12 +70,10 @@ class LoginUserForm extends Component {
               <Button content="Login" primary onClick={this.handleLoginRequest} />
             </Form>
           </Grid.Column>
-
           <Grid.Column verticalAlign="middle">
             <Button content="Sign up" icon="signup" size="big" onClick={this.routeChange} />
           </Grid.Column>
         </Grid>
-
         <Divider vertical>Or</Divider>
       </Segment>
     );
