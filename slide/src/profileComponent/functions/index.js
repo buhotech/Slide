@@ -1,4 +1,4 @@
-import axios from '../../utlities/axios';
+import axios from '../../utilities/axios';
 // import axios from 'axios'
 
 export const getUserProfileInfo = userId => {

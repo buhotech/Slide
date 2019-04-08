@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+//react router
+import { Redirect } from 'react-router-dom';
+
 //sign in function
 import { loginUser, storeUserInfo, LogOutUser } from '../functions/index';
 
@@ -18,6 +21,7 @@ class LoginUserForm extends Component {
   logOut = e => {
     e.preventDefault();
     LogOutUser();
+    console.log('log out user');
   };
 
   onChange = e => {
@@ -32,16 +36,24 @@ class LoginUserForm extends Component {
     const { email, password } = this.state;
     loginUser(email, password)
       .then(user => {
-        console.log(user);
-        console.log(user.user.uid);
+        this.setState({
+          cbResponce: true
+        });
         storeUserInfo();
       })
       .catch(err => {
+        this.setState({
+          cbResponce: false,
+          error: 'Error in Login Form'
+        });
         console.log(err);
       });
   };
 
   render() {
+    const { cbResponce, error } = this.state;
+    if (cbResponce) return <Redirect to="/profile" />;
+
     return (
       <div className="login-container">
         <form className="login-form">

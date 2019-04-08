@@ -1,4 +1,5 @@
 import * as firebase from 'firebase';
+import axios from '../../utilities/axios';
 
 // const auth = firebase.auth()
 
@@ -17,14 +18,24 @@ export const LogOutUser = () => {
 };
 
 export const storeUserInfo = () => {
+  firebase
+    .auth()
+    .currentUser.getIdToken(true)
+    .then(idToken => {
+      localStorage.setItem('idToken', idToken);
+      localStorage.setItem('isAuthenticated', 'true');
+    })
+    .catch(err => {
+      localStorage.setItem('isAuthenticated', 'true');
+    });
   //call userInfo
-  localStorage.setItem('isAuthenticated', 'true');
 };
 
 export const isAuthenticated = () => {
   return localStorage.getItem('isAuthenticated') == 'true' ? true : false;
 };
 
-// export const test = () => {
-//   return
-// }
+export const newUser = () => {
+  // let api_url = `users/${userId}/user_info/`;
+  // return axios.post(api_url, )
+};

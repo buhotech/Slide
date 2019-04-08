@@ -11,7 +11,7 @@ import RegisterUserForm from './userComponent/form/RegisterUser';
 import ChatScreenScene from './chatComponent/ChatScreenScene';
 
 //privaterouter
-import { PrivateRoute } from './utlities/PrivateRoute';
+import { PrivateRoute } from './utilities/PrivateRoute';
 
 class App extends Component {
   componentDidMount() {}
@@ -25,7 +25,7 @@ class App extends Component {
           <Route exact path="/login" component={LoginUserForm} />
           <Route exact path="/register" component={RegisterUserForm} />
           <Route exact path="/chat" component={ChatScreenScene} />
-          <PrivateRoute exact path="" component={ProfileScene} />
+          <PrivateRoute exact path="/profile" component={ProfileScene} />
         </Switch>
       </div>
     );
