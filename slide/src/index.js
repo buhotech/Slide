@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import './index.css';
+import * as firebase from 'firebase';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import * as firebase from 'firebase';
+import './index.css';
 
 var config = {};
 firebase.initializeApp(config);
