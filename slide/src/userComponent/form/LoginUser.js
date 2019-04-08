@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react';
 
 //sign in function
 import { loginUser } from '../functions/index';
@@ -34,40 +35,30 @@ class LoginUserForm extends Component {
       });
   };
 
+  routeChange = () => {
+    this.props.history.push('/Register');
+  };
+
   render() {
     return (
-      <div className="login-container">
-        <form className="login-form">
-          <h2>Login Page</h2>
+      <Segment placeholder>
+        <Grid columns={2} relaxed="very" stackable>
+          <Grid.Column>
+            <Form>
+              <Form.Input icon="user" iconPosition="left" label="Username" placeholder="Username" />
+              <Form.Input icon="lock" iconPosition="left" label="Password" type="password" />
 
-          <div className="email-container">
-            <input
-              name="email"
-              type="email"
-              className=""
-              placeholder="email"
-              onChange={this.onChange}
-            />
-          </div>
+              <Button content="Login" primary onClick={this.handleLoginRequest} />
+            </Form>
+          </Grid.Column>
 
-          <div className="password-container">
-            <input
-              name="password"
-              type="password"
-              className=""
-              placeholder="password"
-              onChange={this.onChange}
-            />
-          </div>
+          <Grid.Column verticalAlign="middle">
+            <Button content="Sign up" icon="signup" size="big" onClick={this.routeChange} />
+          </Grid.Column>
+        </Grid>
 
-          <p>
-            <a href="/register">Create a new account</a>
-          </p>
-          <button className="" onClick={this.handleLoginRequest}>
-            Log in
-          </button>
-        </form>
-      </div>
+        <Divider vertical>Or</Divider>
+      </Segment>
     );
   }
 }
