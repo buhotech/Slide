@@ -28,14 +28,19 @@ export const storeUserInfo = () => {
     .catch(err => {
       localStorage.setItem('isAuthenticated', 'true');
     });
-  //call userInfo
 };
 
 export const isAuthenticated = () => {
   return localStorage.getItem('isAuthenticated') == 'true' ? true : false;
 };
 
-export const newUser = () => {
-  // let api_url = `users/${userId}/user_info/`;
-  // return axios.post(api_url, )
+export const newUser = (bio, username) => {
+  let api_url = '/users/new';
+  let idToken = localStorage.getItem('idToken');
+  let userinfo = {
+    bio,
+    username,
+    idToken
+  };
+  return axios.post(api_url, userinfo);
 };

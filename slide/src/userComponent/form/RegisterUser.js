@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 //create new user function
-import { createNewUser, storeUserInfo } from '../functions/index';
+import { createNewUser, storeUserInfo, newUser } from '../functions/index';
 
 //handle the user profile pic
 class RegisterUserForm extends Component {
@@ -30,13 +30,17 @@ class RegisterUserForm extends Component {
 
   handleRegisterRequest = e => {
     e.preventDefault();
-    const { email, password } = this.state;
+    const { email, password, bio, username } = this.state;
+
     createNewUser(email, password)
       .then(user => {
-        this.setState({
-          cbResponce: true
-        });
         storeUserInfo();
+        newUser(bio, username).then(responce => {
+          console.log(responce);
+          this.setState({
+            cbResponce: true
+          });
+        });
       })
       .catch(err => {
         this.setState({
