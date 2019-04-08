@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 //create new user function
-import { createNewUser, storeUserInfo, newUser } from '../functions/index';
+import { createNewUser, newUser } from '../functions/index';
 
 //handle the user profile pic
 class RegisterUserForm extends Component {
@@ -32,17 +32,21 @@ class RegisterUserForm extends Component {
     e.preventDefault();
     const { email, password, bio, username } = this.state;
 
-    createNewUser(email, password);
-    newUser(bio, username)
-      .then(responce => {
-        console.log(responce);
-
+    createNewUser(email, password)
+      .then(user => {
+        newUser(bio, username)
+          .then(responce => {
+            this.setState({ cbResponce: true });
+          })
+          .catch(err => {
+            this.setState({
+              cbResponce: false,
+              error: 'Error in Register Form/Request'
+            });
+            console.log(err);
+          });
       })
       .catch(err => {
-        this.setState({
-          cbResponce: false,
-          error: 'Error in Register Form/Request'
-        });
         console.log(err);
       });
   };

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 //sign in function
-import { loginUser, storeUserInfo, LogOutUser } from '../functions/index';
+import { loginUser, storeUserInfo, LogOutUser, currentUser } from '../functions/index';
 
 class LoginUserForm extends Component {
   constructor() {
@@ -17,7 +17,10 @@ class LoginUserForm extends Component {
       password: ''
     };
   }
-
+  getCurrentUser = e => {
+    e.preventDefault();
+    console.log(currentUser());
+  };
   logOut = e => {
     e.preventDefault();
     LogOutUser();
@@ -90,6 +93,11 @@ class LoginUserForm extends Component {
           <br />
           <button className="" onClick={this.logOut}>
             Log Out
+          </button>
+          <br />
+          <br />
+          <button className="" onClick={this.getCurrentUser}>
+            get current User
           </button>
         </form>
       </div>
