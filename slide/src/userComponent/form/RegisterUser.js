@@ -32,15 +32,11 @@ class RegisterUserForm extends Component {
     e.preventDefault();
     const { email, password, bio, username } = this.state;
 
-    createNewUser(email, password)
-      .then(user => {
-        storeUserInfo();
-        newUser(bio, username).then(responce => {
-          console.log(responce);
-          this.setState({
-            cbResponce: true
-          });
-        });
+    createNewUser(email, password);
+    newUser(bio, username)
+      .then(responce => {
+        console.log(responce);
+
       })
       .catch(err => {
         this.setState({

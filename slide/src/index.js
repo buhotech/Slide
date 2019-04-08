@@ -6,8 +6,10 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
 
-const config = {
-  apiKey: `${process.env.REACT_APP_apiKey}`,
+
+var config = {
+  apiKey: '',
+
   authDomain: 'project-bc489.firebaseapp.com',
   databaseURL: 'https://project-bc489.firebaseio.com',
   projectId: 'project-bc489',
