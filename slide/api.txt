@@ -1,3 +1,25 @@
+{
+  "rules": {
+    "lilchat":{
+      "chats":{
+        "$chat_id":{
+          "messages":{
+            ".read": "auth.uid === root.child('lilchat').child('chats').child('$chat_id').child('chat_info').child('members').child('$uid').val()",
+        		".write":"auth.uid === root.child('lilchat').child('chats').child('$chat_id').child('chat_info').child('members').child('$uid').val()"
+          }
+        }
+      },
+      "users":{
+        "$uid":{
+          "user_info":{
+            ".write":"$uid === auth.uid"
+          }
+        }
+      }
+    }
+  }
+}
+
 
 https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/users/12345/user_info/
 

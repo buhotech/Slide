@@ -7,7 +7,7 @@ import './App.css';
 import ProfileScene from './profileComponent/ProfileScene';
 import LoginUserForm from './userComponent/form/LoginUser';
 import RegisterUserForm from './userComponent/form/RegisterUser';
-// import ChatScreenScene from './chatComponent/ChatScreenScene';
+import ChatScreenScene from './chatComponent/ChatScreenScene';
 
 class App extends Component {
   componentDidMount() {}
