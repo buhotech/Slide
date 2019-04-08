@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 //sign in function
-import { loginUser } from '../functions/index';
+import { loginUser, storeUserInfo, LogOutUser } from '../functions/index';
 
 class LoginUserForm extends Component {
   constructor() {
@@ -14,6 +14,11 @@ class LoginUserForm extends Component {
       password: ''
     };
   }
+
+  logOut = e => {
+    e.preventDefault();
+    LogOutUser();
+  };
 
   onChange = e => {
     e.preventDefault();
@@ -28,6 +33,8 @@ class LoginUserForm extends Component {
     loginUser(email, password)
       .then(user => {
         console.log(user);
+        console.log(user.user.uid);
+        storeUserInfo();
       })
       .catch(err => {
         console.log(err);
@@ -65,6 +72,11 @@ class LoginUserForm extends Component {
           </p>
           <button className="" onClick={this.handleLoginRequest}>
             Log in
+          </button>
+          <br />
+          <br />
+          <button className="" onClick={this.logOut}>
+            Log Out
           </button>
         </form>
       </div>
