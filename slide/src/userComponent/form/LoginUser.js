@@ -25,6 +25,7 @@ class LoginUserForm extends Component {
   handleLoginRequest = e => {
     e.preventDefault();
     const { email, password } = this.state;
+
     loginUser(email, password)
       .then(user => {
         console.log(user);

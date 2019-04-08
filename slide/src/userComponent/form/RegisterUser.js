@@ -30,15 +30,15 @@ class RegisterUserForm extends Component {
     */
   handleRegisterRequest = e => {
     e.preventDefault();
-    const { email, password } = this.state;
-    createNewUser(email, password)
-      .then(user => {
-        console.log(user);
+    const { email, password, bio, username } = this.state;
+    createNewUser(email, password);
+    newUser(bio, username)
+      .then(responce => {
+        console.log(responce);
       })
       .catch(err => {
         console.log(err);
       });
-    console.log('handle register account');
   };
 
   render() {
