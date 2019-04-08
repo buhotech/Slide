@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Reveal, Header, Dimmer, Image, Segment, Divider, Transition } from 'semantic-ui-react';
-import axios from '../utlities/axios';
+import axios from '../utilities/axios';
 
 class Match extends Component {
   constructor(props) {
