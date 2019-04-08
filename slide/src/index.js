@@ -1,12 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import './index.css';
+import * as firebase from 'firebase';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import * as firebase from 'firebase';
+import './index.css';
 
-var config = {};
+const config = {
+  apiKey: 'AIzaSyBqqqMDs221ywv0UZ8nHXWIe8WPViTfBzU',
+  authDomain: 'project-bc489.firebaseapp.com',
+  databaseURL: 'https://project-bc489.firebaseio.com',
+  projectId: 'project-bc489',
+  storageBucket: 'project-bc489.appspot.com',
+  messagingSenderId: '376964361270'
+};
 firebase.initializeApp(config);
 
 ReactDOM.render(

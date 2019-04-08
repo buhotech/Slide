@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 
+//react router
+import { Redirect } from 'react-router-dom';
+
 //create new user function
-import { createNewUser } from '../functions/index';
+import { createNewUser, storeUserInfo } from '../functions/index';
 
 //handle the user profile pic
 class RegisterUserForm extends Component {
@@ -24,24 +27,31 @@ class RegisterUserForm extends Component {
     const val = e.target.value;
     this.setState({ [field]: val });
   };
-  /*
 
-        Add the new user to the lilchat users table as well 
-    */
   handleRegisterRequest = e => {
     e.preventDefault();
     const { email, password } = this.state;
     createNewUser(email, password)
       .then(user => {
-        console.log(user);
+        this.setState({
+          cbResponce: true
+        });
+        storeUserInfo();
       })
       .catch(err => {
+        this.setState({
+          cbResponce: false,
+          error: 'Error in Register Form/Request'
+        });
         console.log(err);
       });
-    console.log('handle register account');
   };
 
   render() {
+    const { error, cbResponce } = this.state;
+
+    if (cbResponce) return <Redirect to="/profile" />;
+
     return (
       <div className="register-container">
         <form className="register-form">
