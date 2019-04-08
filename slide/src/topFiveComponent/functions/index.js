@@ -1,4 +1,4 @@
-import axios from '../../utlities/axios';
+import axios from '../../utilities/axios';
 
 //implement the top five feature later
 //calling top the friends

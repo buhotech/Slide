@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 
+//react router
+import { Redirect } from 'react-router-dom';
+
 //sign in function
-import { loginUser } from '../functions/index';
+import { loginUser, storeUserInfo, LogOutUser } from '../functions/index';
 
 class LoginUserForm extends Component {
   constructor() {
@@ -14,6 +17,12 @@ class LoginUserForm extends Component {
       password: ''
     };
   }
+
+  logOut = e => {
+    e.preventDefault();
+    LogOutUser();
+    console.log('log out user');
+  };
 
   onChange = e => {
     e.preventDefault();
@@ -28,14 +37,24 @@ class LoginUserForm extends Component {
 
     loginUser(email, password)
       .then(user => {
-        console.log(user);
+        this.setState({
+          cbResponce: true
+        });
+        storeUserInfo();
       })
       .catch(err => {
+        this.setState({
+          cbResponce: false,
+          error: 'Error in Login Form'
+        });
         console.log(err);
       });
   };
 
   render() {
+    const { cbResponce, error } = this.state;
+    if (cbResponce) return <Redirect to="/profile" />;
+
     return (
       <div className="login-container">
         <form className="login-form">
@@ -66,6 +85,11 @@ class LoginUserForm extends Component {
           </p>
           <button className="" onClick={this.handleLoginRequest}>
             Log in
+          </button>
+          <br />
+          <br />
+          <button className="" onClick={this.logOut}>
+            Log Out
           </button>
         </form>
       </div>

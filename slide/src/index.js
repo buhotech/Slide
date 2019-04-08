@@ -6,8 +6,10 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
 
+
 var config = {
   apiKey: '',
+
   authDomain: 'project-bc489.firebaseapp.com',
   databaseURL: 'https://project-bc489.firebaseio.com',
   projectId: 'project-bc489',
