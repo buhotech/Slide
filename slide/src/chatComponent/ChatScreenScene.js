@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import Message from './Message';
+import './styles/chatscreen.css';
+
 class ChatScreenScence extends Component {
   constructor() {
     super();
@@ -25,11 +27,16 @@ class ChatScreenScence extends Component {
           Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username: 'bobby', content: content })
+        body: JSON.stringify({
+          username: 'bobby',
+          content: content,
+          idToken: localStorage.getItem('idToken')
+        })
       }
     )
       .then(res => res.json())
       .then(res => console.log(res));
+    document.getElementById('message_input').value = '';
   }
 
   getMembers() {
@@ -99,15 +106,23 @@ class ChatScreenScence extends Component {
       rendered_messages.push(temp);
     }
     return (
-      <div style={{ padding: '30px' }}>
-        {' '}
-        <p style={{ position: 'fixed', width: '100vw', top: '0', textAlign: 'left' }}>
-          {this.state.characters_left}
-        </p>
-        {rendered_messages}
+      <div>
+        <div className="chatTopLabel">
+          <div className="chatTopLabelParticipant" />
+          <p className="chatTopLabelText1">Devon</p>
+          <p className="chatTopLabelText2">{this.state.characters_left}</p>
+        </div>
+
+        <div style={{ padding: '15px', paddingBottom: '35px', paddingTop: '145px' }}>
+          {rendered_messages}
+        </div>
         <div style={{ position: 'fixed', bottom: '0', width: '100vw', backgroundColor: 'red' }}>
-          <input id="message_input" />
-          <button onClick={this.sendMessage}>send</button>
+          <div className="ui fluid action input">
+            <input id="message_input" type="text" placeholder="Enter message..." />
+            <div onClick={this.sendMessage} className="ui button">
+              send
+            </div>
+          </div>
         </div>
       </div>
     );
