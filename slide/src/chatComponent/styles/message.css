@@ -28,6 +28,7 @@ p {
   color: white;
   animation: fade_in 1s 1;
   animation-fill-mode: forwards;
+  border: 3px solid white;
 }
 .my_message_content {
   background-color: rgb(140, 190, 190);

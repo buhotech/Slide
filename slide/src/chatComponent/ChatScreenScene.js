@@ -28,7 +28,7 @@ class ChatScreenScence extends Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          username: 'bobby',
+          username: 'elpapi',
           content: content,
           idToken: localStorage.getItem('idToken')
         })
@@ -97,7 +97,7 @@ class ChatScreenScence extends Component {
     for (let message in this.state.messages) {
       let temp = (
         <Message
-          my_user="bobby"
+          my_user="elpapi"
           message_user_pic={this.state.members[this.state.messages[message].username]}
           username={this.state.messages[message].username}
           content={this.state.messages[message].content}
