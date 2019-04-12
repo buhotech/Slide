@@ -11,7 +11,12 @@ class Message extends Component {
           (this.props.display_username && !this.props.first_m ? 'user_msg_seperator' : '')
         }
       >
+        <div className="profile_pic" />
+
         <div className="message_wrap">
+          <div className="plus_characters">
+            <p>-{this.props.content.length}</p>
+          </div>
           <p
             className={(this.props.display_username ? '' : 'hide_content') + ' message_username'}
             style={

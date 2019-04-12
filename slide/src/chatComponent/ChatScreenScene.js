@@ -18,6 +18,9 @@ class ChatScreenScence extends Component {
 
   sendMessage() {
     let content = document.getElementById('message_input').value;
+    if (content.length < 1) return;
+    if (content.trim() == '') return;
+    if (content == null) return;
     let username = 'myguy';
     fetch(
       'https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/21/messages/new',
@@ -124,17 +127,25 @@ class ChatScreenScence extends Component {
       rendered_messages.push(temp);
     }
     return (
-      <div>
+      <div className="chat_wrap">
         <div className="chatTopLabel">
           <div className="chatTopLabelParticipant" />
           <p className="chatTopLabelText1">Devon</p>
           <p className="chatTopLabelText2">{this.state.characters_left}</p>
         </div>
 
-        <div style={{ padding: '15px', paddingBottom: '55px', paddingTop: '145px' }}>
+        <div style={{ padding: '15px', paddingBottom: '55px', paddingTop: '125px' }}>
           {rendered_messages}
         </div>
-        <div style={{ position: 'fixed', bottom: '0', width: '100vw', backgroundColor: 'red' }}>
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '0',
+            width: '100vw',
+            backgroundColor: 'red',
+            zIndex: '10'
+          }}
+        >
           <div className="ui fluid action input">
             <input id="message_input" type="text" placeholder="Enter message..." />
             <div onClick={this.sendMessage} className="ui button">

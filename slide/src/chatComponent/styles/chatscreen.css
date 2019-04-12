@@ -2,8 +2,11 @@
   padding: 0;
   margin: 0;
 }
+.chat_wrap {
+}
+
 .chatTopLabel {
-  background-color: rgb(0, 200, 210);
+  background-color: rgb(60, 120, 220);
   padding: 20px;
   position: fixed;
   top: 0;
@@ -11,12 +14,15 @@
   z-index: 10;
 }
 .chatTopLabelParticipant {
-  width: 60px;
-  height: 60px;
+  width: 45px;
+  height: 45px;
   border-radius: 100%;
   background-color: white;
   margin: auto;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
+}
+#message_input {
+  font-size: 16px;
 }
 .chatTopLabelText1,
 .chatTopLabelText2 {
