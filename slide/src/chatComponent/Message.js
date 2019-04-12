@@ -7,12 +7,13 @@ class Message extends Component {
       <div
         className={
           (this.props.username === this.props.my_user ? 'my_message' : 'other_message') +
-          '_class_align message_container'
+          '_class_align message_container ' +
+          (this.props.display_username && !this.props.first_m ? 'user_msg_seperator' : '')
         }
       >
         <div className="message_wrap">
           <p
-            className="message_username"
+            className={(this.props.display_username ? '' : 'hide_content') + ' message_username'}
             style={
               this.props.username === this.props.my_user
                 ? { textAlign: 'right' }
@@ -25,11 +26,6 @@ class Message extends Component {
             className={
               (this.props.username === this.props.my_user ? 'my_message' : 'teal other_message') +
               '_content message_container'
-            }
-            style={
-              this.props.username === this.props.my_user
-                ? { textAlign: 'right' }
-                : { textAlign: 'left' }
             }
           >
             {this.props.content}

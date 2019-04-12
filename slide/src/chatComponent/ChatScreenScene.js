@@ -74,7 +74,16 @@ class ChatScreenScence extends Component {
       });
   }
 
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
   componentDidMount() {
+    this.scrollToBottom();
     let c_screen = this;
     //console.log(firebase.database());
     firebase
@@ -94,15 +103,24 @@ class ChatScreenScence extends Component {
   }
   render() {
     let rendered_messages = [];
+    let prev_name = '';
+    let first_m = true;
     for (let message in this.state.messages) {
+      console.log(first_m, message);
       let temp = (
         <Message
           my_user="elpapi"
+          display_username={this.state.messages[message].username === prev_name ? false : true}
+          first_m={first_m}
           message_user_pic={this.state.members[this.state.messages[message].username]}
           username={this.state.messages[message].username}
           content={this.state.messages[message].content}
         />
       );
+      console.log(this.state.messages[message].username);
+      prev_name = this.state.messages[message].username;
+      first_m = false;
+
       rendered_messages.push(temp);
     }
     return (
@@ -113,7 +131,7 @@ class ChatScreenScence extends Component {
           <p className="chatTopLabelText2">{this.state.characters_left}</p>
         </div>
 
-        <div style={{ padding: '15px', paddingBottom: '35px', paddingTop: '145px' }}>
+        <div style={{ padding: '15px', paddingBottom: '55px', paddingTop: '145px' }}>
           {rendered_messages}
         </div>
         <div style={{ position: 'fixed', bottom: '0', width: '100vw', backgroundColor: 'red' }}>
@@ -124,6 +142,12 @@ class ChatScreenScence extends Component {
             </div>
           </div>
         </div>
+        <div
+          style={{ float: 'left', clear: 'both' }}
+          ref={el => {
+            this.messagesEnd = el;
+          }}
+        />
       </div>
     );
   }

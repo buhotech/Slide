@@ -13,13 +13,14 @@ p {
   text-align: left;
 }
 .message_container {
-  padding-bottom: 10px;
-  padding-top: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
 }
 .my_message_content,
 .message_username {
   margin-bottom: 0;
 }
+
 .my_message_content,
 .other_message_content {
   font-size: 16px;
@@ -30,13 +31,19 @@ p {
   animation-fill-mode: forwards;
   border: 3px solid white;
 }
+.hide_content {
+  display: none;
+}
 .my_message_content {
   background-color: rgb(140, 190, 190);
   box-shadow: 5px 5px 2px rgba(0, 0, 30, 0.1);
+  border-bottom-right-radius: 0;
+  text-align: left;
 }
 .other_message_content {
   background-color: rgb(0, 200, 210);
   box-shadow: 5px 5px 2px rgba(0, 0, 30, 0.1);
+  border-bottom-left-radius: 0;
 }
 
 @keyframes fade_in {
@@ -47,15 +54,21 @@ p {
     opacity: 1;
   }
 }
+
+.user_msg_seperator {
+  border-top: 1px solid rgb(240, 240, 240);
+  margin-top: 13px;
+}
 .message_wrap {
   display: inline-block;
   vertical-align: top;
   max-width: 90%;
 }
 .message_username {
-  padding: 0;
+  padding: 4px;
   font-size: 8px;
   text-transform: uppercase;
   font-weight: bold;
   margin-bottom: 5px;
+  color: rgb(150, 150, 150);
 }
