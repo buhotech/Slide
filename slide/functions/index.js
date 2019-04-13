@@ -5,7 +5,13 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 const cors = require('cors');
 const app = express();
-app.use(cors({ origin: true }));
+const devRoutes = ['http://localhost:3000'];
+app.use(
+  cors({
+    origin: devRoutes,
+    credentials: true
+  })
+);
 
 /*
 app.get('/events/', function(req,res){
@@ -208,22 +214,22 @@ app.post('/lilchat/chats/:id/messages/new', function(req, res) {
 });
 
 /*PROFILE/USERS*/
-app.get('/lilchat/users/:id/user_info/', function(req, res) {
-  //let idToken = req.body.idToken;
-  //verify(idToken, function(uid) {
-  let reference = 'lilchat/users/' + req.params.id + '/user_info';
-  admin
-    .database()
-    .ref(reference)
-    .once('value', function(snap) {
-      if (snap.val() == null) {
-        res.json(null);
-      } else {
-        res.json(snap.val());
-      }
-    });
+app.get('/lilchat/users/currentuser', function(req, res) {
+  let idToken = req.header('Authorization');
+  verify(idToken, function(uid) {
+    let reference = 'lilchat/users/' + uid + '/user_info';
+    admin
+      .database()
+      .ref(reference)
+      .once('value', function(snap) {
+        if (snap.val() == null) {
+          res.json(null);
+        } else {
+          res.json(snap.val());
+        }
+      });
+  });
 });
-//});
 
 /*FRIENDS*/
 app.get('/lilchat/users/:id/friends/', function(req, res) {
