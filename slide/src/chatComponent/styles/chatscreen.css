@@ -75,7 +75,8 @@
   line-height: 15px;
 }
 .chatTopLabelText1tag {
-  font-size: 10px;
+  font-size: 8px;
+  color: rgb(220, 220, 220);
 }
 
 .chatTopLabelText2wrap {

@@ -56,7 +56,7 @@ p {
 }
 
 .plus_characters > p {
-  color: rgb(0, 140, 175);
+  color: rgb(60, 160, 220);
   text-shadow: 0 0 10px rgb(0, 0, 0, 0.1);
   font-family: 'Avenir';
   font-size: 11px;
