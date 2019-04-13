@@ -128,13 +128,21 @@ class ChatScreenScence extends Component {
     }
     return (
       <div className="chat_wrap">
+        <div className="navBar" />
         <div className="chatTopLabel">
-          <div className="chatTopLabelParticipant" />
-          <p className="chatTopLabelText1">Devon</p>
-          <p className="chatTopLabelText2">{this.state.characters_left}</p>
+          <div className="chatTopLabelText2wrap">
+            <p className="chatTopLabelText2">{this.state.characters_left}</p>
+          </div>
+          <div className="chatTopLabelInfoWrap">
+            <div className="chatTopLabelParticipant profile_pic_in_chat" />
+            <div className="chatTopLabelMeta">
+              <p className="chatTopLabelText1">Sid🍪🍪</p>
+              <p className="chatTopLabelText1tag">Cookies n' Chill</p>
+            </div>
+          </div>
         </div>
 
-        <div style={{ padding: '15px', paddingBottom: '55px', paddingTop: '125px' }}>
+        <div style={{ padding: '15px', paddingBottom: '55px', paddingTop: '90px' }}>
           {rendered_messages}
         </div>
         <div
@@ -148,7 +156,7 @@ class ChatScreenScence extends Component {
         >
           <div className="ui fluid action input">
             <input id="message_input" type="text" placeholder="Enter message..." />
-            <div onClick={this.sendMessage} className="ui button">
+            <div onClick={this.sendMessage} className="ui send_b button">
               send
             </div>
           </div>

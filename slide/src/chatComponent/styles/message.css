@@ -79,7 +79,8 @@ p {
   padding: 9px;
   border-radius: 8px;
   color: white;
-  animation: fade_in 1s 1;
+  animation: fade_in 1s 1, shadow_fade_in 1s 1 1s;
+  box-shadow: 0px 0px 2px rgba(0, 0, 30, 0.1);
   animation-fill-mode: forwards;
   border: 3px solid white;
   font-family: 'Helvetica Neue';
@@ -90,14 +91,12 @@ p {
 .my_message_content {
   /*background-color: rgb(250, 70, 70);*/
   background-color: rgb(0, 180, 190);
-  box-shadow: 5px 5px 2px rgba(0, 0, 30, 0.1);
   border-bottom-right-radius: 0;
   text-align: left;
   color: white;
 }
 .other_message_content {
   background-color: rgb(60, 120, 220);
-  box-shadow: 5px 5px 2px rgba(0, 0, 30, 0.1);
   border-bottom-left-radius: 0;
 }
 
@@ -107,6 +106,15 @@ p {
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes shadow_fade_in {
+  from {
+    box-shadow: 0px 0px 2px rgba(0, 0, 30, 0.1);
+  }
+  to {
+    box-shadow: 5px 5px 8px rgba(0, 0, 30, 0.1);
   }
 }
 
