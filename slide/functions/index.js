@@ -58,7 +58,7 @@ function verify(idToken, do_this) {
 }
 
 app.post('/lilchat/users/new', function(req, res) {
-  let idToken = req.body.idToken;
+  let idToken = req.header('Authorization');
   let profile_pic = 'https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Penguin-512.png';
   verify(idToken, function(uid) {
     let username = req.body.username;
@@ -79,6 +79,33 @@ app.post('/lilchat/users/new', function(req, res) {
       .set(user);
     res.json({ status: 'success' });
   });
+});
+
+app.get('/lilchat/validusername/:username', (req, res) => {
+  let username = req.params.username;
+
+  admin
+    .database()
+    .ref('/lilchat/users/')
+    .orderByChild('user_info/username')
+    .startAt(`${username}`)
+    .endAt(`${username}\uf8ff`)
+    .once('value')
+    .then(snap => {
+      if (snap.val()) {
+        res.json({
+          usernameAvailable: false
+        });
+      } else {
+        res.json({
+          usernameAvailable: true
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(400).send(err);
+    });
 });
 
 app.post('/lilchat/chats/create', function(req, res) {
@@ -290,6 +317,7 @@ app.get('/lilchat/users/:id/request_sent/new', function(req, res) {
       .set(my_user_id);
   });
 });
+
 app.get('/lilchat/users/:id/request_recieved/', function(req, res) {
   let idToken = req.body.idToken;
   verify(idToken, function(uid) {
@@ -305,6 +333,7 @@ app.get('/lilchat/users/:id/request_recieved/', function(req, res) {
       });
   });
 });
+
 app.post('/lilchat/users/:id/request_recieved/:other_user/accept', function(req, res) {
   //move from request_recieved to firneds list
   //from from request sent to friends
