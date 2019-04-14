@@ -36,6 +36,8 @@
 .send_b {
   background-color: rgb(60, 120, 220) !important;
   color: white !important;
+  font-family: 'Futura' !important;
+  font-size: 12px !important;
 }
 .chatTopLabelInfoWrap {
   text-align: left;

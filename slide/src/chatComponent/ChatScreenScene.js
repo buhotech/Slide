@@ -84,7 +84,6 @@ class ChatScreenScence extends Component {
   };
 
   componentDidUpdate() {
-    this.scrollToBottom();
     //this.characterDecreaseAnimation(this.state.characters_left_res, this.state.characters_left);
   }
 
@@ -112,6 +111,7 @@ class ChatScreenScence extends Component {
       .ref('lilchat/chats/21/messages/')
       .on('value', function(snap) {
         c_screen.setState({ messages: snap.val() });
+        if (c_screen.state.messages != snap.val()) c_screen.scrollToBottom();
       });
     firebase
       .database()
