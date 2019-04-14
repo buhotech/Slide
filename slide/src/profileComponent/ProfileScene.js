@@ -24,9 +24,9 @@ class ProfileScene extends Component {
   }
 
   componentDidMount() {
-    let currentUser = '12345';
-    getUserProfileInfo(currentUser)
+    getUserProfileInfo()
       .then(user => {
+        console.log(user);
         const { bio, profile_pic, username } = user.data;
         const userInfo = { bio, profile_pic, username };
         this.setState({ userInfo, cbResponce: true });

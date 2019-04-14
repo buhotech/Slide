@@ -15,11 +15,11 @@ class Match extends Component {
 
   componentDidMount() {
     const userId = `12345`;
-    axios.get(`users/${userId}/user_info/`).then(user => {
-      const { bio, profile_pic, username } = user.data;
-      const userInfo = { bio, profile_pic, username };
-      this.setState({ me: userInfo, otherUser: userInfo });
-    });
+    // axios.get(`users/${userId}/user_info/`).then(user => {
+    //   const { bio, profile_pic, username } = user.data;
+    //   const userInfo = { bio, profile_pic, username };
+    //   this.setState({ me: userInfo, otherUser: userInfo });
+    // });
     this.setState({ visible: true });
   }
 
