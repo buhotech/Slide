@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import axios from '../../utilities/axios';
+import { createCipher } from 'crypto';
 
 // const auth = firebase.auth()
 
@@ -30,13 +31,20 @@ export const storeUserInfo = () => {
     });
 };
 
+export const isUsernameAvailable = async username => {
+  try {
+    const usernameResponce = await axios.get(`/validusername/${username}`);
+    console.log(usernameResponce);
+  } catch (err) {}
+};
+
 export const newUser = async (bio, username) => {
   try {
     let api_url = '/users/new';
     const idToken = await firebase.auth().currentUser.getIdToken(true);
     localStorage.setItem('idToken', idToken);
     localStorage.setItem('isAuthenticated', 'true');
-    return axios.post(api_url, { bio, username, idToken });
+    return axios.post(api_url, { bio, username }, { headers: { Authorization: `${idToken}` } });
   } catch (err) {
     return err;
   }

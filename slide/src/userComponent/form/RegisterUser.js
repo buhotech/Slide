@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 //create new user function
-import { createNewUser, newUser } from '../functions/index';
+import { createNewUser, newUser, storeUserInfo } from '../functions/index';
 
 //handle the user profile pic
 class RegisterUserForm extends Component {
@@ -13,12 +13,31 @@ class RegisterUserForm extends Component {
 
     this.state = {
       error: false,
+      errorMessage: '',
       cbResponce: false,
       email: '',
       password: '',
+      password2: '',
       username: '',
-      bio: ''
+      bio: '',
+      step: 0
     };
+  }
+
+  nextStp = () => {
+    this.setState(prev => ({
+      step: prev.step + 1
+    }));
+  };
+
+  prevStp = () => {
+    this.setState(prev => ({
+      step: prev.step - 1
+    }));
+  };
+
+  passwordMatch() {
+    const { password, password2 } = this.state;
   }
 
   onChange = e => {
@@ -27,89 +46,162 @@ class RegisterUserForm extends Component {
     const val = e.target.value;
     this.setState({ [field]: val });
   };
-
+  onUsernameChange = e => {
+    const { username } = this.state;
+    const val = e.target.value;
+  };
   handleRegisterRequest = e => {
     e.preventDefault();
-    const { email, password, bio, username } = this.state;
+    const { email, password, password2 } = this.state;
 
-    createNewUser(email, password)
-      .then(user => {
-        newUser(bio, username)
-          .then(responce => {
-            this.setState({ cbResponce: true });
-          })
-          .catch(err => {
-            this.setState({
-              cbResponce: false,
-              error: 'Error in Register Form/Request'
-            });
-            console.log(err);
+    if (password === password2) {
+      createNewUser(email, password)
+        .then(user => {
+          console.log(user);
+          this.nextStp();
+        })
+        .catch(err => {
+          this.setState({
+            error: true,
+            errorMessage: err.message
           });
+        });
+    } else {
+      this.setState({
+        passwordMatch: false,
+        error: true,
+        errorMessage: `Passwords do not match`
+      });
+    }
+  };
+
+  handleUserInfo = () => {
+    const { username, bio } = this.state;
+    newUser(bio, username)
+      .then(user => {
+        this.nextStp();
       })
       .catch(err => {
         console.log(err);
       });
   };
-
   render() {
-    const { error, cbResponce } = this.state;
+    const {
+      error,
+      errorMessage,
+      cbResponce,
+      step,
+      username,
+      bio,
+      email,
+      password,
+      password2
+    } = this.state;
 
+    let errorComponent = error ? <h3>{errorMessage}</h3> : <span />;
     if (cbResponce) return <Redirect to="/profile" />;
 
-    return (
-      <div className="register-container">
-        <form className="register-form">
-          <h2>Register Page</h2>
+    switch (step) {
+      case 0:
+        return (
+          <div className="register-container">
+            {errorComponent}
+            <h2>Enter Email and Password</h2>
 
-          <div className="email-container">
-            <input
-              name="email"
-              type="email"
-              className=""
-              placeholder="email"
-              onChange={this.onChange}
-            />
+            <div className="email-container">
+              <input
+                name="email"
+                value={email}
+                type="email"
+                className=""
+                placeholder="email"
+                onChange={this.onChange}
+              />
+            </div>
+
+            <div className="password-container">
+              <input
+                name="password"
+                value={password}
+                type="password"
+                className=""
+                placeholder="password"
+                onChange={this.onChange}
+              />
+            </div>
+
+            <div className="password-container">
+              <input
+                name="password2"
+                value={password2}
+                type="password"
+                className=""
+                placeholder="password"
+                onChange={this.onChange}
+              />
+            </div>
+            <button type="submit" className="btn btn-primary" onClick={this.handleRegisterRequest}>
+              Next
+            </button>
           </div>
-
-          <div className="password-container">
-            <input
-              name="password"
-              type="password"
-              className=""
-              placeholder="password"
-              onChange={this.onChange}
-            />
+        );
+      case 1:
+        return (
+          <div className="container">
+            <div className="username-container">
+              <input
+                name="username"
+                value={username}
+                type="text"
+                className=""
+                placeholder="username"
+                onChange={this.onChange}
+              />
+            </div>
+            <button type="submit" className="btn btn-primary" onClick={this.nextStp}>
+              Next
+            </button>
           </div>
-
-          <div className="username-container">
-            <input
-              name="username"
-              type="text"
-              className=""
-              placeholder="username"
-              onChange={this.onChange}
-            />
+        );
+      case 2:
+        return (
+          <div>
+            <div className="bio-container">
+              <input
+                name="bio"
+                value={bio}
+                type="text"
+                className=""
+                placeholder="enter show bio"
+                onChange={this.onChange}
+              />
+            </div>
+            <button type="submit" className="btn btn-primary" onClick={this.prevStp}>
+              Back
+            </button>
+            <button type="submit" className="btn btn-primary" onClick={this.nextStp}>
+              Next
+            </button>
           </div>
-
-          <div className="bio-container">
-            <input
-              name="bio"
-              type="text"
-              className=""
-              placeholder="enter show bio"
-              onChange={this.onChange}
-            />
+        );
+      case 3:
+        return (
+          <div>
+            <div>
+              <h2>{username}</h2>
+              <p>{bio}</p>
+            </div>
+            <button type="submit" className="btn btn-primary" onClick={this.prevStp}>
+              Back
+            </button>
+            <button type="submit" className="btn btn-primary" onClick={this.handleUserInfo}>
+              Done
+            </button>
           </div>
-
-          <p>
-            <a href="/login">Have an account already?</a>
-          </p>
-          <button className="" onClick={this.handleRegisterRequest}>
-            Register
-          </button>
-        </form>
-      </div>
-    );
+        );
+      case 4:
+        return <Redirect to="/profile" />;
+    }
   }
 }
 
