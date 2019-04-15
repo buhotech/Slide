@@ -9,6 +9,7 @@ import LoginUserForm from './userComponent/form/LoginUser';
 import RegisterUserForm from './userComponent/form/RegisterUser';
 import ChatScreenScene from './chatComponent/ChatScreenScene';
 import Match from './components/match';
+import ChatScreenListScence from './currentChatsComponent/CurrentChatsListScene';
 
 //privaterouter
 import { PrivateRoute } from './utilities/PrivateRoute';
@@ -24,7 +25,8 @@ class App extends Component {
           <Route exact path="/match" component={Match} />
           <Route exact path="/login" component={LoginUserForm} />
           <Route exact path="/register" component={RegisterUserForm} />
-          <Route exact path="/chat" component={ChatScreenScene} />
+          <Route exact path="/chats" component={ChatScreenListScence} />
+          <Route exact path="/chats/:chat_id" component={ChatScreenScene} />
           <PrivateRoute exact path="/profile" component={ProfileScene} />
         </Switch>
       </div>

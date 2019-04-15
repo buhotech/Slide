@@ -137,9 +137,10 @@ app.post('/lilchat/chats/:id/join', function(req, res) {
 app.get('/lilchat/chats/:id/chat_info', function(req, res) {
   // let idToken = req.body.idToken;
   //verify(idToken, function(uid) {
+  let reference = '/lilchat/chats/' + req.params.id + '/chat_info';
   admin
     .database()
-    .ref('')
+    .ref(reference)
     .once('value', function(snap) {
       if (snap.val() == null) {
         res.json(null);
@@ -191,7 +192,7 @@ app.post('/lilchat/chats/:id/messages/new', function(req, res) {
     let reference = '/lilchat/chats/' + req.params.id + '/messages';
     let reference_characters = '/lilchat/chats/' + req.params.id + '/chat_info/characters';
 
-    let reference_members = '/lilchat/chats/' + req.params.id + '/members/' + uid;
+    let reference_members = '/lilchat/chats/' + req.params.id + 'chat_info/members/' + uid;
 
     admin
       .database()
@@ -235,6 +236,24 @@ app.post('/lilchat/chats/:id/messages/new', function(req, res) {
                 res.json({ status: 'success' });
               }
             });
+        }
+      });
+  });
+});
+
+/*PROFILE/USERS*/
+app.get('/lilchat/users/:id/user_info', function(req, res) {
+  let idToken = req.header('Authorization');
+  verify(idToken, function(uid) {
+    let reference = 'lilchat/users/' + req.params.id + '/user_info';
+    admin
+      .database()
+      .ref(reference)
+      .once('value', function(snap) {
+        if (snap.val() == null) {
+          res.json(null);
+        } else {
+          res.json(snap.val());
         }
       });
   });

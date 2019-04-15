@@ -1,0 +1,18 @@
+[debug] [2019-04-15T15:30:50.225Z] ----------------------------------------------------------------------
+[debug] [2019-04-15T15:30:50.228Z] Command:       /Users/angelc/.nvm/versions/node/v8.11.4/bin/node /Users/angelc/.nvm/versions/node/v8.11.4/bin/firebase functions:shell
+[debug] [2019-04-15T15:30:50.228Z] CLI Version:   6.3.1
+[debug] [2019-04-15T15:30:50.228Z] Platform:      darwin
+[debug] [2019-04-15T15:30:50.228Z] Node Version:  v8.11.4
+[debug] [2019-04-15T15:30:50.229Z] Time:          Mon Apr 15 2019 11:30:50 GMT-0400 (EDT)
+[debug] [2019-04-15T15:30:50.229Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-04-15T15:30:50.245Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-04-15T15:30:50.246Z] > authorizing via signed-in user
+[debug] [2019-04-15T15:30:50.246Z] [iam] checking project project-bc489 for permissions ["firebase.projects.get"]
+[debug] [2019-04-15T15:30:50.250Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/project-bc489:testIamPermissions  
+
+[debug] [2019-04-15T15:30:50.564Z] <<< HTTP RESPONSE 200
+[info] i  functions: Preparing to emulate functions.
+[debug] [2019-04-15T15:30:51.092Z] Fetching environment
+[debug] [2019-04-15T15:30:51.094Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/project-bc489  
+ 

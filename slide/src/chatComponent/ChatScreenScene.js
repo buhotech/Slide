@@ -25,7 +25,9 @@ class ChatScreenScence extends Component {
     if (content == null) return;
     let username = 'myguy';
     fetch(
-      'https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/21/messages/new',
+      `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+        this.props.match.params.chat_id
+      }/messages/new`,
       {
         method: 'post',
         headers: {
@@ -47,32 +49,42 @@ class ChatScreenScence extends Component {
   getMembers() {
     let c_screen = this;
     fetch(
-      'https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/21/chat_info/members'
+      `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+        this.props.match.params.chat_id
+      }/chat_info/members`
     )
       .then(res => res.json())
       .then(res => {
         for (let member in res) {
-          //console.log({res[member]});
           fetch(
             'https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/users/' +
               res[member] +
-              '/user_info'
-          )
-            .then(uinfo_res => {
-              return uinfo_res.json();
-            })
+              '/user_info',
+            {
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                Authorization: localStorage.getItem('idToken')
+              }
+            }
+          ).then(uinfo_res => {
+            console.log(uinfo_res);
+          }); /*
             .then(user_info => {
               c_screen.setState(prev => {
                 prev['members'][user_info['username']] = user_info['profile_pic'];
                 return { members: prev['members'] };
               });
-            });
+            });*/
         }
       });
   }
   getChatInfo() {
     let c_screen = this;
-    fetch('https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/21/chat_info/')
+    fetch(
+      `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+        this.props.match.params.chat_id
+      }/chat_info/`
+    )
       .then(res => res.json())
       .then(res => {
         c_screen.setState({ chat_info: res });
@@ -84,6 +96,7 @@ class ChatScreenScence extends Component {
   };
 
   componentDidUpdate() {
+    this.scrollToBottom();
     //this.characterDecreaseAnimation(this.state.characters_left_res, this.state.characters_left);
   }
 
@@ -103,19 +116,19 @@ class ChatScreenScence extends Component {
   }
 
   componentDidMount() {
-    this.scrollToBottom();
+    //this.scrollToBottom();
     let c_screen = this;
     //console.log(firebase.database());
     firebase
       .database()
-      .ref('lilchat/chats/21/messages/')
+      .ref(`lilchat/chats/${this.props.match.params.chat_id}/messages/`)
       .on('value', function(snap) {
         c_screen.setState({ messages: snap.val() });
         if (c_screen.state.messages != snap.val()) c_screen.scrollToBottom();
       });
     firebase
       .database()
-      .ref('lilchat/chats/21/chat_info/characters')
+      .ref(`lilchat/chats/${this.props.match.params.chat_id}/chat_info/characters`)
       .on('value', function(snap) {
         c_screen.setState({ characters_left_res: snap.val() });
         if (c_screen.state.characters_left_res != c_screen.state.characters_left)
@@ -127,7 +140,7 @@ class ChatScreenScence extends Component {
 
     firebase
       .database()
-      .ref('lilchat/chats/21/chat_info/characters')
+      .ref(`lilchat/chats/${this.props.match.params.chat_id}/chat_info/characters`)
       .once('value', function(snap) {
         c_screen.setState({ characters_left: snap.val() });
         console.log(c_screen.state.characters_left);
@@ -143,6 +156,7 @@ class ChatScreenScence extends Component {
       //console.log(first_m, message);
       let temp = (
         <Message
+          key={message}
           my_user="elpapi"
           display_username={this.state.messages[message].username === prev_name ? false : true}
           first_m={first_m}
