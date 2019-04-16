@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import Message from './Message';
 import './styles/chatscreen.scss';
+import LoadingView from '../Loading/LoadingView';
 
 class ChatScreenScence extends Component {
   constructor() {
@@ -11,7 +12,8 @@ class ChatScreenScence extends Component {
       members: {},
       characters_left_res: 0,
       characters_left: 0,
-      chat_info: {}
+      chat_info: {},
+      loading_view: false
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.getChatInfo = this.getChatInfo.bind(this);
@@ -111,7 +113,7 @@ class ChatScreenScence extends Component {
   }
 
   scrollToBottom = () => {
-    this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+    if (this.messagesEnd) this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
   };
 
   componentDidUpdate() {
@@ -147,6 +149,7 @@ class ChatScreenScence extends Component {
       .on('value', function(snap) {
         c_screen.setState({ messages: snap.val() });
         if (c_screen.state.messages != snap.val()) c_screen.scrollToBottom();
+        c_screen.setState({ loading_view: true });
       });
     firebase
       .database()
@@ -197,63 +200,66 @@ class ChatScreenScence extends Component {
     }
     // if(document.getElementById("characters_left_bar"))
     //document.getElementById("characters_left_bar").style.width = ((((this.state.characters_left)/1000)*100) + "%");
-
-    return (
-      <div className="chat_class">
-        <div className="chat_wrap">
-          <div className="navBar" />
-          <div className={'chatTopLabel current_bg_color_' + this.state.chat_info.color}>
-            <div className="chatTopLabelInfoWrap">
-              <div className="chatTopLabelParticipant profile_pic_in_chat" />
-              <div className="chatTopLabelMeta">
-                <p className="chatTopLabelText1">Sid🍪🍪</p>
-                <p className="chatTopLabelText1tag">Cookies n' Chill</p>
+    if (!this.state.loading_view) {
+      return <LoadingView />;
+    } else {
+      return (
+        <div className="chat_class">
+          <div className="chat_wrap">
+            <div className="navBar" />
+            <div className={'chatTopLabel current_bg_color_' + this.state.chat_info.color}>
+              <div className="chatTopLabelInfoWrap">
+                <div className="chatTopLabelParticipant profile_pic_in_chat" />
+                <div className="chatTopLabelMeta">
+                  <p className="chatTopLabelText1">Sid🍪🍪</p>
+                  <p className="chatTopLabelText1tag">Cookies n' Chill</p>
+                </div>
+              </div>
+              <div className="chatTopLabelText2wrap">
+                <p
+                  className={'chatTopLabelText2 current_text_color_' + this.state.chat_info.color}
+                  id="characters_left"
+                >
+                  {this.state.characters_left}
+                </p>
+              </div>
+              <div className="nav">
+                <p>O</p>
               </div>
             </div>
-            <div className="chatTopLabelText2wrap">
-              <p
-                className={'chatTopLabelText2 current_text_color_' + this.state.chat_info.color}
-                id="characters_left"
-              >
-                {this.state.characters_left}
-              </p>
-            </div>
-            <div className="nav">
-              <p>O</p>
-            </div>
-          </div>
 
-          <div style={{ padding: '15px', paddingBottom: '55px', paddingTop: '90px' }}>
-            {rendered_messages}
-          </div>
-          <div
-            style={{
-              position: 'fixed',
-              bottom: '0',
-              width: '100vw',
-              backgroundColor: 'red',
-              zIndex: '10'
-            }}
-          >
-            <div className="ui fluid action input">
-              <input id="message_input" type="text" placeholder="Enter message..." />
-              <div
-                onClick={this.sendMessage}
-                className={'ui send_b button current_bg_color_' + this.state.chat_info.color}
-              >
-                send
+            <div style={{ padding: '15px', paddingBottom: '50px', paddingTop: '68px' }}>
+              {rendered_messages}
+            </div>
+            <div
+              style={{
+                position: 'fixed',
+                bottom: '0',
+                width: '100vw',
+                backgroundColor: 'red',
+                zIndex: '10'
+              }}
+            >
+              <div className="ui fluid action input">
+                <input id="message_input" type="text" placeholder="Enter message..." />
+                <div
+                  onClick={this.sendMessage}
+                  className={'ui send_b button current_bg_color_' + this.state.chat_info.color}
+                >
+                  send
+                </div>
               </div>
             </div>
+            <div
+              style={{ float: 'left', clear: 'both' }}
+              ref={el => {
+                this.messagesEnd = el;
+              }}
+            />
           </div>
-          <div
-            style={{ float: 'left', clear: 'both' }}
-            ref={el => {
-              this.messagesEnd = el;
-            }}
-          />
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

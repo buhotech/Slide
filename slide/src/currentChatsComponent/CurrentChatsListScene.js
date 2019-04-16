@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import ChatListItem from './ChatListItem';
 import './styles/ChatScreenListScence.scss';
+import LoadingView from '../Loading/LoadingView';
 
 import { Link } from 'react-router-dom';
 
@@ -9,7 +10,8 @@ class ChatScreenListScence extends Component {
   constructor() {
     super();
     this.state = {
-      chats: []
+      chats: [],
+      loaded_chats: false
     };
     this.startChat = this.startChat.bind(this);
     this.getChatsList = this.getChatsList.bind(this);
@@ -46,7 +48,8 @@ class ChatScreenListScence extends Component {
                 let obs = prevState.chats;
                 res.chat_id = snap.val()[chat_id];
                 obs.push(res);
-                return { chats: obs };
+
+                return { chats: obs, loaded_chats: true };
               });
             })
             .catch(err => {
@@ -90,7 +93,15 @@ class ChatScreenListScence extends Component {
       );
       rendered_chat_list.push(temp);
     }
-    return <div className="chatScreenListScence">{rendered_chat_list}</div>;
+    if (!this.state.loaded_chats) {
+      return (
+        <div>
+          <LoadingView />
+        </div>
+      );
+    } else {
+      return <div className="chatScreenListScence">{rendered_chat_list}</div>;
+    }
   }
 }
 

@@ -1,5 +1,14 @@
 .chat_class{
 
+.input{
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+#message_input{
+ border-radius: 0;
+
+  font-family: "Futura";
+}
 
 .current_bg_color_blue{
   background-color: rgb(60, 120, 220) !important;
@@ -48,7 +57,7 @@
   padding: 8px;
   padding-top: 16px;
   padding-bottom: 2px;
-  border-bottom: 4px solid rgb(200, 200, 200);
+  border-bottom: 2px solid rgb(200, 200, 200);
 
   position: fixed;
   top: 0px;
