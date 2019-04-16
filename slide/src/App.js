@@ -10,6 +10,7 @@ import RegisterUserForm from './userComponent/form/RegisterUser';
 import ChatScreenScene from './chatComponent/ChatScreenScene';
 import Match from './components/match';
 import ChatScreenListScence from './currentChatsComponent/CurrentChatsListScene';
+import Navbar from './navbarComponent/Navbar';
 
 //privaterouter
 import { PrivateRoute } from './utilities/PrivateRoute';
@@ -20,6 +21,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Navbar />
         <Switch>
           {/* <Route exact path="/profile" component={ProfileScene} /> */}
           <Route exact path="/match" component={Match} />

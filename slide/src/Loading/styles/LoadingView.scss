@@ -1,6 +1,12 @@
+$imgKey: random(1);
+
+$list: "https://media.indiedb.com/cache/images/groups/1/33/32029/thumb_620x2000/Loading.gif";
+$nth: nth($list, $imgKey);
+
+
 .loading_view_class{
 
-background-image: url("https://media.indiedb.com/cache/images/groups/1/33/32029/thumb_620x2000/Loading.gif");
+background-image: url($nth);
 background-position: center;
 background-size: 20vmin auto;
 background-repeat: no-repeat;
