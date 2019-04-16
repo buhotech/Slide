@@ -6,18 +6,49 @@
 		padding: 0;
 		box-sizing: border-box;
 	}
-	.blue{
-		background-color: rgb(60,120,240);
-	}
-	.red{
-		background-color: rgb(220,100,40);
-	}
-	.green{
-		background-color: rgb(80,200,50);
-	}
-	.blue p, .red p,.green p{
-		color: white;
-	}
+.current_bg_color_blue{
+  background-color: rgb(60, 120, 220) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_blue{
+  color: rgb(60, 120, 220) !important;
+  visibility: visible !important;
+}
+
+.current_bg_color_red{
+  background-color: rgb(220, 120, 60) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_red{
+  color: rgb(220, 120, 60) !important;
+  visibility: visible !important;
+}
+
+.current_bg_color_green{
+  background-color: rgb(60, 220, 120) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_green{
+  color: rgb(60, 220, 120) !important;
+  visibility: visible !important;
+}
+
+.current_bg_color_purple{
+  background-color: rgb(220, 120, 220) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_purple{
+  color: rgb(220, 120, 220) !important;
+  visibility: visible !important;
+}
+p{
+	color: white;
+}
+
 	.chat_list_profile_pic{
 		width: 50px;
 		height: 50px;

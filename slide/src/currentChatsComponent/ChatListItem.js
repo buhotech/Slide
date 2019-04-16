@@ -6,7 +6,7 @@ class ChatListItem extends Component {
   render() {
     return (
       <div className="chatListItem">
-        <div className={this.props.color + ' wrap'}>
+        <div className={'current_bg_color_' + this.props.color + ' wrap'}>
           <div className="chat_list_profile_pic" />
           <div className="info_wrap">
             <p className="username">{this.props.username}</p>

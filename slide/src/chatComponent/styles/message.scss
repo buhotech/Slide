@@ -1,3 +1,46 @@
+
+.message_class{
+
+.current_bg_color_blue{
+  background-color: rgb(60, 120, 220) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_blue{
+  color: rgb(60, 120, 220) !important;
+  visibility: visible !important;
+}
+
+.current_bg_color_red{
+  background-color: rgb(220, 120, 60) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_red{
+  color: rgb(220, 120, 60) !important;
+  visibility: visible !important;
+}
+
+.current_bg_color_green{
+  background-color: rgb(60, 220, 120) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_green{
+  color: rgb(60, 220, 120) !important;
+  visibility: visible !important;
+}
+
+.current_bg_color_purple{
+  background-color: rgb(220, 120, 220) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_purple{
+  color: rgb(220, 120, 220) !important;
+  visibility: visible !important;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -56,8 +99,8 @@ p {
 }
 
 .plus_characters > p {
-  color: rgb(60, 120, 220);
-  text-shadow: 0 0 10px rgb(0, 0, 0, 0.1);
+  
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   font-family: 'Avenir';
   font-size: 11px;
 }
@@ -96,7 +139,7 @@ p {
   color: white;
 }
 .other_message_content {
-  background-color: rgb(60, 120, 220);
+  
   border-bottom-left-radius: 0;
 }
 
@@ -134,4 +177,7 @@ p {
   font-weight: bold;
   margin-bottom: 5px;
   color: rgb(150, 150, 150);
+}
+
+
 }

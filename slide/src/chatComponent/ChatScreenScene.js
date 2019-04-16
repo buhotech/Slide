@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import Message from './Message';
-import './styles/chatscreen.css';
+import './styles/chatscreen.scss';
 
 class ChatScreenScence extends Component {
   constructor() {
@@ -10,12 +10,14 @@ class ChatScreenScence extends Component {
       messages: {},
       members: {},
       characters_left_res: 0,
-      characters_left: 0
+      characters_left: 0,
+      chat_info: {}
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.getChatInfo = this.getChatInfo.bind(this);
     this.getMembers = this.getMembers.bind(this);
     this.characterDecreaseAnimation = this.characterDecreaseAnimation.bind(this);
+    this.changeTheme = this.changeTheme.bind(this);
   }
 
   sendMessage() {
@@ -24,6 +26,12 @@ class ChatScreenScence extends Component {
     if (content.trim() == '') return;
     if (content == null) return;
     let username = 'myguy';
+    console.log(
+      '',
+      `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+        this.props.match.params.chat_id
+      }/messages/new`
+    );
     fetch(
       `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
         this.props.match.params.chat_id
@@ -31,6 +39,7 @@ class ChatScreenScence extends Component {
       {
         method: 'post',
         headers: {
+          Authorization: localStorage.getItem('idToken'),
           Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
         },
@@ -51,7 +60,12 @@ class ChatScreenScence extends Component {
     fetch(
       `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
         this.props.match.params.chat_id
-      }/chat_info/members`
+      }/chat_info/members`,
+      {
+        headers: {
+          Authorization: localStorage.getItem('idToken')
+        }
+      }
     )
       .then(res => res.json())
       .then(res => {
@@ -62,7 +76,6 @@ class ChatScreenScence extends Component {
               '/user_info',
             {
               headers: {
-                'Access-Control-Allow-Origin': '*',
                 Authorization: localStorage.getItem('idToken')
               }
             }
@@ -83,11 +96,17 @@ class ChatScreenScence extends Component {
     fetch(
       `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
         this.props.match.params.chat_id
-      }/chat_info/`
+      }/chat_info/`,
+      {
+        headers: {
+          Authorization: localStorage.getItem('idToken')
+        }
+      }
     )
       .then(res => res.json())
       .then(res => {
         c_screen.setState({ chat_info: res });
+        console.log(c_screen.state.chat_info);
       });
   }
 
@@ -99,6 +118,8 @@ class ChatScreenScence extends Component {
     this.scrollToBottom();
     //this.characterDecreaseAnimation(this.state.characters_left_res, this.state.characters_left);
   }
+
+  changeTheme(color) {}
 
   characterDecreaseAnimation(to, val) {
     if (val == 0) return;
@@ -118,6 +139,7 @@ class ChatScreenScence extends Component {
   componentDidMount() {
     //this.scrollToBottom();
     let c_screen = this;
+    this.changeTheme('blue');
     //console.log(firebase.database());
     firebase
       .database()
@@ -146,6 +168,7 @@ class ChatScreenScence extends Component {
         console.log(c_screen.state.characters_left);
       });
     this.getMembers();
+    this.getChatInfo();
     //fetch("https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/21/messages/").then(function(res){return res.json()}).then(function(res){c_screen.setState({"messages":res})});
   }
   render() {
@@ -163,6 +186,7 @@ class ChatScreenScence extends Component {
           message_user_pic={this.state.members[this.state.messages[message].username]}
           username={this.state.messages[message].username}
           content={this.state.messages[message].content}
+          color={this.state.chat_info.color}
         />
       );
       //console.log(this.state.messages[message].username);
@@ -171,49 +195,63 @@ class ChatScreenScence extends Component {
 
       rendered_messages.push(temp);
     }
-    return (
-      <div className="chat_wrap">
-        <div className="navBar" />
-        <div className="chatTopLabel">
-          <div className="chatTopLabelText2wrap">
-            <p className="chatTopLabelText2" id="characters_left">
-              {this.state.characters_left}
-            </p>
-          </div>
-          <div className="chatTopLabelInfoWrap">
-            <div className="chatTopLabelParticipant profile_pic_in_chat" />
-            <div className="chatTopLabelMeta">
-              <p className="chatTopLabelText1">Sid🍪🍪</p>
-              <p className="chatTopLabelText1tag">Cookies n' Chill</p>
-            </div>
-          </div>
-        </div>
+    // if(document.getElementById("characters_left_bar"))
+    //document.getElementById("characters_left_bar").style.width = ((((this.state.characters_left)/1000)*100) + "%");
 
-        <div style={{ padding: '15px', paddingBottom: '55px', paddingTop: '90px' }}>
-          {rendered_messages}
-        </div>
-        <div
-          style={{
-            position: 'fixed',
-            bottom: '0',
-            width: '100vw',
-            backgroundColor: 'red',
-            zIndex: '10'
-          }}
-        >
-          <div className="ui fluid action input">
-            <input id="message_input" type="text" placeholder="Enter message..." />
-            <div onClick={this.sendMessage} className="ui send_b button">
-              send
+    return (
+      <div className="chat_class">
+        <div className="chat_wrap">
+          <div className="navBar" />
+          <div className={'chatTopLabel current_bg_color_' + this.state.chat_info.color}>
+            <div className="chatTopLabelInfoWrap">
+              <div className="chatTopLabelParticipant profile_pic_in_chat" />
+              <div className="chatTopLabelMeta">
+                <p className="chatTopLabelText1">Sid🍪🍪</p>
+                <p className="chatTopLabelText1tag">Cookies n' Chill</p>
+              </div>
+            </div>
+            <div className="chatTopLabelText2wrap">
+              <p
+                className={'chatTopLabelText2 current_text_color_' + this.state.chat_info.color}
+                id="characters_left"
+              >
+                {this.state.characters_left}
+              </p>
+            </div>
+            <div className="nav">
+              <p>O</p>
             </div>
           </div>
+
+          <div style={{ padding: '15px', paddingBottom: '55px', paddingTop: '90px' }}>
+            {rendered_messages}
+          </div>
+          <div
+            style={{
+              position: 'fixed',
+              bottom: '0',
+              width: '100vw',
+              backgroundColor: 'red',
+              zIndex: '10'
+            }}
+          >
+            <div className="ui fluid action input">
+              <input id="message_input" type="text" placeholder="Enter message..." />
+              <div
+                onClick={this.sendMessage}
+                className={'ui send_b button current_bg_color_' + this.state.chat_info.color}
+              >
+                send
+              </div>
+            </div>
+          </div>
+          <div
+            style={{ float: 'left', clear: 'both' }}
+            ref={el => {
+              this.messagesEnd = el;
+            }}
+          />
         </div>
-        <div
-          style={{ float: 'left', clear: 'both' }}
-          ref={el => {
-            this.messagesEnd = el;
-          }}
-        />
       </div>
     );
   }

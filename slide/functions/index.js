@@ -192,14 +192,16 @@ app.post('/lilchat/chats/:id/messages/new', function(req, res) {
     let reference = '/lilchat/chats/' + req.params.id + '/messages';
     let reference_characters = '/lilchat/chats/' + req.params.id + '/chat_info/characters';
 
-    let reference_members = '/lilchat/chats/' + req.params.id + 'chat_info/members/' + uid;
+    let reference_members = '/lilchat/chats/' + req.params.id + '/chat_info/members/' + uid;
+
+    let reference_time = '/lilchat/chats/' + req.params.id + '/chat_info/last_message_time/';
 
     admin
       .database()
       .ref(reference_members)
       .once('value', function(snap_m) {
         if (snap_m.val() == null) {
-          res.json(null);
+          res.json({ error: 'Cannot reference memebers' });
         } else {
           let referenceUN = 'lilchat/users/' + uid + '/user_info/username';
           admin
@@ -207,7 +209,7 @@ app.post('/lilchat/chats/:id/messages/new', function(req, res) {
             .ref(referenceUN)
             .once('value', function(un) {
               if (un.val() == null) {
-                res.json(null);
+                res.json({ error: 'Cannot reference username' });
               } else {
                 let message_object = {
                   content: req.body.content,
@@ -220,7 +222,7 @@ app.post('/lilchat/chats/:id/messages/new', function(req, res) {
                   .ref(reference_characters)
                   .once('value', function(snap) {
                     if (snap.val() == null) {
-                      res.json(null);
+                      res.json({ error: 'Cannot reference characters' });
                     } else {
                       admin
                         .database()
@@ -231,6 +233,10 @@ app.post('/lilchat/chats/:id/messages/new', function(req, res) {
                         .database()
                         .ref(reference_characters)
                         .set(snap.val() - req.body.content.length);
+                      admin
+                        .database()
+                        .ref(reference_time)
+                        .set(Date.now());
                     }
                   });
                 res.json({ status: 'success' });

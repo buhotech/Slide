@@ -1,3 +1,37 @@
+.chat_class{
+
+
+.current_bg_color_blue{
+  background-color: rgb(60, 120, 220) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_blue{
+  color: rgb(60, 120, 220) !important;
+  visibility: visible !important;
+}
+
+.current_bg_color_red{
+  background-color: rgb(220, 120, 60) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_red{
+  color: rgb(220, 120, 60) !important;
+  visibility: visible !important;
+}
+
+.current_bg_color_purple{
+  background-color: rgb(220, 120, 220) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_purple{
+  color: rgb(220, 120, 220) !important;
+  visibility: visible !important;
+}
+
+
 * {
   padding: 0;
   margin: 0;
@@ -11,16 +45,19 @@
   margin-left: 8px;
 }
 .chatTopLabel {
-  background-color: rgb(60, 120, 220);
   padding: 8px;
-  padding-top: 10px;
-  padding-bottom: 0px;
-  border-bottom: 4px solid rgb(120, 180, 220);
+  padding-top: 16px;
+  padding-bottom: 2px;
+  border-bottom: 4px solid rgb(200, 200, 200);
 
   position: fixed;
   top: 0px;
   width: 100vw;
   z-index: 10;
+  visibility: hidden;
+  text-align: center;
+  grid-template-columns: 2fr 1fr 2fr;
+  display: grid;
 }
 .navBar {
   position: fixed;
@@ -34,14 +71,13 @@
 .input {
 }
 .send_b {
-  background-color: rgb(60, 120, 220) !important;
   color: white !important;
   font-family: 'Futura' !important;
   font-size: 12px !important;
 }
 .chatTopLabelInfoWrap {
-  text-align: left;
-  padding-left: 5px;
+  text-align: center;
+margin-right: auto;
 }
 .chatTopLabelParticipant {
   width: 38px;
@@ -80,15 +116,43 @@
   font-size: 8px;
   color: rgb(220, 220, 220);
 }
+#characters_left_bar{
+  height: 5px;
+  background-color: orange;
+  margin-bottom: 10px;
+}
+.chatTopLabelText2wrap {
+  padding-bottom: 10px;
 
+  margin: auto;
+  width: 100%;
+
+  
+
+
+}
+/*
 .chatTopLabelText2wrap {
   padding-bottom: 0px;
 
-  width: 100%;
-  display: inline-block;
-  left: 0;
-  padding-top: 3px;
+
   text-align: center;
+  
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  
+  padding-top: 20px;
+  padding-right: 20px;
+
+  
+}*/
+.nav{
+  background-color: red;
+  height: auto;
+  width: 50px;
+  margin-left: auto;
+  display: none;
 }
 .profile_pic_in_chat {
   background-image: url('https://wallpapercave.com/wp/0bkTRA6.png');
@@ -99,10 +163,14 @@
   background-repeat: no-repeat;
 }
 .chatTopLabelText2 {
-  font-size: 12px;
-  color: rgb(60, 120, 220);
+  font-size: 13px;
   background-color: white;
   display: inline-block;
   padding: 4px;
   border-radius: 6px;
+   
+   text-align: center;
+}
+
+
 }

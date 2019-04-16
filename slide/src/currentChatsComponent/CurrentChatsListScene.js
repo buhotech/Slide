@@ -26,7 +26,7 @@ class ChatScreenListScence extends Component {
     let u_id = 'SISmwlC4SoNzmxsNUm1N0Wl5BhG2';
     firebase
       .database()
-      .ref(`lilchat/users/${u_id}/active_chats/`)
+      .ref(`lilchat/private_users/${u_id}/active_chats/`)
       .on('value', function(snap) {
         console.log(snap.val());
         a.setState({ chats: [] });
@@ -64,13 +64,17 @@ class ChatScreenListScence extends Component {
 
   render() {
     let rendered_chat_list = [];
+    let sorted_list = this.state.chats.sort(function(a, b) {
+      return a.last_message_time < b.last_message_time;
+    });
 
-    for (let chat_list_ob in this.state.chats) {
+    for (let chat_list_ob in sorted_list) {
       //console.log(chat_list_ob);
       let info = {
         pathname: '/chats/' + this.state.chats[chat_list_ob].chat_id,
         state: { test: 'testb' }
       };
+
       let temp = (
         <div>
           <Link to={info}>
