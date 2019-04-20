@@ -8,7 +8,7 @@ export const loginUser = (email, password) => {
   return firebase.auth().signInWithEmailAndPassword(email, password);
 };
 
-export const createNewUser = (email, password) => {
+export const createNewAuthUser = (email, password) => {
   return firebase.auth().createUserWithEmailAndPassword(email, password);
 };
 
@@ -31,13 +31,6 @@ export const storeUserInfo = () => {
     });
 };
 
-export const isUsernameAvailable = async username => {
-  try {
-    const usernameResponce = await axios.get(`/validusername/${username}`);
-    console.log(usernameResponce);
-  } catch (err) {}
-};
-
 export const newUser = async (bio, username) => {
   try {
     let api_url = '/users/new';
@@ -57,4 +50,15 @@ export const isAuthenticated = () => {
 export const currentUser = () => {
   let user = firebase.auth().currentUser;
   return user;
+};
+
+export const isUsernameAvailable = async username => {
+  try {
+    let api_url = `/validusername/${username}`;
+    let responce = await axios.get(api_url);
+    let isAvailable = responce.data.usernameAvailable;
+    return isAvailable;
+  } catch (err) {
+    console.log();
+  }
 };

@@ -88,8 +88,7 @@ app.get('/lilchat/validusername/:username', (req, res) => {
     .database()
     .ref('/lilchat/users/')
     .orderByChild('user_info/username')
-    .startAt(`${username}`)
-    .endAt(`${username}\uf8ff`)
+    .equalTo(`${username}`)
     .once('value')
     .then(snap => {
       if (snap.val()) {

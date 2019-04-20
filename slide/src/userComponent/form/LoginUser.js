@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 
 //react router
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 //sign in function
 import { loginUser, storeUserInfo, LogOutUser, currentUser } from '../functions/index';
+
+//styles
+import '../styles/index.scss';
 
 class LoginUserForm extends Component {
   constructor() {
@@ -60,46 +63,48 @@ class LoginUserForm extends Component {
 
     return (
       <div className="login-container">
-        <form className="login-form">
-          <h2>Login Page</h2>
+        <div className="login-form-container">
+          <form className="login-form">
+            <h2>Login Page</h2>
 
-          <div className="email-container">
-            <input
-              name="email"
-              type="email"
-              className=""
-              placeholder="email"
-              onChange={this.onChange}
-            />
-          </div>
+            <div className="email-container">
+              <input
+                name="email"
+                type="email"
+                className=""
+                placeholder="email"
+                onChange={this.onChange}
+              />
+            </div>
 
-          <div className="password-container">
-            <input
-              name="password"
-              type="password"
-              className=""
-              placeholder="password"
-              onChange={this.onChange}
-            />
-          </div>
+            <div className="password-container">
+              <input
+                name="password"
+                type="password"
+                className=""
+                placeholder="password"
+                onChange={this.onChange}
+              />
+            </div>
 
-          <p>
-            <a href="/register">Create a new account</a>
-          </p>
-          <button className="" onClick={this.handleLoginRequest}>
-            Log in
-          </button>
-          <br />
-          <br />
-          <button className="" onClick={this.logOut}>
-            Log Out
-          </button>
-          <br />
-          <br />
-          <button className="" onClick={this.getCurrentUser}>
-            get current User
-          </button>
-        </form>
+            <Link to="/register" className="">
+              Create a new account
+            </Link>
+            <button className="ui basic button primary login-btn" onClick={this.handleLoginRequest}>
+              Log in
+            </button>
+            <div className="Debug">
+              <h3>Debug</h3>
+              <button className="ui basic button btn" onClick={this.logOut}>
+                Log Out
+              </button>
+              <br />
+              <button className="ui basic button btn" onClick={this.getCurrentUser}>
+                get current User
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }

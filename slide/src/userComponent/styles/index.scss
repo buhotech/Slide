@@ -1,0 +1,59 @@
+
+$bg-login-form: #8C9EFF;
+$bg-register-form: #82b1ff;
+
+.login-container, 
+.register-container,
+.username-container,
+.bio-container,
+.submit-container {
+    height: 100vh;
+    width: 100vw;
+    background-color: $bg-login-form;
+    position: relative;
+}
+
+.register-container,
+.username-container,
+.bio-container,
+.submit-container{
+    background-color: $bg-register-form;
+}
+
+.login-form-container, 
+.register-form-container,
+.username-form-container,
+.bio-form-container,
+.submit-form-container {
+    transform-style: preserve-3d;
+    transition: all 500ms ease-in;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.email-input-container, 
+.password-input-container,
+.bio-input-container,
+.username-input-container
+{
+    position: relative;
+    transition: opacity 500ms ease-in;
+}
+
+.input-box {
+    background: rgba(0,0,0,0.1);
+    outline: none;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 8px;
+    margin: 5px;
+    text-align: center;
+    font-family: "Futura";
+    font-weight: lighter;
+    font-size: 1.5em;
+}
+// debug
+.debug {
+    margin-top: 50px;
+} 
