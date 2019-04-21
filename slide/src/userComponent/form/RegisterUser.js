@@ -32,8 +32,7 @@ class RegisterUserForm extends Component {
           step: prev.step + 1,
           error: false,
           errorMessage: '',
-          currentFormDone: true,
-          showAnimation: false
+          currentFormDone: true
         };
       } else {
         return {
@@ -41,7 +40,7 @@ class RegisterUserForm extends Component {
           backStp: false,
           errorMessage: '',
           currentFormDone: false,
-          showAnimation: false
+          backStp: false
         };
       }
     });
@@ -96,7 +95,8 @@ class RegisterUserForm extends Component {
     } else if (
       field === 'password2' &&
       password !== password2 &&
-      password.length === password2.length
+      password2.length != 0 &&
+      password2.length >= password.length
     ) {
       this.setState({
         passwordMatch: false,
@@ -106,8 +106,7 @@ class RegisterUserForm extends Component {
       });
     } else {
       this.setState({
-        error: false
-        // currentFormDone: false
+        currentFormDone: false
       });
     }
   };
@@ -144,9 +143,36 @@ class RegisterUserForm extends Component {
             errorMessage: 'username is taken'
           });
         }
+      } else if (val.length === 0) {
+        this.setState({
+          currentFormDone: false
+        });
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  parseInfo = () => {
+    const { username, bio } = this.state;
+    if (username.length === 0) {
+      this.setState({
+        step: 1,
+        error: true,
+        currentFormDone: false,
+        backStp: true,
+        errorMessage: 'Enter username'
+      });
+    } else if (bio.length === 0) {
+      this.setState({
+        step: 2,
+        error: true,
+        backStp: true,
+        currentFormDone: false,
+        errorMessage: 'Enter bio'
+      });
+    } else {
+      this.handleUserInfo();
     }
   };
 
@@ -168,7 +194,10 @@ class RegisterUserForm extends Component {
           step: 0,
           currentFormDone: true,
           error: true,
-          errorMessage: err.message
+          backStp: true,
+          errorMessage: err.message,
+          password: '',
+          password2: ''
         });
       });
   };
@@ -184,8 +213,7 @@ class RegisterUserForm extends Component {
       email,
       password,
       password2,
-      currentFormDone,
-      showAnimation
+      currentFormDone
     } = this.state;
 
     let nextBtn = currentFormDone ? (
@@ -196,17 +224,26 @@ class RegisterUserForm extends Component {
       <span />
     );
 
-    let errorComponent = error ? <h3>{errorMessage}</h3> : <span />;
+    let showErrorStyle, errorComponent;
+    if (error) {
+      showErrorStyle = `input-box error-input`;
+      errorComponent = <h4 className="error-message">{errorMessage}</h4>;
+    } else {
+      showErrorStyle = `input-box`;
+      errorComponent = <span />;
+    }
 
     if (cbResponce) return <Redirect to="/profile" />;
     switch (step) {
       case 0:
         return (
           <div className="register-container">
-            <div className="register-form-container">
-              <div className="error-message">{errorComponent}</div>
+            <div className="headline">
               <h4>Enter Email and Password</h4>
+            </div>
+            <div className="error-message">{errorComponent}</div>
 
+            <div className="register-form-container">
               <div className="user-auth-form">
                 <div className="email-input-container">
                   <input
@@ -214,7 +251,7 @@ class RegisterUserForm extends Component {
                     value={email}
                     type="email"
                     required
-                    className="input-box"
+                    className={showErrorStyle}
                     placeholder="email"
                     onChange={this.onChangeUser}
                   />
@@ -225,7 +262,7 @@ class RegisterUserForm extends Component {
                     name="password"
                     value={password}
                     type="password"
-                    className="input-box"
+                    className={showErrorStyle}
                     placeholder="password"
                     onChange={this.onChangeUser}
                   />
@@ -236,7 +273,7 @@ class RegisterUserForm extends Component {
                     name="password2"
                     value={password2}
                     type="password"
-                    className="input-box"
+                    className={showErrorStyle}
                     placeholder="password"
                     onChange={this.onChangeUser}
                   />
@@ -250,16 +287,19 @@ class RegisterUserForm extends Component {
       case 1:
         return (
           <div className="username-container">
-            <div className="username-form-container">
-              <div className="error-message">{errorComponent}</div>
+            <div className="headline">
+              <h4>Enter username</h4>
+            </div>
+            <div className="error-message">{errorComponent}</div>
 
+            <div className="username-form-container">
               <div className="username-input-container">
                 <input
                   name="username"
                   required
                   value={username}
                   type="text"
-                  className="input-box"
+                  className={showErrorStyle}
                   placeholder="username"
                   onChange={this.onUsernameChange}
                 />
@@ -277,16 +317,19 @@ class RegisterUserForm extends Component {
       case 2:
         return (
           <div className="bio-container">
-            <div className="bio-form-container">
-              <div className="error-message">{errorComponent}</div>
+            <div className="headline">
+              <h4>Short Bio about you</h4>
+            </div>
+            <div className="error-message">{errorComponent}</div>
 
+            <div className="bio-form-container">
               <div className="bio-input-container">
                 <input
                   name="bio"
                   required
                   value={bio}
                   type="text"
-                  className="input-box"
+                  className={showErrorStyle}
                   placeholder="enter show bio"
                   onChange={this.onChange}
                 />
@@ -304,9 +347,12 @@ class RegisterUserForm extends Component {
       case 3:
         return (
           <div className="submit-container">
-            <div className="submit-form-container">
-              <div className="error-message">{errorComponent}</div>
+            <div className="headline">
+              <h4>Confirm Info</h4>
+            </div>
+            <div className="error-message">{errorComponent}</div>
 
+            <div className="submit-form-container">
               <div>
                 <h2>{username}</h2>
                 <h2>{email}</h2>
@@ -317,7 +363,7 @@ class RegisterUserForm extends Component {
                 <button type="submit" className="btn btn-primary" onClick={this.prevStp}>
                   Back
                 </button>
-                <button type="submit" className="btn btn-primary" onClick={this.handleUserInfo}>
+                <button type="submit" className="btn btn-primary" onClick={this.parseInfo}>
                   Done
                 </button>
               </div>
