@@ -2,6 +2,7 @@
 $bg-login-form: #8C9EFF;
 $bg-register-form: #82b1ff;
 
+//containers
 .login-container, 
 .register-container,
 .username-container,
@@ -43,22 +44,37 @@ $bg-register-form: #82b1ff;
     background: rgba(0,0,0,0);
     outline: none;
     border: 1px solid rgba(0,0,0,0.2);
+    transition: border 1s ease-out;
     border-radius: 8px;
-    margin: 5px;
+    margin: 10px;
     text-align: center;
     font-family: "Futura";
     font-weight: lighter;
     font-size: 2em;
     &:focus {
         background: rgba(0,0,0,0.1);
+        box-shadow: 0 7px 7px -7px black;
     }
 }
-.error-input {
-    border: 1px solid rgba(255, 0, 0, 0.5);
+
+@keyframes showErrorInput {
+    from{
+        border: 2px solid rgba(0,0,0,0.2);
+    }
+    to {
+        border: 2px solid rgba(255, 0, 0, 0.5);
+    }
 }
+
+.error-input {
+    animation: showErrorInput;
+    animation-duration: 1s;
+    // border: 1px solid rgba(255, 0, 0, 0.5);
+}
+
 // debug
-.debug {
-    margin-top: 50px;
+.Debug {
+    margin-top: 200px;
 } 
 
 //headline 
@@ -69,7 +85,45 @@ $bg-register-form: #82b1ff;
     padding-top: 50px;
     display: flex;
     justify-content: center;
+    border-radius: 0% 0% 5% 5%;
     h4{
         font-size: 2em;
     }
+}
+
+
+@keyframes showError {
+    from{
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+//errors
+.error-message-container {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(255,0,0,0.9);
+}
+
+.error-message {
+    font-size: 1.5em;
+    animation: showError;
+    animation-duration: 1s;
+}
+
+//buttons
+.Btn {
+    background: rgba(0,0,0,0);
+    border: 1px solid rgba(0,0,0,0.5);
+    box-shadow: 0 7px 7px -7px black;
+    transition: all 1s ease-in;
+    border-radius: 8px;
+    padding: 5px 12px;
+    margin: 10px;
+    text-align: center;
+    font-size: 1.5em;
 }

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+//styles
+import '../styles/index.scss';
+
 //react router
 import { Redirect } from 'react-router-dom';
 
@@ -26,29 +29,20 @@ class RegisterUserForm extends Component {
   }
 
   nextStp = () => {
-    this.setState(prev => {
-      if (prev.backStp === true) {
-        return {
-          step: prev.step + 1,
-          error: false,
-          errorMessage: '',
-          currentFormDone: true
-        };
+    this.setState(state => {
+      if (state.username.length > 0 && state.bio.length === 0) {
+        return { step: state.step + 1, currentFormDone: true, error: false, backStp: false };
+      } else if (state.username.length > 0 && state.bio.length > 0) {
+        return { step: state.step + 1, currentFormDone: true, error: false, backStp: false };
       } else {
-        return {
-          step: prev.step + 1,
-          backStp: false,
-          errorMessage: '',
-          currentFormDone: false,
-          backStp: false
-        };
+        return { step: state.step + 1, currentFormDone: false, error: false, backStp: false };
       }
     });
   };
 
   prevStp = () => {
-    this.setState(prev => ({
-      step: prev.step - 1,
+    this.setState(state => ({
+      step: state.step - 1,
       currentFormDone: true,
       backStp: true
     }));
@@ -153,7 +147,7 @@ class RegisterUserForm extends Component {
     }
   };
 
-  parseInfo = () => {
+  validateUserInfo = () => {
     const { username, bio } = this.state;
     if (username.length === 0) {
       this.setState({
@@ -172,11 +166,11 @@ class RegisterUserForm extends Component {
         errorMessage: 'Enter bio'
       });
     } else {
-      this.handleUserInfo();
+      this.createUserAccount();
     }
   };
 
-  handleUserInfo = () => {
+  createUserAccount = () => {
     const { username, bio, email, password } = this.state;
 
     createNewAuthUser(email, password)
@@ -217,7 +211,7 @@ class RegisterUserForm extends Component {
     } = this.state;
 
     let nextBtn = currentFormDone ? (
-      <button type="submit" className="btn btn-primary" onClick={this.nextStp}>
+      <button className="Btn next" onClick={this.nextStp}>
         Next
       </button>
     ) : (
@@ -234,6 +228,7 @@ class RegisterUserForm extends Component {
     }
 
     if (cbResponce) return <Redirect to="/profile" />;
+
     switch (step) {
       case 0:
         return (
@@ -241,7 +236,7 @@ class RegisterUserForm extends Component {
             <div className="headline">
               <h4>Enter Email and Password</h4>
             </div>
-            <div className="error-message">{errorComponent}</div>
+            <div className="error-message-container">{errorComponent}</div>
 
             <div className="register-form-container">
               <div className="user-auth-form">
@@ -290,7 +285,7 @@ class RegisterUserForm extends Component {
             <div className="headline">
               <h4>Enter username</h4>
             </div>
-            <div className="error-message">{errorComponent}</div>
+            <div className="error-message-container">{errorComponent}</div>
 
             <div className="username-form-container">
               <div className="username-input-container">
@@ -306,7 +301,7 @@ class RegisterUserForm extends Component {
               </div>
 
               <div className="btn-section">
-                <button type="submit" className="btn btn-primary" onClick={this.prevStp}>
+                <button type="submit" className="Btn " onClick={this.prevStp}>
                   Back
                 </button>
                 {nextBtn}
@@ -320,7 +315,7 @@ class RegisterUserForm extends Component {
             <div className="headline">
               <h4>Short Bio about you</h4>
             </div>
-            <div className="error-message">{errorComponent}</div>
+            <div className="error-message-container">{errorComponent}</div>
 
             <div className="bio-form-container">
               <div className="bio-input-container">
@@ -336,7 +331,7 @@ class RegisterUserForm extends Component {
               </div>
 
               <div className="btn-section">
-                <button type="submit" className="btn btn-primary" onClick={this.prevStp}>
+                <button type="submit" className="Btn" onClick={this.prevStp}>
                   Back
                 </button>
                 {nextBtn}
@@ -350,7 +345,7 @@ class RegisterUserForm extends Component {
             <div className="headline">
               <h4>Confirm Info</h4>
             </div>
-            <div className="error-message">{errorComponent}</div>
+            <div className="error-message-container">{errorComponent}</div>
 
             <div className="submit-form-container">
               <div>
@@ -360,10 +355,10 @@ class RegisterUserForm extends Component {
               </div>
 
               <div className="btn-section">
-                <button type="submit" className="btn btn-primary" onClick={this.prevStp}>
+                <button type="submit" className="Btn " onClick={this.prevStp}>
                   Back
                 </button>
-                <button type="submit" className="btn btn-primary" onClick={this.parseInfo}>
+                <button type="submit" className="Btn " onClick={this.validateUserInfo}>
                   Done
                 </button>
               </div>

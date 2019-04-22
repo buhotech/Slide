@@ -15,6 +15,7 @@ class LoginUserForm extends Component {
 
     this.state = {
       error: false,
+      errorMessage: '',
       cbResponce: false,
       email: '',
       password: ''
@@ -49,61 +50,72 @@ class LoginUserForm extends Component {
         storeUserInfo();
       })
       .catch(err => {
+        console.log(err);
         this.setState({
           cbResponce: false,
-          error: 'Error in Login Form'
+          error: true,
+          errorMessage: err.message
         });
-        console.log(err);
       });
   };
 
   render() {
-    const { cbResponce, error } = this.state;
+    const { cbResponce, error, errorMessage } = this.state;
     if (cbResponce) return <Redirect to="/profile" />;
+
+    let showErrorStyles, errorComponent;
+    if (error) {
+      showErrorStyles = `input-box error-input`;
+      errorComponent = <h4 className="error-message">{errorMessage}</h4>;
+    } else {
+      showErrorStyles = `input-box`;
+      errorComponent = <span />;
+    }
 
     return (
       <div className="login-container">
-        <div className="login-form-container">
-          <form className="login-form">
-            <h2>Login Page</h2>
+        <div className="headline">
+          <h4>Log In</h4>
+        </div>
+        <div className="error-message-container">{errorComponent}</div>
 
-            <div className="email-container">
-              <input
-                name="email"
-                type="email"
-                className=""
-                placeholder="email"
-                onChange={this.onChange}
-              />
-            </div>
+        <div className="email-form-container">
+          <div className="email-input-container">
+            <input
+              name="email"
+              type="email"
+              className={showErrorStyles}
+              placeholder="email"
+              onChange={this.onChange}
+            />
+          </div>
+        </div>
 
-            <div className="password-container">
-              <input
-                name="password"
-                type="password"
-                className=""
-                placeholder="password"
-                onChange={this.onChange}
-              />
-            </div>
+        <div className="password-input-form">
+          <input
+            name="password"
+            type="password"
+            className={showErrorStyles}
+            placeholder="password"
+            onChange={this.onChange}
+          />
+        </div>
 
-            <Link to="/register" className="">
-              Create a new account
-            </Link>
-            <button className="ui basic button primary login-btn" onClick={this.handleLoginRequest}>
-              Log in
-            </button>
-            <div className="Debug">
-              <h3>Debug</h3>
-              <button className="ui basic button btn" onClick={this.logOut}>
-                Log Out
-              </button>
-              <br />
-              <button className="ui basic button btn" onClick={this.getCurrentUser}>
-                get current User
-              </button>
-            </div>
-          </form>
+        <div className="btn-section">
+          <button className="Btn" onClick={this.handleLoginRequest}>
+            Log in
+          </button>
+        </div>
+
+        <div className="Debug">
+          <h3>Debug</h3>
+          <button className="ui basic button btn" onClick={this.logOut}>
+            Log Out
+          </button>
+          <br />
+          <button className="ui basic button btn" onClick={this.getCurrentUser}>
+            get current User
+          </button>
         </div>
       </div>
     );
