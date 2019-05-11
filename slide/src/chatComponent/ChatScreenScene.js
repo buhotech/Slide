@@ -30,12 +30,12 @@ class ChatScreenScence extends Component {
     let username = 'myguy';
     console.log(
       '',
-      `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+      `https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${
         this.props.match.params.chat_id
       }/messages/new`
     );
     fetch(
-      `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+      `https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${
         this.props.match.params.chat_id
       }/messages/new`,
       {
@@ -60,7 +60,7 @@ class ChatScreenScence extends Component {
   getMembers() {
     let c_screen = this;
     fetch(
-      `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+      `https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${
         this.props.match.params.chat_id
       }/chat_info/members`,
       {
@@ -73,9 +73,7 @@ class ChatScreenScence extends Component {
       .then(res => {
         for (let member in res) {
           fetch(
-            'https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/users/' +
-              res[member] +
-              '/user_info',
+            'https://cryptic-peak-18479.herokuapp.com/lilchat/users/' + res[member] + '/user_info',
             {
               headers: {
                 Authorization: localStorage.getItem('idToken')
@@ -96,7 +94,7 @@ class ChatScreenScence extends Component {
   getChatInfo() {
     let c_screen = this;
     fetch(
-      `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+      `https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${
         this.props.match.params.chat_id
       }/chat_info/`,
       {
@@ -172,7 +170,7 @@ class ChatScreenScence extends Component {
       });
     this.getMembers();
     this.getChatInfo();
-    //fetch("https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/21/messages/").then(function(res){return res.json()}).then(function(res){c_screen.setState({"messages":res})});
+    //fetch("https://cryptic-peak-18479.herokuapp.com/lilchat/chats/21/messages/").then(function(res){return res.json()}).then(function(res){c_screen.setState({"messages":res})});
   }
   render() {
     let rendered_messages = [];

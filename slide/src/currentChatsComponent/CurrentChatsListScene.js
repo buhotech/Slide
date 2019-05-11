@@ -34,9 +34,9 @@ class ChatScreenListScence extends Component {
         a.setState({ chats: [] });
         let chat_list_obs = [];
         for (let chat_id in snap.val()) {
-          //console.log(`https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${snap.val()[chat_id]}/chat_info/`);
+          //console.log(`https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${snap.val()[chat_id]}/chat_info/`);
           fetch(
-            `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+            `https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${
               snap.val()[chat_id]
             }/chat_info/`
           )
