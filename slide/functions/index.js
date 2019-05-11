@@ -5,7 +5,13 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 const cors = require('cors');
 const app = express();
-app.use(cors({ origin: true }));
+const devRoutes = ['http://localhost:3000'];
+app.use(
+  cors({
+    origin: devRoutes,
+    credentials: true
+  })
+);
 
 /*
 app.get('/events/', function(req,res){
@@ -19,6 +25,18 @@ app.get('/events/', function(req,res){
 	})
 });
 */
+
+function getDateTime() {
+  var date = new Date();
+
+  var hour = date.getHours();
+  hour = (hour < 10 ? '0' : '') + hour;
+
+  var min = date.getMinutes();
+  min = (min < 10 ? '0' : '') + min;
+
+  return hour + ':' + min;
+}
 
 function verify(idToken, do_this) {
   admin
@@ -40,7 +58,8 @@ function verify(idToken, do_this) {
 }
 
 app.post('/lilchat/users/new', function(req, res) {
-  let idToken = req.body.idToken;
+  let idToken = req.header('Authorization');
+  let profile_pic = 'https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Penguin-512.png';
   verify(idToken, function(uid) {
     let username = req.body.username;
     let bio = req.body.bio;
@@ -49,6 +68,7 @@ app.post('/lilchat/users/new', function(req, res) {
     let user = {
       user_info: {
         username: username,
+        profile_pic: profile_pic,
         bio: bio
       }
     };
@@ -59,6 +79,32 @@ app.post('/lilchat/users/new', function(req, res) {
       .set(user);
     res.json({ status: 'success' });
   });
+});
+
+app.get('/lilchat/validusername/:username', (req, res) => {
+  let username = req.params.username;
+
+  admin
+    .database()
+    .ref('/lilchat/users/')
+    .orderByChild('user_info/username')
+    .equalTo(`${username}`)
+    .once('value')
+    .then(snap => {
+      if (snap.val()) {
+        res.json({
+          usernameAvailable: false
+        });
+      } else {
+        res.json({
+          usernameAvailable: true
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(400).send(err);
+    });
 });
 
 app.post('/lilchat/chats/create', function(req, res) {
@@ -88,92 +134,121 @@ app.post('/lilchat/chats/:id/join', function(req, res) {
 });
 
 app.get('/lilchat/chats/:id/chat_info', function(req, res) {
-  let idToken = req.body.idToken;
-  verify(idToken, function(uid) {
-    admin
-      .database()
-      .ref('')
-      .once('value', function(snap) {
-        if (snap.val() == null) {
-          res.json(null);
-        } else {
-          res.json(snap.val());
-        }
-      });
-  });
+  // let idToken = req.body.idToken;
+  //verify(idToken, function(uid) {
+  let reference = '/lilchat/chats/' + req.params.id + '/chat_info';
+  admin
+    .database()
+    .ref(reference)
+    .once('value', function(snap) {
+      if (snap.val() == null) {
+        res.json(null);
+      } else {
+        res.json(snap.val());
+      }
+    });
 });
+//});
 
 app.get('/lilchat/chats/:id/chat_info/members', function(req, res) {
-  let idToken = req.body.idToken;
-  verify(idToken, function(uid) {
-    let reference = '/lilchat/chats/' + req.params.id + '/chat_info/members';
-    admin
-      .database()
-      .ref(reference)
-      .once('value', function(snap) {
-        if (snap.val() == null) {
-          res.json(null);
-        } else {
-          res.json(snap.val());
-        }
-      });
-  });
+  //let idToken = req.body.idToken;
+  //verify(idToken, function(uid) {
+  let reference = '/lilchat/chats/' + req.params.id + '/chat_info/members';
+  admin
+    .database()
+    .ref(reference)
+    .once('value', function(snap) {
+      if (snap.val() == null) {
+        res.json(null);
+      } else {
+        res.json(snap.val());
+      }
+    });
 });
+//});
 
 app.get('/lilchat/chats/:id/messages', function(req, res) {
-  let idToken = req.body.idToken;
-  verify(idToken, function(uid) {
-    let reference = '/lilchat/chats/' + req.params.id + '/messages';
+  //let idToken = req.body.idToken;
+  //verify(idToken, function(uid) {
+  let reference = '/lilchat/chats/' + req.params.id + '/messages';
 
-    admin
-      .database()
-      .ref(reference)
-      .on('value', function(snap) {
-        if (snap.val() == null) {
-          res.json(null);
-        } else {
-          res.json(snap.val());
-        }
-      });
-  });
+  admin
+    .database()
+    .ref(reference)
+    .on('value', function(snap) {
+      if (snap.val() == null) {
+        res.json(null);
+      } else {
+        res.json(snap.val());
+      }
+    });
 });
+//});
+
 app.post('/lilchat/chats/:id/messages/new', function(req, res) {
   let idToken = req.body.idToken;
   verify(idToken, function(uid) {
     let reference = '/lilchat/chats/' + req.params.id + '/messages';
     let reference_characters = '/lilchat/chats/' + req.params.id + '/chat_info/characters';
 
-    let message_object = {
-      content: req.body.content,
-      username: req.body.username,
-      time: '0:00AM'
-    };
+    let reference_members = '/lilchat/chats/' + req.params.id + '/chat_info/members/' + uid;
+
+    let reference_time = '/lilchat/chats/' + req.params.id + '/chat_info/last_message_time/';
+
     admin
       .database()
-      .ref(reference_characters)
-      .once('value', function(snap) {
-        if (snap.val() == null) {
-          res.json(null);
+      .ref(reference_members)
+      .once('value', function(snap_m) {
+        if (snap_m.val() == null) {
+          res.json({ error: 'Cannot reference memebers' });
         } else {
+          let referenceUN = 'lilchat/users/' + uid + '/user_info/username';
           admin
             .database()
-            .ref(reference)
-            .push()
-            .set(message_object);
-          admin
-            .database()
-            .ref(reference_characters)
-            .set(snap.val() - req.body.content.length);
+            .ref(referenceUN)
+            .once('value', function(un) {
+              if (un.val() == null) {
+                res.json({ error: 'Cannot reference username' });
+              } else {
+                let message_object = {
+                  content: req.body.content,
+                  username: un.val(),
+                  time: getDateTime()
+                };
+
+                admin
+                  .database()
+                  .ref(reference_characters)
+                  .once('value', function(snap) {
+                    if (snap.val() == null) {
+                      res.json({ error: 'Cannot reference characters' });
+                    } else {
+                      admin
+                        .database()
+                        .ref(reference)
+                        .push()
+                        .set(message_object);
+                      admin
+                        .database()
+                        .ref(reference_characters)
+                        .set(snap.val() - req.body.content.length);
+                      admin
+                        .database()
+                        .ref(reference_time)
+                        .set(Date.now());
+                    }
+                  });
+                res.json({ status: 'success' });
+              }
+            });
         }
       });
-
-    res.json({ status: 'success' });
   });
 });
 
 /*PROFILE/USERS*/
-app.get('/lilchat/users/:id/user_info/', function(req, res) {
-  let idToken = req.body.idToken;
+app.get('/lilchat/users/:id/user_info', function(req, res) {
+  let idToken = req.header('Authorization');
   verify(idToken, function(uid) {
     let reference = 'lilchat/users/' + req.params.id + '/user_info';
     admin
@@ -189,12 +264,11 @@ app.get('/lilchat/users/:id/user_info/', function(req, res) {
   });
 });
 
-/*FRIENDS*/
-app.get('/lilchat/users/:id/friends/', function(req, res) {
-  let idToken = req.body.idToken;
+/*PROFILE/USERS*/
+app.get('/lilchat/users/currentuser', function(req, res) {
+  let idToken = req.header('Authorization');
   verify(idToken, function(uid) {
-    let reference = 'lilchat/users/' + req.params.id + '/friends';
-
+    let reference = 'lilchat/users/' + uid + '/user_info';
     admin
       .database()
       .ref(reference)
@@ -208,24 +282,43 @@ app.get('/lilchat/users/:id/friends/', function(req, res) {
   });
 });
 
-app.get('/lilchat/users/random_id', function(req, res) {
-  let idToken = req.body.idToken;
-  verify(idToken, function(uid) {
-    let reference = 'lilchat/users/';
-    admin
-      .database()
-      .ref(reference)
-      .once('value')
-      .then(function(snap) {
-        let count = snap.numChildren();
-        let random = Math.floor(Math.random() * Math.floor(count));
-        console.log(random);
+/*FRIENDS*/
+app.get('/lilchat/users/:id/friends/', function(req, res) {
+  //let idToken = req.body.idToken;
+  //verify(idToken, function(uid) {
+  let reference = 'lilchat/users/' + req.params.id + '/friends';
 
-        let users = Object.keys(snap.val())[random];
-        res.json(users);
-      });
-  });
+  admin
+    .database()
+    .ref(reference)
+    .once('value', function(snap) {
+      if (snap.val() == null) {
+        res.json(null);
+      } else {
+        res.json(snap.val());
+      }
+    });
 });
+//});
+
+app.get('/lilchat/users/random_id', function(req, res) {
+  //let idToken = req.body.idToken;
+  //verify(idToken, function(uid) {
+  let reference = 'lilchat/users/';
+  admin
+    .database()
+    .ref(reference)
+    .once('value')
+    .then(function(snap) {
+      let count = snap.numChildren();
+      let random = Math.floor(Math.random() * Math.floor(count));
+      console.log(random);
+
+      let users = Object.keys(snap.val())[random];
+      res.json(users);
+    });
+});
+//});
 
 app.get('/lilchat/users/:id/request_sent/new', function(req, res) {
   let idToken = req.body.idToken;
@@ -248,6 +341,7 @@ app.get('/lilchat/users/:id/request_sent/new', function(req, res) {
       .set(my_user_id);
   });
 });
+
 app.get('/lilchat/users/:id/request_recieved/', function(req, res) {
   let idToken = req.body.idToken;
   verify(idToken, function(uid) {
@@ -263,6 +357,7 @@ app.get('/lilchat/users/:id/request_recieved/', function(req, res) {
       });
   });
 });
+
 app.post('/lilchat/users/:id/request_recieved/:other_user/accept', function(req, res) {
   //move from request_recieved to firneds list
   //from from request sent to friends

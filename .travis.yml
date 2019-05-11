@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - lts/*
+install:
+  - npm ci --prefix slide
+deploy:
+  provider: heroku
+  app: tintu-chat
+  skip_cleanup: true
+  on:
+    repo: buhotech/Slide

@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import './index.css';
 
 const config = {
-  apiKey: '',
+  apiKey: 'AIzaSyBqqqMDs221ywv0UZ8nHXWIe8WPViTfBzU',
   authDomain: 'project-bc489.firebaseapp.com',
   databaseURL: 'https://project-bc489.firebaseio.com',
   projectId: 'project-bc489',

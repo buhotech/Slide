@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 
 //react router
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 //sign in function
-import { loginUser, storeUserInfo, LogOutUser } from '../functions/index';
+import { loginUser, storeUserInfo, LogOutUser, currentUser } from '../functions/index';
+
+//styles
+import '../styles/index.scss';
 
 class LoginUserForm extends Component {
   constructor() {
@@ -12,12 +15,16 @@ class LoginUserForm extends Component {
 
     this.state = {
       error: false,
+      errorMessage: '',
       cbResponce: false,
       email: '',
       password: ''
     };
   }
-
+  getCurrentUser = e => {
+    e.preventDefault();
+    console.log(currentUser());
+  };
   logOut = e => {
     e.preventDefault();
     LogOutUser();
@@ -43,55 +50,73 @@ class LoginUserForm extends Component {
         storeUserInfo();
       })
       .catch(err => {
+        console.log(err);
         this.setState({
           cbResponce: false,
-          error: 'Error in Login Form'
+          error: true,
+          errorMessage: err.message
         });
-        console.log(err);
       });
   };
 
   render() {
-    const { cbResponce, error } = this.state;
+    const { cbResponce, error, errorMessage } = this.state;
     if (cbResponce) return <Redirect to="/profile" />;
+
+    let showErrorStyles, errorComponent;
+    if (error) {
+      showErrorStyles = `input-box error-input`;
+      errorComponent = <h4 className="error-message">{errorMessage}</h4>;
+    } else {
+      showErrorStyles = `input-box`;
+      errorComponent = <span />;
+    }
 
     return (
       <div className="login-container">
-        <form className="login-form">
-          <h2>Login Page</h2>
+        <div className="headline">
+          <h4>Log In</h4>
+        </div>
+        <div className="error-message-container">{errorComponent}</div>
 
-          <div className="email-container">
+        <div className="email-form-container">
+          <div className="email-input-container">
             <input
               name="email"
               type="email"
-              className=""
+              className={showErrorStyles}
               placeholder="email"
               onChange={this.onChange}
             />
           </div>
+        </div>
 
-          <div className="password-container">
-            <input
-              name="password"
-              type="password"
-              className=""
-              placeholder="password"
-              onChange={this.onChange}
-            />
-          </div>
+        <div className="password-input-form">
+          <input
+            name="password"
+            type="password"
+            className={showErrorStyles}
+            placeholder="password"
+            onChange={this.onChange}
+          />
+        </div>
 
-          <p>
-            <a href="/register">Create a new account</a>
-          </p>
-          <button className="" onClick={this.handleLoginRequest}>
+        <div className="btn-section">
+          <button className="Btn" onClick={this.handleLoginRequest}>
             Log in
           </button>
-          <br />
-          <br />
-          <button className="" onClick={this.logOut}>
+        </div>
+
+        <div className="Debug">
+          <h3>Debug</h3>
+          <button className="ui basic button btn" onClick={this.logOut}>
             Log Out
           </button>
-        </form>
+          <br />
+          <button className="ui basic button btn" onClick={this.getCurrentUser}>
+            get current User
+          </button>
+        </div>
       </div>
     );
   }

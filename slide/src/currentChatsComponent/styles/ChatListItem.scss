@@ -1,0 +1,93 @@
+
+.chatListItem{
+	position: relative;
+	*{
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+.current_bg_color_blue{
+  background-color: rgb(60, 120, 220) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_blue{
+  color: rgb(60, 120, 220) !important;
+  visibility: visible !important;
+}
+
+.current_bg_color_red{
+  background-color: rgb(220, 120, 60) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_red{
+  color: rgb(220, 120, 60) !important;
+  visibility: visible !important;
+}
+
+.current_bg_color_green{
+  background-color: rgb(60, 220, 120) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_green{
+  color: rgb(60, 220, 120) !important;
+  visibility: visible !important;
+}
+
+.current_bg_color_purple{
+  background-color: rgb(220, 120, 220) !important;
+  visibility: visible !important;
+}
+
+.current_text_color_purple{
+  color: rgb(220, 120, 220) !important;
+  visibility: visible !important;
+}
+p{
+	color: white;
+}
+
+	.chat_list_profile_pic{
+		width: 50px;
+		height: 50px;
+		background-color: red;
+		display: inline-block;
+		vertical-align: top;
+		border-radius: 100%;
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-image: url("https://wallpapercave.com/wp/0bkTRA6.png");
+	}
+
+	.username{
+		padding: 0;
+		margin: 0;
+		font-size: 18px;
+		font-family: "Futura";
+		font-weight: bold;
+	}
+	.wrap{
+		width: 100%;
+		height: auto;
+		text-align: left;
+		padding: 10px;
+	}
+	.info_wrap{
+		display: inline-block;
+		padding: 5px;
+	}
+	.peek{
+		font-size: 12px;
+	}
+	.characters_left{
+		position: absolute;
+		top: 10px;
+		font-size: 10px;
+		right: 10px;
+		font-weight: bold;
+	}
+
+}
