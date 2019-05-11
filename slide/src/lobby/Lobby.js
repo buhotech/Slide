@@ -44,7 +44,7 @@ class Lobby extends Component {
     //   })
     //   .catch(err => console.log(err));
     // NOTE: LINE BELOW IS ONLY HERE TO TEST LOADING SCREEN, UNTIL ASYNC CALL INCLUDED
-    this.setState({ stillLoadingWords: false });
+    // this.setState({ stillLoadingWords: false });
   };
 
   onSubmit() {
