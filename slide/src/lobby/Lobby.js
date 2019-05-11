@@ -5,7 +5,6 @@ class Lobby extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // if necessary, to load placeholder
       stillLoadingWords: true,
       wordChoices: [
         'a first (word || topic)',
@@ -25,8 +24,10 @@ class Lobby extends Component {
     };
   }
 
-  addWord = word => {
-    this.setState({ selectedWords: [...this.state.selectedWords, word.id] });
+  addWord = event => {
+    console.log(event);
+    const { value } = event.target;
+    this.setState({ selectedWords: [...this.state.selectedWords, value] });
   };
 
   componentDidMount() {
@@ -42,7 +43,8 @@ class Lobby extends Component {
     //     this.setState({ stillLoadingWords: false, words: res.formData.WORDS_FROM_BACKEND });
     //   })
     //   .catch(err => console.log(err));
-    // this.setState({ stillLoadingWords: false });
+    // NOTE: LINE BELOW IS ONLY HERE TO TEST LOADING SCREEN, UNTIL ASYNC CALL INCLUDED
+    this.setState({ stillLoadingWords: false });
   };
 
   onSubmit() {
@@ -57,7 +59,7 @@ class Lobby extends Component {
       <div>
         <h1 className="ui header">Pick Topics You Like</h1>
         <div className="ui celled divided grid container">
-          {wordChoices.map(word =>
+          {wordChoices.map((word, key) =>
             stillLoadingWords ? (
               <div className="five wide column">
                 <div className="ui placeholder">
@@ -68,7 +70,13 @@ class Lobby extends Component {
               </div>
             ) : (
               <div className="five wide column">
-                <Word className="ui button" body={word} />
+                <Word
+                  className="ui button"
+                  body={word}
+                  name="wordChoices"
+                  value={wordChoices[key]}
+                  onClick={this.addWord}
+                />
               </div>
             )
           )}

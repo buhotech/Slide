@@ -1,8 +1,12 @@
 import React from 'react';
 
 const Word = parentProps => {
-  const { className, body } = parentProps;
-  return <div className={className}>{body}</div>;
+  const { className, body, onClick } = parentProps;
+  return (
+    <button className={className} onClick={onClick} {...parentProps}>
+      {body}
+    </button>
+  );
 };
 
 export default Word;
