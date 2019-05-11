@@ -25,7 +25,7 @@ class ChatScreenListScence extends Component {
 
   getChatsList() {
     let a = this;
-    let u_id = 'SISmwlC4SoNzmxsNUm1N0Wl5BhG2';
+    let u_id = localStorage.getItem('uid');
     firebase
       .database()
       .ref(`lilchat/private_users/${u_id}/active_chats/`)
@@ -34,9 +34,9 @@ class ChatScreenListScence extends Component {
         a.setState({ chats: [] });
         let chat_list_obs = [];
         for (let chat_id in snap.val()) {
-          //console.log(`https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${snap.val()[chat_id]}/chat_info/`);
+          //console.log(`https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${snap.val()[chat_id]}/chat_info/`);
           fetch(
-            `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+            `https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${
               snap.val()[chat_id]
             }/chat_info/`
           )
@@ -70,6 +70,7 @@ class ChatScreenListScence extends Component {
     let sorted_list = this.state.chats.sort(function(a, b) {
       return a.last_message_time < b.last_message_time;
     });
+    let i = 0;
 
     for (let chat_list_ob in sorted_list) {
       //console.log(chat_list_ob);
@@ -79,7 +80,7 @@ class ChatScreenListScence extends Component {
       };
 
       let temp = (
-        <div>
+        <div key={i}>
           <Link to={info}>
             <ChatListItem
               characters={this.state.chats[chat_list_ob].characters}
@@ -92,6 +93,7 @@ class ChatScreenListScence extends Component {
         </div>
       );
       rendered_chat_list.push(temp);
+      i++;
     }
     if (!this.state.loaded_chats) {
       return (

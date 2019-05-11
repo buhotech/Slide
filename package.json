@@ -1,0 +1,11 @@
+{
+  "name": "slide",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "npm run start --prefix slide",
+    "test": "npm run test --prefix slide",
+    "build": "npm run build --prefix slide",
+    "eject": "npm run eject --prefix slide"
+  }
+}

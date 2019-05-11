@@ -30,12 +30,12 @@ class ChatScreenScence extends Component {
     let username = 'myguy';
     console.log(
       '',
-      `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+      `https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${
         this.props.match.params.chat_id
       }/messages/new`
     );
     fetch(
-      `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+      `https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${
         this.props.match.params.chat_id
       }/messages/new`,
       {
@@ -46,7 +46,7 @@ class ChatScreenScence extends Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          username: 'elpapi',
+          username: localStorage.getItem('username'),
           content: content,
           idToken: localStorage.getItem('idToken')
         })
@@ -60,7 +60,7 @@ class ChatScreenScence extends Component {
   getMembers() {
     let c_screen = this;
     fetch(
-      `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+      `https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${
         this.props.match.params.chat_id
       }/chat_info/members`,
       {
@@ -73,9 +73,7 @@ class ChatScreenScence extends Component {
       .then(res => {
         for (let member in res) {
           fetch(
-            'https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/users/' +
-              res[member] +
-              '/user_info',
+            'https://cryptic-peak-18479.herokuapp.com/lilchat/users/' + res[member] + '/user_info',
             {
               headers: {
                 Authorization: localStorage.getItem('idToken')
@@ -96,7 +94,7 @@ class ChatScreenScence extends Component {
   getChatInfo() {
     let c_screen = this;
     fetch(
-      `https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/${
+      `https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${
         this.props.match.params.chat_id
       }/chat_info/`,
       {
@@ -172,18 +170,19 @@ class ChatScreenScence extends Component {
       });
     this.getMembers();
     this.getChatInfo();
-    //fetch("https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/chats/21/messages/").then(function(res){return res.json()}).then(function(res){c_screen.setState({"messages":res})});
+    //fetch("https://cryptic-peak-18479.herokuapp.com/lilchat/chats/21/messages/").then(function(res){return res.json()}).then(function(res){c_screen.setState({"messages":res})});
   }
   render() {
     let rendered_messages = [];
     let prev_name = '';
     let first_m = true;
+    let i = 0;
     for (let message in this.state.messages) {
       //console.log(first_m, message);
       let temp = (
         <Message
-          key={message}
-          my_user="elpapi"
+          key={i}
+          my_user={localStorage.getItem('username')}
           display_username={this.state.messages[message].username === prev_name ? false : true}
           first_m={first_m}
           message_user_pic={this.state.members[this.state.messages[message].username]}
@@ -197,6 +196,7 @@ class ChatScreenScence extends Component {
       first_m = false;
 
       rendered_messages.push(temp);
+      i++;
     }
     // if(document.getElementById("characters_left_bar"))
     //document.getElementById("characters_left_bar").style.width = ((((this.state.characters_left)/1000)*100) + "%");

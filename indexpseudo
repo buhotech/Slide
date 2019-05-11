@@ -1,0 +1,232 @@
+
+=====================================================================================
+
+
+/***********************************************************************************/
+
+func createLobby()
+  ->let wordsB = getWordsFromWordBank()
+  -->let key = admin.child(lobbies).push().getKey()
+  ->forEach word in wordsB{
+          ->admn.child(lobbies).child(key).push().set(word);
+    }
+    return key;
+  }
+
+
+
+func getlobby()
+  return "LOBBY1";
+
+
+func getWordsFromWordBank()
+  admin.child("wordbank").once('value', fun(snap){
+    result_words = []
+    let randomwords = Randomize(snap.val());
+
+    forEach word_id in randomwords {
+      let word = randomwords[word_id];
+      let word_ob = {
+        id : word_id
+        img_url : word.img_url,
+        word : word.word
+      }
+      result_words.push(word_ob)
+    }
+    return result_words;
+  })
+
+
+lilchat/joinlobby
+  -->
+  let key = getLobby();
+
+  ->if key == undefined
+    ->key = createLobby();
+
+  adduser(key, uid)
+  respond with key
+
+adduser(key, uid){
+  admin...(key).(uid).set({"is_done":false});
+}
+
+
+lil/:lobbyid/gamewords
+  admin.child(lobbies).child(req.params.lobbyid).child(words).once('value', fun(snap)){
+    respond with snap.val();
+  }
+
+async addMyLikes(words, uid){
+  let other_user_id = "";
+  let i = 0;
+  let found = false;
+  let key = "";
+  let res = {};
+
+  while(!found || i < words.length){
+  res = await admin...child(words[i]).child(users).once('val');
+  if(res.val()==null){
+    admin....child(words[i]).child(users).push().set(uid);
+  }else{
+    key = tryMatch(randomUid(res.val()['users']), uid, lobbyid);
+    found = true
+  }
+    i++;
+  }
+  return key;
+
+}
+
+
+func createChat(uid_a, uid_b){
+  let o = {}
+  o[uid_a]= uid_a
+  o[uid_b]= uid_b
+  let key = admin...child(chats).push().getKey();
+  admin...child(chats).child(key).set({"chat_info":{characters:500, color:blue, members: o}});
+  return key;
+}
+
+tryMatch(uid_a, uid_b, lobbyID){
+    let key = createChat(uid_a, uid_b);
+    //create a chat between uid_a uid_b
+
+  admin.child(lobbies).child(lobbyID).child(users).child(uid_a).child(likes).once('val', function(snap){
+    for let like in snap.val(){
+        admin....(words).child(like).users(uid).remove();
+    }
+  })
+  admin.child(lobbies).child(lobbyID).child(users).child(uid_b).child(likes).once('val', function(snap){
+    for let like in snap.val(){
+        admin....(words).child(like).users(uid).remove();
+    }
+  })
+  return key;
+}
+
+lilchat/:lobbyid/sendmylikes/
+  -body.words-> "-LSDASD,-ASDAFAS,-ASFASDAS,-DASDAS";
+
+
+  let key = addMyLikes(body.words.split(','), uid, req.params.lobbyid);
+
+
+  if(key === ""){
+    res success added likes but no match
+  }else{
+    match found retuning key for chat
+  }
+
+
+
+=====================================================================================
+
+HOME{
+  CONTAINER{
+    PROFILE PIC
+  }
+  CONTAINER{
+    START GAME- btn ---> lilchat/joinlobby
+        ->if res.status === 200
+            return <Redirect to="lobby" lobbyKey={res.data.key} />
+    OR
+    CURRENT CHAT - btn
+  }
+  CONTAINER{
+    FRIENDS
+  }
+}
+
+=====================================================================================
+import Word from './Word';
+class Lobby extends Component{
+
+constructor(){
+  state= {
+    word_choices:{};
+    selected_words:[];
+  }
+}
+addWord(word)
+  setState -> this.selected_words.push(word.id);
+
+componentDidMount(){
+   call ->
+      lilchat/ +  this.props.lobbyKey  + /gamewords -> response
+          -->setState("word_choices":response)
+}
+
+onSubmit() {
+  lilchat/ this.props.lobbykey /sendmylikes/
+    body: selected_words.join(',');
+
+    -->>start chat or wait until somebody matches with you
+}
+
+render(){
+  renderwords = forWords in this.state.word_choices --> <Word onClick = this.addWord/>
+  return(
+      //display grid with words_choces
+  );
+}
+
+}
+
+
+LOBBY{
+  return WAITSCREEN
+  componentDidMount ---> lil/ this.props.lobbyId /gamewords
+  KEYWORDS GRID
+  DONE BUTTON [ SEND_WORDS_LIKED ] --> lilchat/sendmylikes
+    if( res.status === 200 && res.data.sucess) {
+        <redirect to={`/chat/res.data.key`} />
+    } else {
+        return searching WAITSCREEN
+    }
+
+}
+
+WAITSCREEN{
+  LOADING BOI-->
+}
+
+=====================================================================================
+
+CHAT{}
+
+__________________
+ ____  ____  ____
+|    ||    ||    |
+|____||____||____|
+|    ||    ||    |
+|____||____||____|
+|    ||    ||    |
+|____||____||____|
+|    ||    ||    |
+|____||____||____|
+      {DONE}
+__________________
+
+
+
+
+=====================================================================================
+
+
+
+
+
+
+800CHARACTERS
+.
+.
+400CHARACTERS
+{WHAT IS YOUR ANSWER OR IDK YET}
+.
+.
+200CHRACTERS
+{WHAT IS YOUR ANSWER}
+.
+.
+BUTTON->IKNOEW THE ANSWER
