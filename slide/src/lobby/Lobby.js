@@ -74,7 +74,7 @@ class Lobby extends Component {
                 <Word
                   className="ui button"
                   body={word}
-                  name="wordChoices"
+                  name={`wordChoices[${key}]`}
                   value={wordChoices[key]}
                   onClick={this.addWord.bind(this)}
                 />
