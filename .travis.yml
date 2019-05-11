@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - lts/*
 install:
-  - npm ci
+  - npm ci --prefix slide
 before_deploy:
   - gem install mime-types -v 2.6.2
 deploy:
