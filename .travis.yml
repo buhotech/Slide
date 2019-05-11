@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - lts/*
+install:
+  - npm ci --prefix slide
+deploy:
+  provider: heroku
+  api_key:
+    secure: faqlnPW3YxWRgC3DfMh8+3Ddrh3wq88xGu2BKSnteiuyOhOuf0cSXRRxpb14sSdvUZZu4pWK6FpE5Jt68ISgpp0y4Kc14EuaCKPg7OEk5JDeuQZ1Gp0F9pKr+sXJ1hqa3Xr40hBTcbBzEdsORAJ5z1nl2zNbHQPJIRXwo0lOMWt0xcO4nKI+O2LHYgg1/cRGO+SyvZtdHBkBDGDDoQr9k5tlZobdFMOWGL6TIdUc4Y1k0tYPDMmFOZLsDn8V899OIqfuLo6OmKsYN/85H4hkaoE4tBosbswvv/xhKWRhPlQhYtHTrwXmEltPI17ryY1gi9OJlyGMd+BEoHoZhMW/It//G/FgDG+toFd1vHV4dLM/MLqXAMX4HIL3R2ZFh/dK22KBiv8bd9kskIdYIkqOGKm+CLKlzeQdTyddrA2ypbAtMjRWzIEVzp7JJRr2gkugpwmniw8nGhKwY7L+3qcMyLhsIKst+09iW0z3oCMY1xud8VnkIRgq0IFGjrdJOlATr5FrU6KL2zpSRsGUbQbtjXmC7G/KjQPob77U7LlRb0DONAfdA7fyigpTwmVQE1DCgbg5rorl//PLM28jBSi5yC7ElO17qdSkq66uGYTdCNGYspShDQxrZxiQL8H2nHh7O9xpRQ1D3b/sqg0mHJH67QDuR2AUAFFOPGq54yhcVek=
+  app: tintu-chat
+  skip_cleanup: true
+  on:
+    repo: buhotech/Slide
