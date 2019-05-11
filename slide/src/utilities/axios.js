@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL = 'https://us-central1-project-bc489.cloudfunctions.net/slide/lilchat/';
+const URL = 'https://cryptic-peak-18479.herokuapp.com/lilchat/';
 export default axios.create({
   baseURL: URL,
   withCredentials: true
