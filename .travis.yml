@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - lts/*
+install:
+  - npm ci
+before_deploy:
+  - gem install mime-types -v 2.6.2
+deploy:
+  provider: heroku
+  app: tintu-chat
+  skip_cleanup: true
+  on:
+    repo: buhotech/Slide
