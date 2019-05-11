@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "test": "npm run test --prefix slide"
+    "start": "npm run start --prefix slide",
+    "test": "npm run test --prefix slide",
+    "build": "npm run build --prefix slide",
+    "eject": "npm run eject --prefix slide"
   }
 }
