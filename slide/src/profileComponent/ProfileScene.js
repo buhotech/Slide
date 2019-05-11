@@ -29,6 +29,7 @@ class ProfileScene extends Component {
         console.log(user);
         const { bio, profile_pic, username } = user.data;
         const userInfo = { bio, profile_pic, username };
+        localStorage.setItem('username', username);
         this.setState({ userInfo, cbResponce: true });
       })
       .catch(err => {
