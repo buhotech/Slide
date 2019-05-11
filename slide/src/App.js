@@ -9,7 +9,7 @@ import LoginUserForm from './userComponent/form/LoginUser';
 import RegisterUserForm from './userComponent/form/RegisterUser';
 import ChatScreenScene from './chatComponent/ChatScreenScene';
 import Match from './components/match';
-import WordChoices from './lobby/wordChoices';
+import Lobby from './lobby/Lobby';
 import ChatScreenListScence from './currentChatsComponent/CurrentChatsListScene';
 import Navbar from './navbarComponent/Navbar';
 
@@ -26,7 +26,7 @@ class App extends Component {
         <Switch>
           {/* <Route exact path="/profile" component={ProfileScene} /> */}
           <Route exact path="/match-test" component={Match} />
-          <Route exact path="/word-grid-test" component={WordChoices} />
+          <Route exact path="/word-grid-test" component={Lobby} />
           <Route exact path="/login" component={LoginUserForm} />
           <Route exact path="/register" component={RegisterUserForm} />
           <Route exact path="/chats" component={ChatScreenListScence} />
