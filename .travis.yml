@@ -5,6 +5,8 @@ install:
   - npm ci --prefix slide
 deploy:
   provider: heroku
+  api_key:
+    secure: ZvZFJ2oHqypJyukF0Y9SmMos/+ntpBO11BL57PBhYK4GfV/U7bZ18IxWuPDWAosZwKg9KGLnEb+8b/vgCpjT2ngfD8tZanlvvKPUFK1FiwJ8++4lOm4yjh/VupIi3BaKnzGtdd004eUflk38qPjlQAWWqZxTNZP4tMnTmTTjBWd8CCg3H73G8Saq3G7ltbLapXqjdTf6sORGMamVCEHq0BBsMAI+2+wqZbu9SOb7DO3bfop6XzI9bFBwnBGd5jGQHD8E4ffo+WQvRyZTNMNVT51WO5Kgzapja/ePc0gNtt5R20X8qsgarlaWeHQDh+u9CY+A/H4xvpOZHiVR4wrc/oQWVUPQsaIzZyhkjrN6kYI9JaSXj+0aLTlt59igLkqhL28mjcPX0zu0tf0q3D+KTL/YKIBOHFpoYP9BYXgxgio4LCP9hkKKCCsujzbH0sO3a7Mdri1fTjQqHptZFM0pZIeSDPmh7ACT21u95/TWFe1c7OySWoDlNlFeIo/T99d85nwoGWyrhpZSdGdhSNlbX3cZTA5ObrUi7OKLhvVo66R04r7wsjAfgtpv90rKMwX2BXdJNfsc99vtMinxnSJ2OMTdAhlqCFJCrCNvobjxtVB5ddDftoeD2dSV8UR/BPTPqvJ4VzQku6f8kfSbkdyB85YvDX8rtRRZwcUpwc75ZZU=
   app: tintu-chat
   skip_cleanup: true
   on:
