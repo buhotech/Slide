@@ -43,6 +43,7 @@ class Lobby extends Component {
     //     this.setState({ stillLoadingWords: false, words: res.formData.WORDS_FROM_BACKEND });
     //   })
     //   .catch(err => console.log(err));
+    //
     // NOTE: LINE BELOW IS ONLY HERE TO TEST LOADING SCREEN, UNTIL ASYNC CALL INCLUDED
     // this.setState({ stillLoadingWords: false });
   };
@@ -75,13 +76,15 @@ class Lobby extends Component {
                   body={word}
                   name="wordChoices"
                   value={wordChoices[key]}
-                  onClick={this.addWord}
+                  onClick={this.addWord.bind(this)}
                 />
               </div>
             )
           )}
         </div>
-        <div className="ui bottom attached button">DONE</div>
+        <button className="ui bottom attached button" onClick={this.onSubmit.bind(this)}>
+          DONE
+        </button>
       </div>
     );
   }
