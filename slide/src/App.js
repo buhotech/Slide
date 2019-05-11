@@ -29,7 +29,7 @@ class App extends Component {
           <Route exact path="/word-grid-test" component={WordChoices} />
           <Route exact path="/login" component={LoginUserForm} />
           <Route exact path="/register" component={RegisterUserForm} />
-          {/* <Route exact path="/chats" component={ChatScreenListScence} /> */}
+          <Route exact path="/chats" component={ChatScreenListScence} />
           <Route exact path="/chats/:chat_id" component={ChatScreenScene} />
           <PrivateRoute exact path="/profile" component={ProfileScene} />
         </Switch>
