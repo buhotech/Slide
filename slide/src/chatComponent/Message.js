@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './styles/message.scss';
+// import './styles/message.scss';
 
 class Message extends Component {
   render() {
