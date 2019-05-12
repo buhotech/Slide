@@ -30,20 +30,31 @@ class ChatScreenListScence extends Component {
       .database()
       .ref(`lilchat/private_users/${u_id}/active_chats/`)
       .on('value', function(snap) {
+        let chat_ids = Object.keys(snap.val());
+
         console.log(snap.val());
         a.setState({ chats: [] });
         let chat_list_obs = [];
-        for (let chat_id in snap.val()) {
+        for (let chat_id in chat_ids) {
+          console.log(chat_ids[chat_id]);
           //console.log(`https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${snap.val()[chat_id]}/chat_info/`);
           fetch(
             `https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${
-              snap.val()[chat_id]
-            }/chat_info/`
+              chat_ids[chat_id]
+            }/chat_info/`,
+            {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization: localStorage.getItem('idToken')
+              }
+            }
           )
             .then(res => {
               return res.json();
             })
             .then(res => {
+              //console.log("48:   ", res.chat_id);
+
               a.setState(prevState => {
                 let obs = prevState.chats;
                 res.chat_id = snap.val()[chat_id];
