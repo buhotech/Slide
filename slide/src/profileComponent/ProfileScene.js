@@ -5,6 +5,7 @@ import { getUserProfileInfo } from './functions/index';
 
 //components
 import ProfileView from './components/profileView';
+import JoinLobbyQueue from '../lobby/JoinLobbyButton';
 import ExclusiveProfileFriends from '../topFiveComponent/components/exclusiveProfileFriends';
 
 class ProfileScene extends Component {
@@ -45,8 +46,11 @@ class ProfileScene extends Component {
     const { userInfo, cbResponce, userId } = this.state;
     return (
       <div>
-        <h1>Render User Profile</h1>
+        <h1 className="ui header" style={{ paddingTop: '30px' }}>
+          tintu logo
+        </h1>
         <ProfileView userInfo={userInfo} cbResponce={cbResponce} />
+        <JoinLobbyQueue userInfo={userInfo} />
         <ExclusiveProfileFriends userId={userId} />
       </div>
     );
