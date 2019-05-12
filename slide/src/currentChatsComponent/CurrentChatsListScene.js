@@ -57,7 +57,7 @@ class ChatScreenListScence extends Component {
 
               a.setState(prevState => {
                 let obs = prevState.chats;
-                res.chat_id = snap.val()[chat_id];
+                res.chat_id = chat_ids[chat_id];
                 obs.push(res);
 
                 return { chats: obs, loaded_chats: true };
