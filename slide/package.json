@@ -17,9 +17,9 @@
     "semantic-ui-react": "^0.86.0"
   },
   "scripts": {
-    "start": "echo test",
+    "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "echo test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
