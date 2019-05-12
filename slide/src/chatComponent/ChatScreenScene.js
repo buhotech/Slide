@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import Message from './Message';
 import './styles/chatscreen.scss';
+import words from '../wordsBankObjects';
 import LoadingView from '../Loading/LoadingView';
 
 class ChatScreenScence extends Component {
@@ -213,6 +214,7 @@ class ChatScreenScence extends Component {
                 <div className="chatTopLabelMeta">
                   <p className="chatTopLabelText1">Sid🍪🍪</p>
                   <p className="chatTopLabelText1tag">Cookies n' Chill</p>
+                  <button onClick={this.addWordsToFB}>addwords</button>
                 </div>
               </div>
               <div className="chatTopLabelText2wrap">
