@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
 //react router
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link, withRouter } from 'react-router-dom';
 
 //sign in function
-import { loginUser, storeUserInfo, LogOutUser, currentUser } from '../functions/index';
+import { loginUser, LogOutUser, currentUser } from '../functions/index';
 
 //styles
 import '../styles/index.scss';
@@ -16,11 +16,11 @@ class LoginUserForm extends Component {
     this.state = {
       error: false,
       errorMessage: '',
-      cbResponce: false,
       email: '',
       password: ''
     };
   }
+
   getCurrentUser = e => {
     e.preventDefault();
     console.log(currentUser());
@@ -44,11 +44,11 @@ class LoginUserForm extends Component {
 
     loginUser(email, password)
       .then(user => {
-        this.setState({
-          cbResponce: true
-        });
+        console.log(user);
         localStorage.setItem('uid', user.user.uid);
-        storeUserInfo();
+        localStorage.setItem('idToken', user.user.ra);
+        localStorage.setItem('isAuthenticated', 'true');
+        this.props.history.push('/profile');
       })
       .catch(err => {
         console.log(err);
@@ -61,8 +61,7 @@ class LoginUserForm extends Component {
   };
 
   render() {
-    const { cbResponce, error, errorMessage } = this.state;
-    if (cbResponce) return <Redirect to="/profile" />;
+    const { error, errorMessage } = this.state;
 
     let showErrorStyles, errorComponent;
     if (error) {
@@ -123,4 +122,4 @@ class LoginUserForm extends Component {
   }
 }
 
-export default LoginUserForm;
+export default withRouter(LoginUserForm);

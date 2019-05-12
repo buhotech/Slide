@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './styles/navbar.scss';
 import { Link } from 'react-router-dom';
 
+import { LogOutUser } from '../userComponent/functions/index.js';
+
 class Navbar extends Component {
   constructor() {
     super();
@@ -24,6 +26,12 @@ class Navbar extends Component {
         });
       }, 450);
     }
+  };
+
+  logOut = e => {
+    e.preventDefault();
+    LogOutUser();
+    console.log('log out user');
   };
 
   render() {
@@ -56,6 +64,11 @@ class Navbar extends Component {
                   </Link>
                 </div>
                 <div className="navbar_item_close nav_icon_img" onClick={this.showNav} />
+                <div className="logout-btn">
+                  <button className="ui basic button btn" onClick={this.logOut}>
+                    Log Out
+                  </button>
+                </div>
               </div>
             </div>
           </div>
