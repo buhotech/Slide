@@ -18,18 +18,17 @@ export const LogOutUser = () => {
   return firebase.auth().signOut();
 };
 
-export const storeUserInfo = () => {
-  firebase
-    .auth()
-    .currentUser.getIdToken(true)
-    .then(idToken => {
-      localStorage.setItem('idToken', idToken);
-      localStorage.setItem('isAuthenticated', 'true');
-    })
-    .catch(err => {
-      localStorage.setItem('isAuthenticated', 'true');
-    });
-};
+// export const storeUserInfo = () => {
+//   firebase
+//     .auth()
+//     .currentUser.getIdToken(true)
+//     .then(idToken => {
+//
+//     })
+//     .catch(err => {
+//       localStorage.setItem('isAuthenticated', 'true');
+//     });
+// };
 
 export const newUser = async (bio, username) => {
   try {

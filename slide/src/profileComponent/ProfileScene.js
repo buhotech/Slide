@@ -23,19 +23,22 @@ class ProfileScene extends Component {
     };
   }
 
-  componentDidMount() {
-    getUserProfileInfo()
-      .then(user => {
-        console.log(user);
-        const { bio, profile_pic, username } = user.data;
+  async componentDidMount() {
+    try {
+      let userInfoRes = await getUserProfileInfo();
+      console.log(userInfoRes);
+      if (userInfoRes.status === 200) {
+        const { bio, profile_pic, username } = userInfoRes.data;
         const userInfo = { bio, profile_pic, username };
         localStorage.setItem('username', username);
         this.setState({ userInfo, cbResponce: true });
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({ error: true });
+      }
+    } catch (err) {
+      this.setState({
+        error: true,
+        cbResponce: false
       });
+    }
   }
 
   render() {
