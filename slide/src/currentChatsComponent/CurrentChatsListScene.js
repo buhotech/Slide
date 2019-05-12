@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import ChatListItem from './ChatListItem';
-import './styles/ChatScreenListScence.scss';
+import './styles/ChatScreenListScene.scss';
 import LoadingView from '../Loading/LoadingView';
 
 import { Link } from 'react-router-dom';
 
-class ChatScreenListScence extends Component {
+class ChatScreenListScene extends Component {
   constructor() {
     super();
     this.state = {
@@ -102,9 +102,9 @@ class ChatScreenListScence extends Component {
         </div>
       );
     } else {
-      return <div className="chatScreenListScence">{rendered_chat_list}</div>;
+      return <div className="chatScreenListScene">{rendered_chat_list}</div>;
     }
   }
 }
 
-export default ChatScreenListScence;
+export default ChatScreenListScene;

@@ -4,7 +4,7 @@ import Message from './Message';
 import './styles/chatscreen.scss';
 import LoadingView from '../Loading/LoadingView';
 
-class ChatScreenScence extends Component {
+class ChatScreenScene extends Component {
   constructor() {
     super();
     this.state = {
@@ -263,4 +263,4 @@ class ChatScreenScence extends Component {
   }
 }
 
-export default ChatScreenScence;
+export default ChatScreenScene;
