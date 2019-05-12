@@ -47,6 +47,7 @@ class LoginUserForm extends Component {
         this.setState({
           cbResponce: true
         });
+        localStorage.setItem('uid', user.user.uid);
         storeUserInfo();
       })
       .catch(err => {
