@@ -59,7 +59,7 @@ class Lobby extends Component {
     return (
       <div>
         <h1 className="ui header">Pick Topics You Like</h1>
-        <div className="ui celled divided grid container">
+        <div className="ui attached celled divided grid container">
           {wordChoices.map((word, key) =>
             stillLoadingWords ? (
               <div className="five wide column">
@@ -82,9 +82,9 @@ class Lobby extends Component {
             )
           )}
         </div>
-        <button className="ui bottom attached button" onClick={this.onSubmit.bind(this)}>
+        <div className="ui bottom attached button" onClick={this.onSubmit.bind(this)}>
           DONE
-        </button>
+        </div>
       </div>
     );
   }
