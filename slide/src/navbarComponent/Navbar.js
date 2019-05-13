@@ -33,6 +33,7 @@ class Navbar extends Component {
     e.preventDefault();
     LogOutUser();
     console.log('log out user');
+    this.showNav();
   };
 
   render() {
@@ -51,7 +52,7 @@ class Navbar extends Component {
               <div className="navbar_items">
                 <div className="navbar_item_top nav_icon_img">
                   <Link to="/login">
-                    <div className="link" onClick={this.showNav} />
+                    <div className="link" onClick={this.logOut} />
                   </Link>
                 </div>
                 <div className="navbar_item_left nav_icon_img">
@@ -66,12 +67,6 @@ class Navbar extends Component {
                 </div>
                 <div className="navbar_item_close nav_icon_img" onClick={this.showNav} />
               </div>
-
-              <Link to="/login">
-                <button className=" logout-btn" onClick={this.logOut}>
-                  Log Out
-                </button>
-              </Link>
             </div>
           </div>
         </div>

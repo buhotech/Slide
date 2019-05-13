@@ -3,7 +3,12 @@ $bg-login-form: #8C9EFF;
 $bg-register-form: #82b1ff;
 
 //containers
-.login-container, 
+.login-container{
+   background: linear-gradient(rgb(140,140,255) 10%,rgb(80,80,255));
+   height: 100vh;
+}
+
+ 
 .register-container,
 .username-container,
 .bio-container,
@@ -27,7 +32,7 @@ $bg-register-form: #82b1ff;
 .bio-form-container,
 .submit-form-container {
     position: absolute;
-    top: 45%;
+    top: 25%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -41,19 +46,21 @@ $bg-register-form: #82b1ff;
 }
 
 .input-box {
-    background: rgba(0,0,0,0);
+    background-color: white;
     outline: none;
     border: 1px solid rgba(0,0,0,0.2);
     transition: border 1s ease-out;
-    border-radius: 8px;
+    border-radius: 5px;
     margin: 10px;
     text-align: center;
-    font-family: "Futura";
-    font-weight: lighter;
-    font-size: 2em;
+    font-family: "Avenir";
+    padding: 10px;
+    color: rgba(0,0,0,0.8);
+    font-size: 1.5em;
+    text-transform: lowercase;
     &:focus {
-        background: rgba(0,0,0,0.1);
-        box-shadow: 0 7px 7px -7px black;
+       
+        box-shadow: 0 7px 7px -7px rgb(200,200,200);
     }
 }
 
@@ -74,20 +81,22 @@ $bg-register-form: #82b1ff;
 
 // debug
 .Debug {
-    margin-top: 200px;
+    margin-top: 20px;
 } 
 
 //headline 
 .headline {
-    background-color: rgba(0,0,0,0.1);
-    height: 15vh;
-    box-shadow: 0px 0px 12px 1px;
-    padding-top: 50px;
+    
+    height: 25vh;
+    padding-top: 150px;
     display: flex;
+
     justify-content: center;
-    border-radius: 0% 0% 5% 5%;
     h4{
-        font-size: 2em;
+        color: white;
+        font-family: "Futura";
+        font-size: 4em;
+        font-weight: bold;
     }
 }
 
@@ -102,28 +111,41 @@ $bg-register-form: #82b1ff;
 }
 //errors
 .error-message-container {
-    height: 150px;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: rgba(255,0,0,0.9);
+    color: white;
+    margin-top: 200px;
+    font-family: "Avenir";
+    font-style: italic;
+    height: 20px;
 }
 
 .error-message {
-    font-size: 1.5em;
+    font-size: 1em;
     animation: showError;
     animation-duration: 1s;
 }
 
 //buttons
 .Btn {
-    background: rgba(0,0,0,0);
-    border: 1px solid rgba(0,0,0,0.5);
-    box-shadow: 0 7px 7px -7px black;
-    transition: all 1s ease-in;
-    border-radius: 8px;
+
+    border: 1px solid rgb(200,200,255);
+    box-shadow: 0 7px 7px -7px rgba(0,0,0,0.2);
+    border-radius: 3px;
     padding: 5px 12px;
     margin: 10px;
     text-align: center;
     font-size: 1.5em;
+    font-weight: bold;
+    background-color: transparent;
+    border-radius: 5px;
+    color: rgb(200,200,255);
+    width: 150px;
+     &:focus {
+        background-color: white !important;
+        color: rgb(200,200,255);
+        box-shadow: 0 7px 7px -7px rgb(200,200,200);
+    }
 }
