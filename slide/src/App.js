@@ -40,7 +40,7 @@ class App extends Component {
             {/* <Route exact path="/profile" component={ProfileScene} /> */}
             <PrivateRoute exact path="/" component={ProfileScene} />
             <PrivateRoute exact path="/match-test" component={Match} />
-            <PrivateRoute exact path="/word-grid-test" component={Lobby} />
+            <PrivateRoute exact path="/lobby" component={Lobby} />
             <Route exact path="/login" component={LoginUserForm} />
             <Route exact path="/register" component={RegisterUserForm} />
             <PrivateRoute exact path="/chats" component={ChatScreenListScence} />
