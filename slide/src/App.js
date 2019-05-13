@@ -26,7 +26,7 @@ class App extends Component {
         <Switch>
           {/* <Route exact path="/profile" component={ProfileScene} /> */}
           <Route exact path="/match-test" component={Match} />
-          <Route exact path="/word-grid-test" component={Lobby} />
+          <Route exact path="/lobby" component={Lobby} />
           <Route exact path="/login" component={LoginUserForm} />
           <Route exact path="/register" component={RegisterUserForm} />
           <Route exact path="/chats" component={ChatScreenListScence} />

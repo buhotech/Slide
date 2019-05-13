@@ -1,15 +1,53 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
+import { getCurrentChat } from '../functions/index';
 
 //RENDER THE USER PROFILE
 class ProfileView extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      chatIds: [],
+      cbResponce: false
+    };
+  }
+
+  startLobbySession = () => {
+    this.props.history.push('/lobby');
+  };
+
+  viewChats = () => {
+    this.props.history.push('/chats');
+  };
+
+  async componentDidMount() {
+    try {
+      let getChats = await getCurrentChat();
+      if (getChats.status === 200) {
+        let data = getChats.data;
+        this.setState({
+          chatIds: data,
+          cbResponce: true
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   render() {
     const userInfo = this.props.userInfo;
+    let { chatIds } = this.state;
 
-    const userId = this.props.userId;
+    let gameBtn =
+      chatIds.length === 0 ? (
+        <div onClick={this.startLobbySession}>Join a lobby</div>
+      ) : (
+        <div onClick={this.viewChats}>View Chats</div>
+      );
+
     return (
       <div className="profile_container">
         <div className="profile_info_wrap">
@@ -37,14 +75,11 @@ class ProfileView extends Component {
               </div>
             </div>
           </div>
-          <div className="buttons_grid">
-            <div />
-            <div />
-          </div>
+          <div className="buttons_grid">{gameBtn}</div>
         </div>
       </div>
     );
   }
 }
 
-export default ProfileView;
+export default withRouter(ProfileView);
