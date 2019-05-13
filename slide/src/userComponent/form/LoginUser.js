@@ -102,7 +102,7 @@ class LoginUserForm extends Component {
         </div>
 
         <div className="btn-section">
-          <button className="Btn" onClick={this.handleLoginRequest}>
+          <button className="log_in_Btn" onClick={this.handleLoginRequest}>
             Log in
           </button>
         </div>
