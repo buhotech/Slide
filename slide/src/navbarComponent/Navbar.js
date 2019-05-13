@@ -13,6 +13,7 @@ class Navbar extends Component {
   }
 
   showNav = () => {
+    this.props.blurbg();
     if (!this.state.showNav) {
       this.setState(prevState => {
         return { showNav: !prevState['showNav'] };
@@ -64,12 +65,13 @@ class Navbar extends Component {
                   </Link>
                 </div>
                 <div className="navbar_item_close nav_icon_img" onClick={this.showNav} />
-                <div className="logout-btn">
-                  <button className="ui basic button btn" onClick={this.logOut}>
-                    Log Out
-                  </button>
-                </div>
               </div>
+
+              <Link to="/login">
+                <button className=" logout-btn" onClick={this.logOut}>
+                  Log Out
+                </button>
+              </Link>
             </div>
           </div>
         </div>
