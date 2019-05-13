@@ -13,6 +13,7 @@ class Navbar extends Component {
   }
 
   showNav = () => {
+    this.props.blurbg();
     if (!this.state.showNav) {
       this.setState(prevState => {
         return { showNav: !prevState['showNav'] };
@@ -32,6 +33,7 @@ class Navbar extends Component {
     e.preventDefault();
     LogOutUser();
     console.log('log out user');
+    this.showNav();
   };
 
   render() {
@@ -50,7 +52,7 @@ class Navbar extends Component {
               <div className="navbar_items">
                 <div className="navbar_item_top nav_icon_img">
                   <Link to="/login">
-                    <div className="link" onClick={this.showNav} />
+                    <div className="link" onClick={this.logOut} />
                   </Link>
                 </div>
                 <div className="navbar_item_left nav_icon_img">
@@ -64,11 +66,6 @@ class Navbar extends Component {
                   </Link>
                 </div>
                 <div className="navbar_item_close nav_icon_img" onClick={this.showNav} />
-                <div className="logout-btn">
-                  <button className="ui basic button btn" onClick={this.logOut}>
-                    Log Out
-                  </button>
-                </div>
               </div>
             </div>
           </div>
