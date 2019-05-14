@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import Message from './Message';
 import './styles/chatscreen.scss';
+import words from '../wordsBankObjects';
 import LoadingView from '../Loading/LoadingView';
 import Lobby from '../lobby/Lobby';
 
