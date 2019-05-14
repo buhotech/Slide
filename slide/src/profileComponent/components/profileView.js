@@ -1,25 +1,92 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
+import { getCurrentChat } from '../functions/index';
 
 //RENDER THE USER PROFILE
 class ProfileView extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      chatIds: [],
+      cbResponce: false,
+      btnWaitingStatus: localStorage.getItem('waitingForMatch')
+    };
+  }
+
+  startLobbySession = () => {
+    this.props.history.push('/lobby');
+  };
+
+  viewChats = () => {
+    this.props.history.push('/chats');
+  };
+
+  async componentDidMount() {
+    try {
+      let getChats = await getCurrentChat();
+      if (getChats.status === 200) {
+        let data = getChats.data;
+        this.setState({
+          chatIds: data,
+          cbResponce: true
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   render() {
     const userInfo = this.props.userInfo;
+    let { chatIds, btnWaitingStatus } = this.state;
+
+    let gameBtn;
+
+    if (btnWaitingStatus) {
+      gameBtn = <div>Waiting for chat ...</div>;
+    } else {
+      gameBtn =
+        chatIds.length === 0 ? (
+          <div onClick={this.startLobbySession}>Join a lobby</div>
+        ) : (
+          <div onClick={this.viewChats}>View Chats</div>
+        );
+    }
+
     return (
-      <div>
-        <div className="img-container">
-          <img height="300" width="300" src={userInfo.profile_pic} />
-        </div>
-        <div className="bio-container">
-          <h2>{userInfo.username}</h2>
-          <h3>{userInfo.bio}</h3>
+      <div className="profile_container">
+        <div className="profile_info_wrap">
+          <div className="img_container">
+            <div
+              className="profile_pic"
+              style={{ backgroundImage: 'url(' + userInfo.profile_pic + ')' }}
+            />
+            <h2 className="username">{userInfo.username}</h2>
+          </div>
+          <div className="bio">
+            <p className="bio_text">{userInfo.bio}</p>
+            <div className="extra_info">
+              <div>
+                <p className="characters_used">{userInfo.matches}</p>
+                <p className="characters_used_label">matches</p>
+              </div>
+              <div>
+                <p className="characters_used">{userInfo.characters}</p>
+                <p className="characters_used_label">characters used</p>
+              </div>
+              <div>
+                <p className="characters_used">{userInfo.wins}</p>
+                <p className="characters_used_label">wins</p>
+              </div>
+            </div>
+          </div>
+          <div className="buttons_grid">{gameBtn}</div>
         </div>
       </div>
     );
   }
 }
 
-export default ProfileView;
+export default withRouter(ProfileView);
