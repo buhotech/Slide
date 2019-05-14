@@ -16,7 +16,9 @@ class ChatScreenScence extends Component {
       chat_info: {},
       loading_view: false,
       guessing: false,
-      guessing_words: []
+      guessing_words: [],
+      other_user_name: '',
+      other_user_img: ''
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.getChatInfo = this.getChatInfo.bind(this);
@@ -82,9 +84,20 @@ class ChatScreenScence extends Component {
                 Authorization: localStorage.getItem('idToken')
               }
             }
-          ).then(uinfo_res => {
-            console.log(uinfo_res);
-          }); /*
+          )
+            .then(uinfo_res => {
+              return uinfo_res.json();
+            })
+            .then(uinfo_res => {
+              if (uinfo_res.username != localStorage.getItem('username')) {
+                this.setState({
+                  other_user_name: uinfo_res.username,
+                  other_user_img: uinfo_res.profile_pic,
+                  other_user_bio: uinfo_res.bio
+                });
+              }
+              console.log(uinfo_res);
+            }); /*
             .then(user_info => {
               c_screen.setState(prev => {
                 prev['members'][user_info['username']] = user_info['profile_pic'];
@@ -304,10 +317,13 @@ class ChatScreenScence extends Component {
             <div className="navBar" />
             <div className={'chatTopLabel current_bg_color_' + this.state.chat_info.color}>
               <div className="chatTopLabelInfoWrap">
-                <div className="chatTopLabelParticipant profile_pic_in_chat" />
+                <div
+                  className="chatTopLabelParticipant profile_pic_in_chat"
+                  style={{ backgroundImage: 'url(' + this.state.other_user_img + ')' }}
+                />
                 <div className="chatTopLabelMeta">
-                  <p className="chatTopLabelText1">Sid🍪🍪</p>
-                  <p className="chatTopLabelText1tag">Cookies n' Chill</p>
+                  <p className="chatTopLabelText1">{this.state.other_user_name}</p>
+                  <p className="chatTopLabelText1tag">{this.state.other_user_bio}</p>
                 </div>
               </div>
               <div className="chatTopLabelText2wrap">
