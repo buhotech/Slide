@@ -56,6 +56,8 @@ class Lobby extends Component {
         if (sendLikesRes.status === 200) {
           let data = sendLikesRes.data;
           if (data.status === `Match found..`) {
+            let ch_id = 'guessing-' + data.ChatID;
+            localStorage.setItem(ch_id, false);
             this.props.history.push({
               pathname: '/match-test',
               state: {
