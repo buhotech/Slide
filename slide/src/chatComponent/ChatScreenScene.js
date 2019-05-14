@@ -201,6 +201,9 @@ class ChatScreenScence extends Component {
     this.setState({
       guessing: localStorage.getItem('guessing-' + this.props.match.params.chat_id) == 'true'
     });
+    if (localStorage.getItem('guessing-' + this.props.match.params.chat_id) == undefined) {
+      localStorage.setItem('guessing-' + this.props.match.params.chat_id, false);
+    }
     if (localStorage.getItem('guessing-' + this.props.match.params.chat_id) == 'true') {
       console.log('gettin words');
       this.fetchWords();
