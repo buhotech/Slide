@@ -10,7 +10,8 @@ class ProfileView extends Component {
 
     this.state = {
       chatIds: [],
-      cbResponce: false
+      cbResponce: false,
+      btnWaitingStatus: localStorage.getItem('waitingForMatch')
     };
   }
 
@@ -39,14 +40,20 @@ class ProfileView extends Component {
 
   render() {
     const userInfo = this.props.userInfo;
-    let { chatIds } = this.state;
+    let { chatIds, btnWaitingStatus } = this.state;
 
-    let gameBtn =
-      chatIds.length === 0 ? (
-        <div onClick={this.startLobbySession}>Join a lobby</div>
-      ) : (
-        <div onClick={this.viewChats}>View Chats</div>
-      );
+    let gameBtn;
+
+    if (btnWaitingStatus) {
+      gameBtn = <div>Waiting for chat ...</div>;
+    } else {
+      gameBtn =
+        chatIds.length === 0 ? (
+          <div onClick={this.startLobbySession}>Join a lobby</div>
+        ) : (
+          <div onClick={this.viewChats}>View Chats</div>
+        );
+    }
 
     return (
       <div className="profile_container">

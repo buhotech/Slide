@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import Word from './Word';
 
 //functions
@@ -13,9 +14,8 @@ class Lobby extends Component {
       lobbyWords: [],
       selectedWords: [],
       amountCap: 2,
-      message: '',
       moreLikes: true,
-      error: false
+      message: ''
     };
   }
 
@@ -48,10 +48,27 @@ class Lobby extends Component {
     } else {
       try {
         console.log(selectedWords);
-        console.log('submit the likes to the database matching');
+
         let sendLikesRes = await sendLikes(selectedWords, lobbykey);
 
         console.log(sendLikesRes);
+
+        if (sendLikesRes.status === 200) {
+          let data = sendLikesRes.data;
+          if (data.status === `Match found..`) {
+            this.props.history.push({
+              pathname: '/match-test',
+              state: {
+                user1: data.members[0],
+                user2: data.members[1],
+                chatId: data.ChatID
+              }
+            });
+          } else {
+            localStorage.setItem('waitingForMatch', true);
+            this.props.history.push(`/`);
+          }
+        }
       } catch (err) {
         console.log(err);
         this.setState({
@@ -110,20 +127,24 @@ class Lobby extends Component {
       });
     }
 
+    let lobby = (
+      <div>
+        <h1 className="ui header">Pick Topics You Like</h1>
+
+        <div className="grid-likes-container">{lobbyKeywordsGrid}</div>
+
+        <div className="btn-section">
+          <h2 className="err-message">{message}</h2>
+          <button className="button like-btn" onClick={this.checkLikes}>
+            Done
+          </button>
+        </div>
+      </div>
+    );
+
     return (
       <div className="lobby">
-        <div className="grid-container">
-          <h1 className="ui header">Pick Topics You Like</h1>
-
-          <div className="grid-likes-container">{lobbyKeywordsGrid}</div>
-
-          <div className="btn-section">
-            <h2 className="err-message">{message}</h2>
-            <button className="button like-btn" onClick={this.checkLikes}>
-              Done
-            </button>
-          </div>
-        </div>
+        <div className="grid-container">{lobby}</div>
       </div>
     );
   }

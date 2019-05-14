@@ -20,7 +20,7 @@ class ProfileScene extends Component {
       },
       cbResponce: false,
       error: false,
-      userId: '12345'
+      userId: ''
     };
   }
 
@@ -41,7 +41,6 @@ class ProfileScene extends Component {
     //     console.log(res);
 
     //   })
-
     try {
       let userInfoRes = await getUserProfileInfo();
       console.log(userInfoRes);

@@ -40,9 +40,12 @@ $btn-like-bg: rgb(79,167,255);
     .like-btn {
         border-radius: 5px;
         font-weight: bold;
-        padding: 1em 1em;
+        padding: 10px;
+        font-size: 2em;
+        color: white;
         background-color: $btn-like-bg;
         margin-bottom: 1em;
+        width: 100%;
     }
 }
 
