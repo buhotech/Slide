@@ -69,15 +69,15 @@ class ProfileView extends Component {
             <p className="bio_text">{userInfo.bio}</p>
             <div className="extra_info">
               <div>
-                <p className="characters_used">64</p>
+                <p className="characters_used">{userInfo.matches}</p>
                 <p className="characters_used_label">matches</p>
               </div>
               <div>
-                <p className="characters_used">243</p>
+                <p className="characters_used">{userInfo.characters}</p>
                 <p className="characters_used_label">characters used</p>
               </div>
               <div>
-                <p className="characters_used">13</p>
+                <p className="characters_used">{userInfo.wins}</p>
                 <p className="characters_used_label">wins</p>
               </div>
             </div>

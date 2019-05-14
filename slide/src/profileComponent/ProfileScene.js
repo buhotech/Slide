@@ -45,8 +45,8 @@ class ProfileScene extends Component {
       let userInfoRes = await getUserProfileInfo();
       console.log(userInfoRes);
       if (userInfoRes.status === 200) {
-        const { bio, profile_pic, username } = userInfoRes.data;
-        const userInfo = { bio, profile_pic, username };
+        const { bio, profile_pic, username, matches, wins, characters } = userInfoRes.data;
+        const userInfo = { bio, profile_pic, username, characters, wins, matches };
         localStorage.setItem('username', username);
         this.setState({ userInfo, cbResponce: true });
       }

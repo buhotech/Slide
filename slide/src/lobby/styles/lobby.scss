@@ -22,15 +22,21 @@ $btn-like-bg: rgb(79,167,255);
     width: 95%;
     margin: auto;
     text-align: center;
+    height: 100vh;
 }
 
 
 .grid-likes-container{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: repeat(20, 150px);
+    
     grid-gap: 2px;
     overflow: auto;
+    
+    overflow: hidden;
+}
+.grid-likes-container>div{
+    height: 150px;
 }
 
 .btn-section {
