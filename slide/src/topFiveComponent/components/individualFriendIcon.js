@@ -15,11 +15,11 @@ class IndividualFriendIcon extends Component {
   }
 
   componentDidMount() {
-    const friendId = this.props.friendId;
+    const friendId = this.props;
     // getUserProfileInfo(friendId)
     //     .then(user => {
     //         console.log(user)
-    //         this.setState({})
+    //         this.setState({username: ``})
     //     })
     //     .catch(err => {
     //         console.log(err)
@@ -29,10 +29,14 @@ class IndividualFriendIcon extends Component {
 
   render() {
     // const {username, profile_pic} = this.state
-    let username = this.props.friendId;
+    const username = this.props;
     return (
-      <div className="individual-friend-icon">
-        <h4>{username}</h4>
+      <div className="item individual-friend-icon">
+        <img className="ui avatar placeholder image" />
+        <div className="content">
+          <h4>{username}</h4>
+          <div className="ui header">Daniel Louise</div>
+        </div>
       </div>
     );
   }

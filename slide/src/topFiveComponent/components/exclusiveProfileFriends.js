@@ -11,7 +11,13 @@ class ExclusiveProfileFriends extends Component {
     this.state = {
       error: false,
       cbResponce: false,
-      friends: []
+      friends: [
+        { username: 'FRIEND 1', friendId: 1 },
+        { username: 'FRIEND 2', friendId: 2 },
+        { username: 'FRIEND 3', friendId: 3 },
+        { username: 'FRIEND 4', friendId: 4 },
+        { username: 'FRIEND 5', friendId: 5 }
+      ]
     };
   }
 
@@ -34,17 +40,11 @@ class ExclusiveProfileFriends extends Component {
   render() {
     const { friends } = this.state;
 
-    const RenderFriends = friends.map(friendId => {
-      return <IndividualFriendIcon friendId={friendId} key={friendId} />;
-    });
+    const RenderFriends = friends.map((friend, key) => (
+      <IndividualFriendIcon friendId={friend.friendId} key={key} />
+    ));
 
-    return (
-      <div className="friends-profile">
-        <br />
-        <h2>Top Five</h2>
-        {RenderFriends}
-      </div>
-    );
+    return <div className="ui middle aligned divided list">{RenderFriends}</div>;
   }
 }
 
