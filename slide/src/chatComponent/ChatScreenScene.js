@@ -3,6 +3,7 @@ import * as firebase from 'firebase';
 import Message from './Message';
 import './styles/chatscreen.scss';
 import LoadingView from '../Loading/LoadingView';
+import Lobby from '../lobby/Lobby';
 
 class ChatScreenScence extends Component {
   constructor() {
@@ -13,7 +14,9 @@ class ChatScreenScence extends Component {
       characters_left_res: 0,
       characters_left: 0,
       chat_info: {},
-      loading_view: false
+      loading_view: false,
+      guessing: false,
+      guessing_words: []
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.getChatInfo = this.getChatInfo.bind(this);
@@ -129,15 +132,80 @@ class ChatScreenScence extends Component {
     to = parseInt(to);
     val = parseInt(val);
     let t = this;
-    setTimeout(function() {
-      //
-      document.getElementById('characters_left').innerHTML = val;
-      if (val > to) t.characterDecreaseAnimation(to, val - 1);
-    }, speed);
+    let p = new Promise(function(acc, rej) {
+      acc(
+        setTimeout(function() {
+          if (document.getElementById('characters_left')) {
+            document.getElementById('characters_left').innerHTML = val;
+            if (val > to) t.characterDecreaseAnimation(to, val - 1);
+          }
+        }, speed)
+      );
+    });
+    p.then(res => {
+      this.setState({ characters_left: val - 1 });
+    });
   }
 
+  setGuessingState = status => {
+    localStorage.setItem('guessing-' + this.props.chat_id, false);
+    this.setState({ guessing: false });
+    if (status == 'success') {
+      //USER GOT THE RIGHT WORD
+      alert('You got it!');
+    } else {
+      //USER DID NOT GET RIGHT WORD
+      alert('Sorry not the one we were looking for!');
+    }
+  };
+  fetchWords = () => {
+    console.log(
+      `http://localhost:5000/lilchat/chats/${
+        this.props.match.params.chat_id
+      }/chat_info/possible_words`
+    );
+    fetch(
+      `https://cryptic-peak-18479.herokuapp.com/lilchat/chats/${
+        this.props.match.params.chat_id
+      }/chat_info/possible_words`,
+      {
+        headers: {
+          Authorization: localStorage.getItem('idToken')
+        }
+      }
+    )
+      .then(res => res.json())
+      .then(res => {
+        let words = [];
+        for (let word in res['words']) {
+          let ob = {
+            word: res['words'][word].word,
+            keywordId: res['words'][word].id
+          };
+          console.log(ob);
+          words.push(ob);
+        }
+        this.setState({ guessing_words: words });
+        //let localStorageName = "guessing-"+this.props.match.params.chat_id;
+        // localStorage.setItem("guessing",true);
+      });
+  };
+
   componentDidMount() {
-    //this.scrollToBottom();
+    // this.setState({"characters_left":})
+    console.log(this.state.characters_left);
+    console.log(
+      '179:     ',
+      localStorage.getItem('guessing-' + this.props.match.params.chat_id) == 'true'
+    );
+    this.setState({
+      guessing: localStorage.getItem('guessing-' + this.props.match.params.chat_id) == 'true'
+    });
+    if (localStorage.getItem('guessing-' + this.props.match.params.chat_id) == 'true') {
+      console.log('gettin words');
+      this.fetchWords();
+    }
+
     let c_screen = this;
     this.changeTheme('blue');
     //console.log(firebase.database());
@@ -153,6 +221,17 @@ class ChatScreenScence extends Component {
       .database()
       .ref(`lilchat/chats/${this.props.match.params.chat_id}/chat_info/characters`)
       .on('value', function(snap) {
+        c_screen.setState({
+          guessing: localStorage.getItem('guessing-' + c_screen.props.match.params.chat_id)
+        });
+        console.log(snap.val(), c_screen.state.characters_left_res);
+        if (snap.val() < 501 && c_screen.state.characters_left_res >= 501) {
+          console.log('RAN');
+          let localStorageName = 'guessing-' + c_screen.props.match.params.chat_id;
+          localStorage.setItem(localStorageName, true);
+          c_screen.fetchWords();
+        }
+
         c_screen.setState({ characters_left_res: snap.val() });
         if (c_screen.state.characters_left_res != c_screen.state.characters_left)
           c_screen.characterDecreaseAnimation(
@@ -172,11 +251,13 @@ class ChatScreenScence extends Component {
     this.getChatInfo();
     //fetch("https://cryptic-peak-18479.herokuapp.com/lilchat/chats/21/messages/").then(function(res){return res.json()}).then(function(res){c_screen.setState({"messages":res})});
   }
+
   render() {
     let rendered_messages = [];
     let prev_name = '';
     let first_m = true;
     let i = 0;
+
     for (let message in this.state.messages) {
       //console.log(first_m, message);
       let temp = (
@@ -191,17 +272,28 @@ class ChatScreenScence extends Component {
           color={this.state.chat_info.color}
         />
       );
-      //console.log(this.state.messages[message].username);
       prev_name = this.state.messages[message].username;
       first_m = false;
 
       rendered_messages.push(temp);
       i++;
     }
-    // if(document.getElementById("characters_left_bar"))
-    //document.getElementById("characters_left_bar").style.width = ((((this.state.characters_left)/1000)*100) + "%");
     if (!this.state.loading_view) {
       return <LoadingView />;
+    } else if (
+      this.state.guessing &&
+      localStorage.getItem('guessing-' + this.props.match.params.chat_id) == 'true' &&
+      this.state.guessing_words.length > 0
+    ) {
+      console.log('SHOWIWINNGNGNGNG LOBBY BECAYSE GUYESSIBG IS: ' + this.state.guessing);
+      return (
+        <Lobby
+          setGuessingState={this.setGuessingState}
+          _type="guessing"
+          chat_id={this.props.match.params.chat_id}
+          words={this.state.guessing_words}
+        />
+      );
     } else {
       return (
         <div className="chat_class">

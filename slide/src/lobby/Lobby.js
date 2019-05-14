@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Word from './Word';
 
 //functions
-import { joinLobby, sendLikes } from './functions/index';
+import { joinLobby, sendLikes, sendGuess } from './functions/index';
 
 class Lobby extends Component {
   constructor(props) {
@@ -60,33 +60,63 @@ class Lobby extends Component {
       }
     }
   };
+  checkGuess = async () => {
+    let { amountCap, selectedWords, lobbykey } = this.state;
+    let selectedLen = this.state.selectedWords.length;
+    if (selectedLen < 1) {
+      let likesAmountLeft = amountCap - selectedLen;
+      this.setState({
+        formComplete: false,
+        message: `select ${likesAmountLeft} more like(s)`
+      });
+    } else {
+      try {
+        console.log(selectedWords);
+        console.log('submit the guess to the database');
+        let sendGuessRes = await sendGuess(selectedWords, this.props.chat_id);
 
-  async componentDidMount() {
-    try {
-      let lobbyRes = await joinLobby();
-      let words = lobbyRes.data.words;
-      let lobbyKeywords = [];
-      for (let word in words) {
-        let obj = {
-          keywordId: word,
-          word: words[word].word
-        };
-        lobbyKeywords.push(obj);
-      }
-
-      if (lobbyRes.status === 200) {
-        this.setState({
-          lobbykey: lobbyRes.data.lobbyID,
-          stillLoadingWords: false,
-          lobbyWords: lobbyKeywords
-        });
-      } else {
+        this.props.setGuessingState(sendGuessRes.data.status);
+        //  console.log();
+      } catch (err) {
+        console.log(err);
         this.setState({
           error: true
         });
       }
-    } catch (err) {
-      console.log(err);
+    }
+  };
+
+  async componentDidMount() {
+    if (this.props._type && this.props._type === 'guessing') {
+      console.log('matching..', this.props.words);
+      this.setState({ lobbyWords: this.props.words, stillLoadingWords: false });
+    } else {
+      try {
+        let lobbyRes = await joinLobby();
+        let words = lobbyRes.data.words;
+        let lobbyKeywords = [];
+        for (let word in words) {
+          let obj = {
+            keywordId: word,
+            word: words[word].word
+          };
+          lobbyKeywords.push(obj);
+        }
+
+        if (lobbyRes.status === 200) {
+          this.setState({
+            lobbykey: lobbyRes.data.lobbyID,
+            stillLoadingWords: false,
+            lobbyWords: lobbyKeywords
+          });
+        } else {
+          this.setState({
+            error: true
+          });
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 
@@ -119,7 +149,14 @@ class Lobby extends Component {
 
           <div className="btn-section">
             <h2 className="err-message">{message}</h2>
-            <button className="button like-btn" onClick={this.checkLikes}>
+            <button
+              className="button like-btn"
+              onClick={
+                this.props._type && this.props._type === 'guessing'
+                  ? this.checkGuess
+                  : this.checkLikes
+              }
+            >
               Done
             </button>
           </div>
