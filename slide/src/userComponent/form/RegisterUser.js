@@ -211,7 +211,7 @@ class RegisterUserForm extends Component {
     } = this.state;
 
     let nextBtn = currentFormDone ? (
-      <button className="Btn next" onClick={this.nextStp}>
+      <button className="log_in_Btn next" onClick={this.nextStp}>
         Next
       </button>
     ) : (
@@ -234,7 +234,7 @@ class RegisterUserForm extends Component {
         return (
           <div className="register-container">
             <div className="headline">
-              <h4>Enter Email and Password</h4>
+              <h4>tintu</h4>
             </div>
             <div className="error-message-container">{errorComponent}</div>
 
@@ -283,7 +283,7 @@ class RegisterUserForm extends Component {
         return (
           <div className="username-container">
             <div className="headline">
-              <h4>Enter username</h4>
+              <h4>tintu</h4>
             </div>
             <div className="error-message-container">{errorComponent}</div>
 
@@ -301,7 +301,7 @@ class RegisterUserForm extends Component {
               </div>
 
               <div className="btn-section">
-                <button type="submit" className="Btn " onClick={this.prevStp}>
+                <button type="submit" className="log_in_Btn" onClick={this.prevStp}>
                   Back
                 </button>
                 {nextBtn}
@@ -313,8 +313,9 @@ class RegisterUserForm extends Component {
         return (
           <div className="bio-container">
             <div className="headline">
-              <h4>Short Bio about you</h4>
+              <h4>tintu</h4>
             </div>
+
             <div className="error-message-container">{errorComponent}</div>
 
             <div className="bio-form-container">
@@ -325,13 +326,13 @@ class RegisterUserForm extends Component {
                   value={bio}
                   type="text"
                   className={showErrorStyle}
-                  placeholder="enter show bio"
+                  placeholder="something short about you"
                   onChange={this.onChange}
                 />
               </div>
 
               <div className="btn-section">
-                <button type="submit" className="Btn" onClick={this.prevStp}>
+                <button type="submit" className="log_in_Btn" onClick={this.prevStp}>
                   Back
                 </button>
                 {nextBtn}
@@ -355,10 +356,10 @@ class RegisterUserForm extends Component {
               </div>
 
               <div className="btn-section">
-                <button type="submit" className="Btn " onClick={this.prevStp}>
+                <button type="submit" className="log_in_Btn" onClick={this.prevStp}>
                   Back
                 </button>
-                <button type="submit" className="Btn " onClick={this.validateUserInfo}>
+                <button type="submit" className="log_in_Btn" onClick={this.validateUserInfo}>
                   Done
                 </button>
               </div>
