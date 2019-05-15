@@ -160,15 +160,15 @@ class Lobby extends Component {
     }
 
     let lobby = (
-      <div>
+      <div className="lobby_div">
         <h1 className="ui header">Pick Topics You Like</h1>
 
         <div className="grid-likes-container">{lobbyKeywordsGrid}</div>
 
-        <div className="btn-section">
+        <div className="btn-section_">
           <h2 className="err-message">{message}</h2>
           <button
-            className="button like-btn"
+            className="button_ like-btn_"
             onClick={
               this.props._type && this.props._type === 'guessing'
                 ? this.checkGuess
