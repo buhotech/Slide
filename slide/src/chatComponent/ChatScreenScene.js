@@ -108,6 +108,7 @@ class ChatScreenScence extends Component {
         }
       });
   }
+
   getChatInfo() {
     let c_screen = this;
     fetch(
@@ -166,12 +167,25 @@ class ChatScreenScence extends Component {
     this.setState({ guessing: false });
     if (status == 'success') {
       //USER GOT THE RIGHT WORD
-      alert('You got it!');
+      // alert('You got it!');
+      this.props.history.push({
+        pathname: '/winlose',
+        state: {
+          winStatus: true
+        }
+      });
     } else {
       //USER DID NOT GET RIGHT WORD
-      alert('Sorry not the one we were looking for!');
+      this.props.history.push({
+        pathname: '/winlose',
+        state: {
+          winStatus: false
+        }
+      });
+      // alert('Sorry not the one we were looking for!');
     }
   };
+
   fetchWords = () => {
     console.log(
       `http://localhost:5000/lilchat/chats/${
@@ -324,7 +338,7 @@ class ChatScreenScence extends Component {
                 />
                 <div className="chatTopLabelMeta">
                   <p className="chatTopLabelText1">{this.state.other_user_name}</p>
-                  <p className="chatTopLabelText1tag">{this.state.other_user_bio}</p>
+                  <p className="chatTopLabelText1tag">Online</p>
                 </div>
               </div>
               <div className="chatTopLabelText2wrap">

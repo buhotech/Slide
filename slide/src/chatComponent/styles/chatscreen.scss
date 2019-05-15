@@ -48,6 +48,8 @@
 .chat_wrap {
   overflow: scroll;
   height: 100vh;
+  padding-bottom: 0px;
+  scroll-behavior: smooth
 }
 .chatTopLabelMeta {
   display: inline-block;
@@ -60,7 +62,7 @@
   padding-top: 16px;
   padding-bottom: 2px;
   border-bottom: 2px solid rgb(200, 200, 200);
-
+  height: 90px;
   position: fixed;
   top: 0px;
   width: 100vw;
@@ -126,6 +128,8 @@ margin-right: auto;
 .chatTopLabelText1tag {
   font-size: 8px;
   color: rgb(220, 220, 220);
+  height: 20px;
+  overflow: hidden;
 }
 #characters_left_bar{
   height: 5px;

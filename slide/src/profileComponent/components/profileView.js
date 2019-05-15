@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-
+import * as firebase from 'firebase';
 import { getCurrentChat } from '../functions/index';
 
 //RENDER THE USER PROFILE
@@ -11,7 +11,8 @@ class ProfileView extends Component {
     this.state = {
       chatIds: [],
       cbResponce: false,
-      btnWaitingStatus: localStorage.getItem('waitingForMatch')
+      btnWaitingStatus: false,
+      mode: 'join_lobby'
     };
   }
 
@@ -24,6 +25,35 @@ class ProfileView extends Component {
   };
 
   async componentDidMount() {
+    let a = this;
+    if (localStorage.getItem('lobbyID') != undefined) {
+      firebase
+        .database()
+        .ref(`lilchat/private_users/${localStorage.getItem('uid')}/active_chats`)
+        .on('value', function(snap_a) {
+          let chats = 0;
+          if (snap_a.val() != null) chats = snap_a.val().length;
+
+          firebase
+            .database()
+            .ref(
+              `lilchat/lobbies/${localStorage.getItem('lobbyID')}/users/${localStorage.getItem(
+                'uid'
+              )}/likes`
+            )
+            .on('value', function(snap) {
+              console.log(snap.val());
+              if (chats != 0) {
+                a.setState({ mode: 'view_chats' });
+              } else if (snap.val() == null) {
+                a.setState({ mode: 'join_lobby' });
+              } else {
+                a.setState({ mode: 'waiting' });
+              }
+            });
+        });
+    }
+
     try {
       let getChats = await getCurrentChat();
       if (getChats.status === 200) {
@@ -40,19 +70,16 @@ class ProfileView extends Component {
 
   render() {
     const userInfo = this.props.userInfo;
-    let { chatIds, btnWaitingStatus } = this.state;
+    let { chatIds, btnWaitingStatus, mode } = this.state;
 
     let gameBtn;
 
-    if (btnWaitingStatus) {
+    if (mode === 'waiting') {
       gameBtn = <div>Waiting for chat ...</div>;
+    } else if (mode === 'join_lobby') {
+      gameBtn = <div onClick={this.startLobbySession}>Join a lobby</div>;
     } else {
-      gameBtn =
-        chatIds.length === 0 ? (
-          <div onClick={this.startLobbySession}>Join a lobby</div>
-        ) : (
-          <div onClick={this.viewChats}>View Chats</div>
-        );
+      gameBtn = <div onClick={this.viewChats}>View Chats</div>;
     }
 
     return (
