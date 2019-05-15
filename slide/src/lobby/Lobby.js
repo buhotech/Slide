@@ -128,6 +128,8 @@ class Lobby extends Component {
             stillLoadingWords: false,
             lobbyWords: lobbyKeywords
           });
+          //console.log(lobbyRes);
+          localStorage.setItem('lobbyID', lobbyRes.data.lobbyID);
         } else {
           this.setState({
             error: true
