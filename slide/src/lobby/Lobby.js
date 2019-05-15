@@ -15,12 +15,17 @@ class Lobby extends Component {
       selectedWords: [],
       amountCap: 2,
       moreLikes: true,
-      message: ''
+      message: '',
+      formComplete: true
     };
   }
 
   addWord = keywordId => {
-    this.setState({ selectedWords: [...this.state.selectedWords, keywordId], message: '' });
+    this.setState({
+      selectedWords: [...this.state.selectedWords, keywordId],
+      message: '',
+      formComplete: true
+    });
   };
 
   removeWord = keywordId => {
@@ -79,6 +84,7 @@ class Lobby extends Component {
       }
     }
   };
+
   checkGuess = async () => {
     let { amountCap, selectedWords, lobbykey } = this.state;
     let selectedLen = this.state.selectedWords.length;
@@ -143,7 +149,7 @@ class Lobby extends Component {
 
   render() {
     //display grid with words_choices
-    const { stillLoadingWords, lobbyWords, message } = this.state;
+    const { stillLoadingWords, lobbyWords, message, formComplete } = this.state;
 
     let lobbyKeywordsGrid;
 
@@ -161,14 +167,27 @@ class Lobby extends Component {
       });
     }
 
+    let DoneBtn, titleClass;
+
+    if (formComplete) {
+      DoneBtn = <span>Done</span>;
+      titleClass = ``;
+    } else {
+      titleClass = `err-message`;
+      DoneBtn = <h2 className={titleClass}>{message}</h2>;
+    }
+
     let lobby = (
       <div className="lobby_div">
-        <h1 className="ui header">Pick Topics You Like</h1>
+        <div className="header">
+          <h1 className={titleClass}>Select your likes</h1>
+        </div>
 
-        <div className="grid-likes-container">{lobbyKeywordsGrid}</div>
+        <div className="likes-container">
+          <div className="grid-likes-container">{lobbyKeywordsGrid}</div>
+        </div>
 
         <div className="btn-section_">
-          <h2 className="err-message">{message}</h2>
           <button
             className="button_ like-btn_"
             onClick={
@@ -177,7 +196,7 @@ class Lobby extends Component {
                 : this.checkLikes
             }
           >
-            Done
+            {DoneBtn}
           </button>
         </div>
       </div>
