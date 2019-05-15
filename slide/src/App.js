@@ -17,22 +17,37 @@ import Navbar from './navbarComponent/Navbar';
 import { PrivateRoute } from './utilities/PrivateRoute';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      blur: false
+    };
+    this.onNavBarClick = this.onNavBarClick.bind(this);
+  }
+  onNavBarClick() {
+    this.setState(prev => {
+      return { blur: !prev.blur };
+    });
+  }
   componentDidMount() {}
 
   render() {
     return (
       <div className="App">
-        <Navbar />
-        <Switch>
-          {/* <Route exact path="/profile" component={ProfileScene} /> */}
-          <Route exact path="/match-test" component={Match} />
-          <Route exact path="/word-grid-test" component={Lobby} />
-          <Route exact path="/login" component={LoginUserForm} />
-          <Route exact path="/register" component={RegisterUserForm} />
-          <Route exact path="/chats" component={ChatScreenListScence} />
-          <Route exact path="/chats/:chat_id" component={ChatScreenScene} />
-          <PrivateRoute exact path="/profile" component={ProfileScene} />
-        </Switch>
+        <Navbar blurbg={this.onNavBarClick} />
+        <div id="app_wrap" className={this.state.blur ? 'blur_bg' : ''}>
+          <Switch>
+            {/* <Route exact path="/profile" component={ProfileScene} /> */}
+            <PrivateRoute exact path="/" component={ProfileScene} />
+            <PrivateRoute exact path="/match-test" component={Match} />
+            <PrivateRoute exact path="/lobby" component={Lobby} />
+            <Route exact path="/login" component={LoginUserForm} />
+            <Route exact path="/register" component={RegisterUserForm} />
+            <PrivateRoute exact path="/chats" component={ChatScreenListScence} />
+            <PrivateRoute exact path="/chats/:chat_id" component={ChatScreenScene} />
+            <PrivateRoute exact path="/profile" component={ProfileScene} />
+          </Switch>
+        </div>
       </div>
     );
   }
