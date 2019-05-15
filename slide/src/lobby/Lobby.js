@@ -1,90 +1,189 @@
 import React, { Component } from 'react';
+
 import Word from './Word';
+
+//functions
+import { joinLobby, sendLikes, sendGuess } from './functions/index';
 
 class Lobby extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      lobbykey: '',
       stillLoadingWords: true,
-      wordChoices: [
-        'a first (word || topic)',
-        'a second (word || topic)',
-        'a third (word || topic)',
-        'a fourth (word || topic)',
-        'a fifth (word || topic)',
-        'a sixth (word || topic)',
-        'a seventh (word || topic)',
-        'an eighth (word || topic)',
-        'a ninth (word || topic)',
-        'a tenth (word || topic)',
-        'an eleventh (word || topic)',
-        'a twelfth (word || topic)'
-      ],
-      selectedWords: []
+      lobbyWords: [],
+      selectedWords: [],
+      amountCap: 2,
+      moreLikes: true,
+      message: ''
     };
   }
 
-  addWord = event => {
-    console.log(event);
-    const { value } = event.target;
-    this.setState({ selectedWords: [...this.state.selectedWords, value] });
+  addWord = keywordId => {
+    this.setState({ selectedWords: [...this.state.selectedWords, keywordId], message: '' });
   };
 
-  componentDidMount() {
-    //  call ->
-    //     lilchat/ +  this.props.lobbyKey  + /gamewords -> response
-    //         -->setState("wordChoices":response)
-  }
-
-  componentWillMount = () => {
-    // fetch()
-    //   .then(res => {
-    //     console.log(res);
-    //     this.setState({ stillLoadingWords: false, words: res.formData.WORDS_FROM_BACKEND });
-    //   })
-    //   .catch(err => console.log(err));
-    //
-    // NOTE: LINE BELOW IS ONLY HERE TO TEST LOADING SCREEN, UNTIL ASYNC CALL INCLUDED
-    // this.setState({ stillLoadingWords: false });
+  removeWord = keywordId => {
+    let { selectedWords } = this.state;
+    let sanitizedWords = [];
+    for (let wordid in selectedWords) {
+      if (selectedWords[wordid] !== keywordId) {
+        sanitizedWords.push(selectedWords[wordid]);
+      }
+    }
+    this.setState({
+      selectedWords: sanitizedWords
+    });
   };
 
-  onSubmit() {
-    // lilchat/ this.props.lobbykey /sendmylikes/
-    //   body: selectedWords.join(',');
+  checkLikes = async () => {
+    let { amountCap, selectedWords, lobbykey } = this.state;
+    let selectedLen = this.state.selectedWords.length;
+    if (selectedLen < amountCap) {
+      let likesAmountLeft = amountCap - selectedLen;
+      this.setState({
+        formComplete: false,
+        message: `select ${likesAmountLeft} more like(s)`
+      });
+    } else {
+      try {
+        console.log(selectedWords);
+
+        let sendLikesRes = await sendLikes(selectedWords, lobbykey);
+
+        console.log(sendLikesRes);
+
+        if (sendLikesRes.status === 200) {
+          let data = sendLikesRes.data;
+          if (data.status === `Match found..`) {
+            let ch_id = 'guessing-' + data.ChatID;
+            localStorage.setItem(ch_id, false);
+            this.props.history.push({
+              pathname: '/match-test',
+              state: {
+                user1: data.members[0],
+                user2: data.members[1],
+                chatId: data.ChatID
+              }
+            });
+          } else {
+            localStorage.setItem('waitingForMatch', true);
+            this.props.history.push(`/`);
+          }
+        }
+      } catch (err) {
+        console.log(err);
+        this.setState({
+          error: true
+        });
+      }
+    }
+  };
+  checkGuess = async () => {
+    let { amountCap, selectedWords, lobbykey } = this.state;
+    let selectedLen = this.state.selectedWords.length;
+    if (selectedLen < 1) {
+      let likesAmountLeft = amountCap - selectedLen;
+      this.setState({
+        formComplete: false,
+        message: `select ${likesAmountLeft} more like(s)`
+      });
+    } else {
+      try {
+        console.log(selectedWords);
+        console.log('submit the guess to the database');
+        let sendGuessRes = await sendGuess(selectedWords, this.props.chat_id);
+
+        this.props.setGuessingState(sendGuessRes.data.status);
+        //  console.log();
+      } catch (err) {
+        console.log(err);
+        this.setState({
+          error: true
+        });
+      }
+    }
+  };
+
+  async componentDidMount() {
+    if (this.props._type && this.props._type === 'guessing') {
+      console.log('matching..', this.props.words);
+      this.setState({ lobbyWords: this.props.words, stillLoadingWords: false });
+    } else {
+      try {
+        let lobbyRes = await joinLobby();
+        let words = lobbyRes.data.words;
+        let lobbyKeywords = [];
+        for (let word in words) {
+          let obj = {
+            keywordId: word,
+            word: words[word].word
+          };
+          lobbyKeywords.push(obj);
+        }
+
+        if (lobbyRes.status === 200) {
+          this.setState({
+            lobbykey: lobbyRes.data.lobbyID,
+            stillLoadingWords: false,
+            lobbyWords: lobbyKeywords
+          });
+        } else {
+          this.setState({
+            error: true
+          });
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }
 
   render() {
     //display grid with words_choices
-    const { stillLoadingWords, wordChoices } = this.state;
-    return (
+    const { stillLoadingWords, lobbyWords, message } = this.state;
+
+    let lobbyKeywordsGrid;
+
+    if (!stillLoadingWords) {
+      lobbyKeywordsGrid = lobbyWords.map((val, i) => {
+        return (
+          <Word
+            key={i}
+            word={val.word}
+            keywordId={val.keywordId}
+            addWord={this.addWord}
+            removeWord={this.removeWord}
+          />
+        );
+      });
+    }
+
+    let lobby = (
       <div>
         <h1 className="ui header">Pick Topics You Like</h1>
-        <div className="ui celled divided grid container">
-          {wordChoices.map((word, key) =>
-            stillLoadingWords ? (
-              <div className="five wide column">
-                <div className="ui placeholder">
-                  <div className="line" />
-                  <div className="line" />
-                  <div className="line" />
-                </div>
-              </div>
-            ) : (
-              <div className="five wide column">
-                <Word
-                  className="ui button"
-                  body={word}
-                  name={`wordChoices[${key}]`}
-                  value={wordChoices[key]}
-                  onClick={this.addWord.bind(this)}
-                />
-              </div>
-            )
-          )}
+
+        <div className="grid-likes-container">{lobbyKeywordsGrid}</div>
+
+        <div className="btn-section">
+          <h2 className="err-message">{message}</h2>
+          <button
+            className="button like-btn"
+            onClick={
+              this.props._type && this.props._type === 'guessing'
+                ? this.checkGuess
+                : this.checkLikes
+            }
+          >
+            Done
+          </button>
         </div>
-        <button className="ui bottom attached button" onClick={this.onSubmit.bind(this)}>
-          DONE
-        </button>
+      </div>
+    );
+
+    return (
+      <div className="lobby">
+        <div className="grid-container">{lobby}</div>
       </div>
     );
   }

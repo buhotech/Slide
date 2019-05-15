@@ -5,8 +5,8 @@ import { getUserProfileInfo } from './functions/index';
 
 //components
 import ProfileView from './components/profileView';
-import JoinLobbyQueue from '../lobby/JoinLobbyButton';
-import ExclusiveProfileFriends from '../topFiveComponent/components/exclusiveProfileFriends';
+
+import './styles/profile_scene.scss';
 
 class ProfileScene extends Component {
   constructor() {
@@ -20,17 +20,33 @@ class ProfileScene extends Component {
       },
       cbResponce: false,
       error: false,
-      userId: '12345'
+      userId: ''
     };
   }
 
   async componentDidMount() {
+    // fetch("http://localhost:5000/lilchat/-Lej4IvzeB-O6YLyXGvK/sendmylikes",{
+    //     method: "POST",
+    //     mode:'cors',
+    //      headers: {
+    //       'Accept': 'application/json',
+    //        'Content-Type': 'application/x-www-form-urlencoded',
+    //       'Authorization':localStorage.getItem("idToken")
+    //     },
+    //     body: JSON.stringify({"words": "-Lej4IvzeB-O6YLyXGvL"})
+    //   }).then(function(res){
+    //     return res.json();
+    //   }).then(function(res){
+    //     //app.setState({"events":res});
+    //     console.log(res);
+
+    //   })
     try {
       let userInfoRes = await getUserProfileInfo();
       console.log(userInfoRes);
       if (userInfoRes.status === 200) {
-        const { bio, profile_pic, username } = userInfoRes.data;
-        const userInfo = { bio, profile_pic, username };
+        const { bio, profile_pic, username, matches, wins, characters } = userInfoRes.data;
+        const userInfo = { bio, profile_pic, username, characters, wins, matches };
         localStorage.setItem('username', username);
         this.setState({ userInfo, cbResponce: true });
       }
@@ -46,12 +62,7 @@ class ProfileScene extends Component {
     const { userInfo, cbResponce, userId } = this.state;
     return (
       <div>
-        <h1 className="ui header" style={{ paddingTop: '30px' }}>
-          tintu logo
-        </h1>
-        <ProfileView userInfo={userInfo} cbResponce={cbResponce} />
-        <JoinLobbyQueue userInfo={userInfo} />
-        <ExclusiveProfileFriends userId={userId} />
+        <ProfileView userId={userId} userInfo={userInfo} cbResponce={cbResponce} />
       </div>
     );
   }

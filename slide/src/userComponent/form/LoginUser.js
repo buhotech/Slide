@@ -75,7 +75,7 @@ class LoginUserForm extends Component {
     return (
       <div className="login-container">
         <div className="headline">
-          <h4>Log In</h4>
+          <h4>tintu</h4>
         </div>
         <div className="error-message-container">{errorComponent}</div>
 
@@ -102,9 +102,16 @@ class LoginUserForm extends Component {
         </div>
 
         <div className="btn-section">
-          <button className="Btn" onClick={this.handleLoginRequest}>
+          <button className="log_in_Btn" onClick={this.handleLoginRequest}>
             Log in
           </button>
+          <p>OR</p>
+          <p className="sign_up_label">
+            <Link to="/register">
+              <span className="sign_up_text">Sign up</span>
+            </Link>
+            <span className="sign_up_text_cont">with your email and password</span>
+          </p>
         </div>
 
         <div className="Debug">
