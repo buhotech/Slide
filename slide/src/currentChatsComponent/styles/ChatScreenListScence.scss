@@ -1,3 +1,41 @@
+$keywordIcon-bg-color: rgba(80,80,255,1);
+
+
 .chatScreenListScence{
-	
+    background:  linear-gradient(rgb(180,180,255) 10%,rgb(100,100,255));
+    height: 100vh;
+
+    .header {
+        font-family: "Futura";
+        padding-top: 40px;
+        margin: 0;
+        color: $keywordIcon-bg-color;
+        text-shadow: 2px 3px 1px rgba(0, 0, 0, 0.1);
+    }
+    .chats-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        padding: 100px 0px 0px 0px;
+        grid-gap:5px;
+        width: 95%;
+        margin: auto;
+        border-radius: 3px;
+   
+
+    .chatListItem-box {
+        border-radius: 5px;
+        height: 90px;
+    }
+
+    .wrap {
+        border-radius: 8px;
+    }
 }
+
+    
+}
+
+
+
+
+
