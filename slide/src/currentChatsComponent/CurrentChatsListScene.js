@@ -84,14 +84,14 @@ class ChatScreenListScence extends Component {
     let i = 0;
 
     for (let chat_list_ob in sorted_list) {
-      //console.log(chat_list_ob);
+      // console.log(chat_list_ob);
       let info = {
         pathname: '/chats/' + this.state.chats[chat_list_ob].chat_id,
         state: { test: 'testb' }
       };
 
       let temp = (
-        <div key={i}>
+        <div key={i} className="chatListItem-box">
           <Link to={info}>
             <ChatListItem
               characters={this.state.chats[chat_list_ob].characters}
@@ -113,7 +113,12 @@ class ChatScreenListScence extends Component {
         </div>
       );
     } else {
-      return <div className="chatScreenListScence">{rendered_chat_list}</div>;
+      return (
+        <div className="chatScreenListScence">
+          <h1 className="header">Chats</h1>
+          <div className="chats-container">{rendered_chat_list}</div>
+        </div>
+      );
     }
   }
 }

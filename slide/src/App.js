@@ -12,6 +12,7 @@ import Match from './components/match';
 import Lobby from './lobby/Lobby';
 import ChatScreenListScence from './currentChatsComponent/CurrentChatsListScene';
 import Navbar from './navbarComponent/Navbar';
+import WinLoseComponent from './components/WinLoseComponent';
 
 //privaterouter
 import { PrivateRoute } from './utilities/PrivateRoute';
@@ -40,6 +41,7 @@ class App extends Component {
             {/* <Route exact path="/profile" component={ProfileScene} /> */}
             <PrivateRoute exact path="/" component={ProfileScene} />
             <PrivateRoute exact path="/match-test" component={Match} />
+            <PrivateRoute exact path="/winlose" component={WinLoseComponent} />
             <PrivateRoute exact path="/lobby" component={Lobby} />
             <Route exact path="/login" component={LoginUserForm} />
             <Route exact path="/register" component={RegisterUserForm} />

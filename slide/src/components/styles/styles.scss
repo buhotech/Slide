@@ -7,3 +7,36 @@
 	border: 3px solid white;
 	color: white;
 }
+
+$win-color: rgba(212, 175, 55, 1);
+$lose-color: rgb(212, 55, 55);
+
+
+.winlose-bg {
+	background: linear-gradient(rgb(140,140,255) 10%,rgb(80,80,255));
+	height: 100vh;
+
+	//win status
+	.win-status {
+		color: $win-color;
+		text-shadow: 1px 1px 1px black;
+		font-size: 3.5em;
+	}
+
+	.lose-status{
+		color: $lose-color;
+		text-shadow: 1px 1px 1px black;
+		font-size: 3.5em;
+	}
+
+
+	//container 
+	.winlose-container {
+		display: inline-block;
+		padding-top: 100px;
+	}
+
+	.bottom-message {
+		padding-top: 140px;
+	}
+}
