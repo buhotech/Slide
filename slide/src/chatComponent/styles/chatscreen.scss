@@ -46,6 +46,8 @@
   margin: 0;
 }
 .chat_wrap {
+  overflow: scroll;
+  height: 100vh;
 }
 .chatTopLabelMeta {
   display: inline-block;
